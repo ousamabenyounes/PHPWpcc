@@ -50,18 +50,35 @@ Here is a Sample of one of PHPunit test file content:
 
 ```php
  public function testIfEpitechfrContainsJquery() {
-        $domainName = "Epitechfr";
         $html = $this->getHtmlContent("http://www.epitech.fr");
         $this->assertTrue($this->DemoCheckJquery($html), "testIfEpitechfrContainsJqueryKO");
     }
 
   public function testIfSupinfofrContainsJquery() {
-        $domainName = "Supinfofr";
         $html = $this->getHtmlContent("http://www.supinfo.fr");
         $this->assertTrue($this->DemoCheckJquery($html), "testIfSupinfofrContainsJqueryKO");
     }
 
+
 ```
+ 
+Just launch your tests now:  
+
+    $ cd tests/ && phpunit DemoCheckJqueryTest.php
+
+<pre>
+PHPUnit 4.0.20 by Sebastian Bergmann.
+
+Configuration read from /home/ousama/project/ous/WebPageContentChecker/tests/phpunit.xml
+
+..
+
+Time: 2.38 seconds, Memory: 3.25Mb
+
+OK (2 tests, 2 assertions)
+</pre>
+
+ 
  
 #Requirements
 
