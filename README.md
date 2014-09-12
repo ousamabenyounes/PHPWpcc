@@ -50,11 +50,9 @@ In input you just have to fill in the main configuration array in <b>WebPageCont
        );
 ```
 
-This configuration checks if Jquery library is present in epitech and supinfo websites and allows two versions.  
-One configuration using google version of jquery and in an another one the website hosts jquery directly.  
+This configuration checks if Jquery library is present in epitech and supinfo websites and allows two versions.One configuration using google version of jquery and in an another one the website hosts jquery directly.  
 
-It also checks if Paypal service is present in two prestashop stores, foodistrib.com & shop2tout.com.  
-The first configuration search for paypal logo on the website, and the second, search for the prestashop module path.
+It also checks if Paypal service is present in two prestashop stores, foodistrib.com & shop2tout.com. The first configuration search for paypal logo on the website, and the second, search for the prestashop module path.
   
 Just launch this command:  
 
