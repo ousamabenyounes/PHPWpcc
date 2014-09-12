@@ -59,7 +59,6 @@ Just launch this command:
     $ php WebPageContentCheckerGenerator.php
 
 You'll get 2 PHPUNIT test files in your tests directory  
-Here is a Sample of one of PHPunit test file content:  
 
 <b>DemoCheckJqueryTest.php File: </b>  
 
@@ -89,8 +88,6 @@ public function testIfFoodistribcomContainsPaypal() {
     }
 
 ```
-
- 
  
 Just launch your tests now :  
 
