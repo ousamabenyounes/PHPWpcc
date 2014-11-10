@@ -1,4 +1,4 @@
-PHPWebPageCheckerGenerator
+PhpWpcc - PHP Web Page Content Generator
 ==========================
 
 This Php Script generate PHPUNIT tests files to help you check your web page content using guzzle client.
