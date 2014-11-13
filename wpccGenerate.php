@@ -109,6 +109,7 @@ class ' . $this->_checkClassName . 'Check' . $this->_serviceName  . 'Test extend
 
   // Generate all test class files 
   public function generateAllFiles() {
+  	 echo '<div class="alert-box notice"><span>info: </span> - Generating all PHPunit test files </div>';
   	 foreach ($this->_webParsingConfig as $this->_serviceName => $serviceConfig) {
 	 	 $this->generateMainClassBegin();
 		 $this->getConfig($serviceConfig);                
@@ -121,7 +122,9 @@ class ' . $this->_checkClassName . 'Check' . $this->_serviceName  . 'Test extend
   }
 
   public function generateTestFile($fileName) {
+  	 echo '<div class="alert-box success"><span>success: </span> - Creating ' . $fileName . ' </div>';
   	 file_put_contents($this->_outputDirectory . $fileName, $this->_phpOutput);
+	 
   }
 
   public function generateMainTestFile() { 
@@ -158,13 +161,12 @@ class ' . $this->_checkClassName . 'Check extends GuzzleTestCase
   }
 
 
-  public function getConfig($serviceConfig) {
+  public function getConfig($serviceConfig) {  	 
   	 $this->_serviceVersions = array_keys($serviceConfig['acceptedConfig']);
          $this->_files = array_values($serviceConfig['acceptedConfig']);
 	 $this->_urlsToCheck = array_values($serviceConfig['urls']);	 
   }
 }
-
 
 
  $checkFilesOnMySite = new WebPageContentCheckerGenerator($webParsingConfig);

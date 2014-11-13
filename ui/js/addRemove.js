@@ -8,7 +8,7 @@ $(document).ready(function() {
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div>Service: <input type="text" name="service[]" /> Number Of file to check: <input type="text" name="nbConfig\
+            $(wrapper).append('<div id="step1_configuration" class="phpwpcc_service">Service: <input type="text" name="service[]" /> Number of accepted config: <input type="text" name="nbConfig\
 []" size="1" /> - <a href="#" class="remove_field">Remove this service</a></div>'); //add input box
         }
     });
