@@ -2,19 +2,7 @@
 $webParsingConfig = array(
    "Cnil" => array(
        'acceptedConfig' => array(                
-      	 "fs" => array(
-	    	       "fsd",
-	    	   
-         ),
-      ),
-     'urls' => array(
-                                        "fsd",
-                        ),
-    ),
-
-   "Pub" => array(
-       'acceptedConfig' => array(                
-      	 "fsd" => array(
+      	 "fds" => array(
 	    	       "fds",
 	    	   
          ),
@@ -24,15 +12,20 @@ $webParsingConfig = array(
                         ),
     ),
 
-   "Audience" => array(
+   "Web" => array(
        'acceptedConfig' => array(                
       	 "fsd" => array(
-	    	       "fds",
+	    	       "fsd",
+	    	   
+         ),
+               
+      	 "sfd" => array(
+	    	       "dsf",
 	    	   
          ),
       ),
      'urls' => array(
-                                        "sfd",
+                                        "fds",
                         ),
     ),
 
