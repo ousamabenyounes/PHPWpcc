@@ -1,7 +1,6 @@
 <?
-require("wpcc_config.php");
-require("ui.php");
-
+require('config/wpcc_config.php');
+require('lib/ui.php');
 
 if (0 === sizeof($_POST) && 0 === sizeof($webParsingConfig)) {
    $ui = new UI();
@@ -20,12 +19,12 @@ if (0 !== sizeof($_POST)
    $ui->createFormStep2();
 } 
 
-if (0 !== sizeof($_POST)
+/*if (0 !== sizeof($_POST)
    && 'generate' === $_POST['formType']) {
    $ui = new UI($_POST);
    $ui->generateConfig();
 //   $outPut = $ui->generatePhpunitTest();   
-}
+}*/
 
 
 ?>

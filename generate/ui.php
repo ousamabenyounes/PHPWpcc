@@ -1,6 +1,6 @@
 <?php
 // include and register Twig auto-loader
-include 'vendor/autoload.php';
+include '../vendor/autoload.php';
 
 class UI {
 
@@ -11,55 +11,17 @@ class UI {
  public function __construct($webParsingConfig, $nbFileConfig = array()) {
        Twig_Autoloader::register();
        $loader = new Twig_Loader_Filesystem('templates');
-       $this->_twig = new Twig_Environment($loader);
+       $this->_twig = new Twig_Environment($loader, array('debug' => true));
+       $this->_twig->addExtension(new Twig_Extension_Debug());
        $this->_webParsingConfig = $webParsingConfig;
        $this->_nbFileConfig = $nbFileConfig;
  }
 
- public function createForm() {
-  try {
-
-     $template = $this->_twig->loadTemplate('phpwpcc_create.tpl');
-     echo $template->render(array());
-
-   } catch (Exception $e) {
-   die ('ERROR: ' . $e->getMessage());
-  }
-	
- }
-
- public function createFormStep2() {
-  try {
-      $template = $this->_twig->loadTemplate('phpwpcc_create_step2.tpl');
-      echo $template->render(array(
-      'services' =>  $this->_webParsingConfig,
-      'nbFileConfig' => $this->_nbFileConfig
-      ));
-
-   } catch (Exception $e) {
-   die ('ERROR: ' . $e->getMessage());
-   }
-
- }
-
- public function updateForm() {
-  try {
-      $template = $this->_twig->loadTemplate('phpwpcc_update.tpl');
-      echo $template->render(array(
-      'services' =>  $this->_webParsingConfig,
-      ));
-
-   } catch (Exception $e) {
-   die ('ERROR: ' . $e->getMessage());
-   }
-
- }
-
-
  public function generateConfig() {
   try {
+      foreach($this->_webParsingConfig as $service)
 
-      $template = $this->_twig->loadTemplate('phpwpcc_config.php.tpl');
+      $template = $this->_twig->loadTemplate('php/phpwpcc_config.php.tpl');
       $wpcc_config = $template->render(array(
       	   'post' =>  $this->_webParsingConfig,
       ));
@@ -76,7 +38,7 @@ class UI {
      ));
 
    } catch (Exception $e) {
-   die ('ERROR: ' . $e->getMessage());
+     die ('ERROR: ' . $e->getMessage());
    }
 
  }

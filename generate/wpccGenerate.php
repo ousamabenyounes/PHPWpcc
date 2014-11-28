@@ -1,5 +1,5 @@
 <?php
- require("ui/wpcc_config.php");
+ require("ui/config/wpcc_config.php");
 
  class WebPageContentCheckerGenerator {
 
