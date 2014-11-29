@@ -10,7 +10,7 @@ class UI {
 
  public function __construct($webParsingConfig, $nbFileConfig = array()) {
        Twig_Autoloader::register();
-       $loader = new Twig_Loader_Filesystem('templates');
+       $loader = new Twig_Loader_Filesystem('../templates');
        $this->_twig = new Twig_Environment($loader, array('debug' => true));
        $this->_twig->addExtension(new Twig_Extension_Debug());
        $this->_webParsingConfig = $webParsingConfig;
@@ -55,6 +55,18 @@ class UI {
    }
 
  }
+
+ public function step1Form() {
+  try {
+     $template = $this->_twig->loadTemplate('form/phpwpcc_step1.tpl');
+     echo $template->render(array());
+
+   } catch (Exception $e) {
+   die ('ERROR: ' . $e->getMessage());
+  }
+
+ }
+
 
 
 
