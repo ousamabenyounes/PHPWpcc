@@ -1,4 +1,5 @@
 <?
+require "../vendor/autoload.php";
 require('lib/ui.php');
 
 if (0 !== sizeof($_POST))

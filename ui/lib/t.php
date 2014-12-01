@@ -1,11 +1,13 @@
 <?php
-class UI {
+require "../../vendor/autoload.php";
+
+class T {
 
  protected $_webParsingConfig;
  protected $_twig;
  protected $_nbFileConfig;
 
- public static $templateDir = '../templates';
+ public static $templateDir = '../../templates';
  public static $projectName = 'phpwpcc';
 
  public function __construct($webParsingConfig = array(), $nbFileConfig = array()) {
@@ -17,6 +19,7 @@ class UI {
        $this->_webParsingConfig = $webParsingConfig;
        $this->_nbFileConfig = $nbFileConfig;
 
+       /*
        $this->_twig->addExtension(new Twig_Extensions_Extension_I18n());
        // Set language to French
        putenv('LC_ALL=fr_FR');
@@ -28,6 +31,24 @@ class UI {
 
        // Choose domain
        textdomain(self::$projectName);
+*/
+
+
+	$this->_twig->addExtension(new Twig_Extensions_Extension_I18n());
+
+       // Set language to French
+       putenv('LC_ALL=fr_FR');
+       setlocale(LC_ALL, 'fr_FR');
+
+       // Specify the location of the translation tables
+       bindtextdomain('myAppPhp', '/var/www/prestashoptest.fr/subdomains/cloud.prestashoptest.fr/ui/lib/includes/locale');
+       bind_textdomain_codeset('myAppPhp', 'UTF-8');
+
+       // Choose domain
+       textdomain('myAppPhp');
+       echo gettext("Hello World");
+       exit();
+
  }
 
  public function createForm() {
@@ -79,10 +100,11 @@ class UI {
   }
 
  }
-
-
-
+ 
 
 }
+
+$t = new T();
+$t->step1form();
 
 ?>
