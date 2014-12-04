@@ -4,17 +4,25 @@
     #margin: auto !important;
 }
 
+.phpwpcc_serviceform {
+
+}
+
 .phpwpcc_footer{
     margin-left: 550px;
     margin-top: 30px;
 }
+.phpwpcc_footer a{
+    color: white !important;
+}
 
 .phpwpcc_title {
-    text-shadow: rgba(0, 0, 0, 0.74902) 0px 0px 7px;
-    color: rgb(0, 128, 255);
-    font-size: 50px;
-    margin: 20px;
+    padding-bottom: 20px;
+    margin-left: 20px;
+    padding-top: 10px;
+    width: 100%;
 }
+
 
 .phpwpcc_service{ 
     padding-top: 10px;
@@ -75,7 +83,7 @@
     background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
     background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
-    background-color:#599bb3;
+    background-color:#599bb3 !important;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;

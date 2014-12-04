@@ -6,6 +6,9 @@ require('wpccRequest.php');
 class wpccCache extends wpcc
 {
     public static $cacheDir = 'cache/';
+    public static $desktopFormat = '1024x768';
+    public static $mobileFormat = '480X600';
+
     protected $_cacheDir;
     protected $_twig;
     protected $_contentCacheDir;
@@ -20,22 +23,6 @@ class wpccCache extends wpcc
         $this->_twig = new Twig_Environment($loader, array('debug' => false));
     }
 
-    /**
-     * This function clean a given string and return the cleaned content
-     *
-     * @param string $string
-     * @return string $cleanedString
-     */
-    public function clean($string)
-    {
-        $string = str_replace(
-            array(' ', 'http://', 'www.'),
-            array('-', '', ''),
-            $string
-        ); // Replaces all spaces with hyphens.
-        $cleanedString = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-        return $cleanedString;
-    }
 
     /**
      * this method create cache directories (screenshot, content...)
@@ -47,6 +34,9 @@ class wpccCache extends wpcc
         $this->_contentCacheDir = $this->_cacheDir . 'content/';
         $this->_screenshotCacheDir = $this->_cacheDir . 'screenshot/';
         $this->_errorCacheDir = $this->_cacheDir . 'error/';
+        if (!is_dir( self::$root_dir . self::$cacheDir )) {
+            mkdir( self::$root_dir . self::$cacheDir , 0777);
+        }
         if (!is_dir($this->_cacheDir)) {
             mkdir($this->_cacheDir, 0777);
         }
@@ -62,39 +52,61 @@ class wpccCache extends wpcc
         umask($oldmask);
     }
 
+    /**
+     * This method just print intro informations
+     *
+     * @param string $type
+     */
+    public function printIntro($type)
+    {
+        echo "\r\nWpcc Cache Generation      \r\n";
+        if ('all' === $type || 'content' === $type) {
+            echo " - Generating All Websites HTML Cache \r\n";
+        }
+        if ('all' === $type || 'screenshot' === $type) {
+            echo " - Generating All WebSites screenshots \r\n";
+        }
+        echo "Progress :      ";  // 5 characters of padding at the end
+    }
 
     /**
      * This method will parse All Web Page and store the HTML content on cache files.
      *
      * @param string $groupUrl
+     * @param string $type
      */
     public function generateCache($groupUrl, $type = 'all')
     {
+        $this->printIntro($type);
+        $nbSites = count($groupUrl, COUNT_RECURSIVE) - count($groupUrl);
+        $nbSitesChecked = 0;
         $wpccRequest = new wpccRequest();
+        $moveTo = 4 + strlen($nbSites);
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $site) {
+                echo "\033[" . $moveTo . "D";
+                echo str_pad($nbSitesChecked, 3, ' ', STR_PAD_LEFT) . "/" . $nbSites;
                 $cleanUrl = $this->clean($site);
                 $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
                 $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
-                $screenShotName = $this->_screenshotCacheDir . $cleanUrl;
-                echo ($portail . ' => ' . $site . "\r\n");
+                $screenShotFilename = $this->_screenshotCacheDir . $cleanUrl;
                 try {
                     $response = @file_get_contents($fileName);
                     $errorResponse = @file_get_contents($errorFileName);
-                    //echo 'Searching for ' . $fileName . "\r\n";
                     if (false === $response && false === $errorResponse) {
-                        echo ("Generating cache ...\r\n");
                         $response = $wpccRequest->sendRequest($site);
                         if ('all' === $type || 'content' === $type) {
-                            file_put_contents($fileName, $response);
+                            $this->writeToFile($fileName, $response);
                         }
                         if ('all' === $type || 'screenshot' === $type) {
-                            exec("pageres " . $site . " 1024x768 --filename '" . $screenShotName . "' ", $output);
-                        }
+                            exec("pageres " . $site . " " . self::$desktopFormat . "  --filename " .
+                                $screenShotFilename . self::$desktopFormat, $output);                  }
                     }
                 } catch (Exception $e) {
-                    file_put_contents($errorFileName, $e->getMessage());
+                    // Request failed, we save it on an error file
+                    $this->writeToFile($errorFileName, $e->getMessage());
                 }
+                $nbSitesChecked++;
             }
         }
     }

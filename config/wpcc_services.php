@@ -1,0 +1,4 @@
+<?
+$webParsingConfig = array();
+
+?>

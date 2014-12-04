@@ -82,10 +82,7 @@ background:#293b47;
 
 /*Hide Select Form Control*/
 .hidden{
-#    visibility: hidden;
-#    height: 0px;
-#    width:0px;
-#    position:absolute;
+
 }
 
 /*Clear class used to push float- can just point to an exsisting clear class*/

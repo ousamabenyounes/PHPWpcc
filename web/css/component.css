@@ -12,10 +12,6 @@
 
 /* Title */
 .fs-title {
-	position: absolute;
-	top: 0;
-	left: 0;
-	margin: 0;
 	padding: 40px;
 	width: 100%;
 }
@@ -261,7 +257,7 @@ button.fs-continue,
 }
 
 .fs-fields [required] {
-	background-image: url(../img/abacusstar.svg);
+	background-image: url(images/abacusstar.svg);
 	background-position: top right;
 	background-size: 18px;
 	background-repeat: no-repeat;
@@ -342,17 +338,7 @@ button.fs-continue,
 	transform: translate(-50%,-50%);
 }
 
-.fs-fields .fs-radio-custom label.radio-mobile::after {
-	background-image: url(../img/mobile.svg);
-}
 
-.fs-fields .fs-radio-custom label.radio-social::after {
-	background-image: url(../img/social.svg);
-}
-
-.fs-fields .fs-radio-custom label.radio-conversion::after {
-	background-image: url(../img/conversion.svg);
-}
 
 .fs-fields .fs-radio-custom label:hover::after,
 .fs-fields input[type="radio"]:focus + label::after,
