@@ -58,11 +58,11 @@ class wpccUi extends wpcc
     }
 
     /*
-     *
+     * This function generate the service php config file
      */
-    public function createFormStep2()
+    public function configureServicesFormStep2()
     {
-        $template = $this->_twig->loadTemplate('phpwpcc_create_step2.tpl');
+        $template = $this->_twig->loadTemplate('install/configureServicesFormStep2.tpl');
         echo $template->render(
             array(
                 'services' => $this->_webParsingConfig,

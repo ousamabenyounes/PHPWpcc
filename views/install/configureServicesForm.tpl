@@ -8,9 +8,9 @@
     </div>
       <div  id="step1_configuration" class="phpwpcc_service">
         Service: <input type="text" name="service[]" /> 
-	Number of accepted version: <input type="text" name="nbConfig[]"  size="1"/>
+	Number of accepted config: <input type="text" name="nbConfig[]"  size="1"/>
       </div>
-    <input type="hidden" name="formType" value="createService"/>
+    <input type="hidden" name="nextStep" value="configureServicesFormStep2"/>
     <div class="fs-controls">
         <button class="fs-continue fs-show">Continue</button>
         <nav class="fs-nav-dots fs-show">
