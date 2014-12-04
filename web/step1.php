@@ -1,6 +1,7 @@
 <?
-require "../vendor/autoload.php";
-require('lib/ui.php');
+require('localVars.php');
+require $root_dir . "vendor/autoload.php";
+require($root_dir . 'lib/wpccUi.php');
 
 if (0 !== sizeof($_POST))
 {
@@ -9,7 +10,7 @@ if (0 !== sizeof($_POST))
 }
 
 
-   $ui = new UI();
+   $ui = new wpccUi();
    $ui->step1Form();
 
 

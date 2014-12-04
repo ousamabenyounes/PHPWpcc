@@ -1,7 +1,7 @@
 <?php
+
 require('wpcc.php');
-
-
+require('wpccRequest.php');
 
 class wpccCache extends wpcc
 {
@@ -16,7 +16,7 @@ class wpccCache extends wpcc
     {
         $this->initCacheDir();
         Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem(self::$root_dir.'views');
+        $loader = new Twig_Loader_Filesystem(wpcc::$root_dir.'views');
         $this->_twig = new Twig_Environment($loader, array('debug' => false));
     }
 
@@ -70,6 +70,7 @@ class wpccCache extends wpcc
      */
     public function generateCache($groupUrl, $type = 'all')
     {
+        $wpccRequest = new wpccRequest();
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $site) {
                 $cleanUrl = $this->clean($site);
@@ -83,7 +84,7 @@ class wpccCache extends wpcc
                     //echo 'Searching for ' . $fileName . "\r\n";
                     if (false === $response && false === $errorResponse) {
                         echo ("Generating cache ...\r\n");
-                        $response = $this->sendRequest($site);
+                        $response = $wpccRequest->sendRequest($site);
                         if ('all' === $type || 'content' === $type) {
                             file_put_contents($fileName, $response);
                         }

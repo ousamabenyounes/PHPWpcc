@@ -1,33 +1,22 @@
 <?php
-class UI {
+require('wpcc.php');
+
+class wpccUi extends wpcc
+{
 
  protected $_webParsingConfig;
  protected $_twig;
  protected $_nbFileConfig;
 
- public static $templateDir = '../templates';
  public static $projectName = 'phpwpcc';
 
  public function __construct($webParsingConfig = array(), $nbFileConfig = array()) {
        Twig_Autoloader::register();
-       $loader = new Twig_Loader_Filesystem(self::$templateDir);
-       $this->_twig = new Twig_Environment($loader, array('debug' => true));
-       $this->_twig->addExtension(new Twig_Extension_Debug());
+       $loader = new Twig_Loader_Filesystem(self::$root_dir . 'templates');
+       $this->_twig = new Twig_Environment($loader);
 
        $this->_webParsingConfig = $webParsingConfig;
        $this->_nbFileConfig = $nbFileConfig;
-
-       $this->_twig->addExtension(new Twig_Extensions_Extension_I18n());
-       // Set language to French
-       putenv('LC_ALL=fr_FR');
-       setlocale(LC_ALL, 'fr_FR');
-
-       // Specify the location of the translation tables
-       bindtextdomain(self::$projectName, self::$templateDir . '/lang');
-       bind_textdomain_codeset(self::$projectName, 'UTF-8');
-
-       // Choose domain
-       textdomain(self::$projectName);
  }
 
  public function createForm() {

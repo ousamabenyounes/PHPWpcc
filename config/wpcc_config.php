@@ -1,3 +1,4 @@
-<?php
+<?
 $webParsingConfig = array();
+
 ?>
