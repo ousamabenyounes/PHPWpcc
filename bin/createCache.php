@@ -15,7 +15,7 @@ try {
     } else {
         $type = 'content';
     }
-    $wpccCache = new wpccCache();
+    $wpccCache = new wpccCache($root_dir);
     $wpccCache->generateCache($groupUrl, $type);
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());

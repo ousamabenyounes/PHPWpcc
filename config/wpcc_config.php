@@ -1,10 +1,11 @@
 <?php
 $phpwpcc_config = array(
-                'projectName' => 'fdsfsd',
-                'webServiceUrl' => 'fdssd',
+                'projectName' => 'Demo',
+                'webServiceUrl' => '/api',
                 'emailAdressList' => array(
-                                            'fsdfsdds',
-                                            'fds',
-                                    ),
+                                    "fdsfds",
+                                    "fdsfdssfdfds",
+                                    "fds",
+                                ),
 );
 ?>

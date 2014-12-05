@@ -2,32 +2,39 @@
 require('localVars.php');
 require $root_dir . "vendor/autoload.php";
 require($root_dir . 'lib/wpccUi.php');
+require($root_dir . 'lib/wpccFile.php');
+require($root_dir . 'config/wpcc_services.php');
 
 try {
-
-    if (0 !== sizeof($_POST))
+    $ui = new wpccUi($root_dir);
+    if (0 === sizeof($_POST))
     {
+        // ************ Main configuration Form *************** //
+        $ui->configureProjectForm();
+    } else {
         $nextStep = $_POST['nextStep'];
-        //  Service Configuration Form 1/2
+
+        // ************ Service Configuration Form ************ //
         if ('configureServicesForm' === $nextStep
-                && 0 === sizeof($webParsingConfig)) {
-            $ui = new wpccUi();
-            $ui->configureProjectGenerate($_POST);
+                && 0 === sizeof($servicesConfig)) {
+
+            $ui->configureProjectGenerate();
             $ui->configureServicesForm();
         }
-        //  Service Configuration Form 2/2
+
+
+        // ************ Service Configuration Form ************ //
         if ('configureServicesFormStep2' === $nextStep
-            && 0 === sizeof($webParsingConfig)) {
-            $ui = new wpccUi($_POST["service"], $_POST["nbConfig"]);
+            && 0 === sizeof($servicesConfig)) {
+            $ui = new wpccUi($root_dir, $_POST["service"], $_POST["nbConfig"]);
             $ui->configureServicesFormStep2();
         }
+
+        // ************ Service Configuration Generation s************ //
         if ('configureServicesFormGenerate' === $nextStep) {
+            $ui->configureServicesGenerate();
 
         }
-    } else {
-        // Main configuration Form - First Step
-        $ui = new wpccUi();
-        $ui->configureProjectForm();
     }
 
 } catch (Exception $e) {

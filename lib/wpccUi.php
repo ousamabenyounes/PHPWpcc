@@ -1,27 +1,32 @@
 <?php
 require('wpcc.php');
+require('wpccConfig.php');
+require('wpccConfigLog.php');
 
 class wpccUi extends wpcc
 {
-    protected $_webParsingConfig;
+    protected $_rootDir;
+    protected $_servicesConfig;
     protected $_twig;
-    protected $_nbFileConfig;
+    protected $_servicesNbFilesConfig;
 
     public static $projectName = 'phpwpcc';
 
     /**
      * @param array $webParsingConfig
-     * @param int $nbFileConfig
+     * @param int $servicesNbFilesConfig
      */
-    public function __construct($webParsingConfig = array(), $nbFileConfig = array())
+    public function __construct($root_dir, $webParsingConfig = array(), $servicesNbFilesConfig = array())
     {
+        $this->_rootDir = $root_dir;
         Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem(self::$root_dir . 'views');
+        $loader = new Twig_Loader_Filesystem($root_dir . 'views');
         $this->_twig = new Twig_Environment($loader);
 
-        $this->_webParsingConfig = $webParsingConfig;
-        $this->_nbFileConfig = $nbFileConfig;
+        $this->_servicesConfig = $webParsingConfig;
+        $this->_servicesNbFilesConfig = $servicesNbFilesConfig;
     }
+
 
     /*
      * This function load the main form to configure your wpcc instance
@@ -32,10 +37,11 @@ class wpccUi extends wpcc
         echo $template->render(array());
     }
 
+
     /*
      * This function load the main form to configure your wpcc instance
      */
-    public function configureProjectGenerate($data)
+    public function configureProjectGenerate()
     {
         $template = $this->_twig->loadTemplate('php/phpwpcc_config.php.tpl');
         $phpTemplate = $template->render(
@@ -45,8 +51,9 @@ class wpccUi extends wpcc
                 'emailAdressList' => $this->textareaToArray($_POST["emailAdressList"])
             )
         );
-        $this->writeToFile(self::$root_dir . 'config/wpcc_config.php', $phpTemplate);
+        wpccConfig::save($this->_rootDir, $phpTemplate, 'wpcc_config');
     }
+
 
     /*
      * This function load the service configuration form
@@ -57,6 +64,7 @@ class wpccUi extends wpcc
         echo $template->render(array());
     }
 
+
     /*
      * This function generate the service php config file
      */
@@ -65,11 +73,39 @@ class wpccUi extends wpcc
         $template = $this->_twig->loadTemplate('install/configureServicesFormStep2.tpl');
         echo $template->render(
             array(
-                'services' => $this->_webParsingConfig,
-                'nbFileConfig' => $this->_nbFileConfig
+                'services' => $this->_servicesConfig,
+                'servicesNbFilesConfig' => $this->_servicesNbFilesConfig
             )
         );
     }
+
+
+    /**
+     * This function generte
+     */
+    public function configureServicesGenerate() {
+        try {
+            $template = $this->_twig->loadTemplate('php/phpwpcc_services.php.tpl');
+            $phpwpcc_service_config = $template->render(array(
+                'post' =>  $_POST,
+            ));
+            wpccConfig::save($this->_rootDir, $phpwpcc_service_config, 'wpcc_services');
+
+
+
+            die;
+            $output = file_get_contents("http://ftven.jecodedoncjeteste.fr/wpccGenerate.php");
+
+            $template = $this->_twig->loadTemplate('phpwpcc_generate.tpl');
+            echo $template->render(array(
+                    'generate_message' =>  $output,
+                ));
+
+        } catch (Exception $e) {
+            die ('ERROR: ' . $e->getMessage());
+        }
+    }
+
 
     /*
      *
@@ -79,11 +115,10 @@ class wpccUi extends wpcc
         $template = $this->_twig->loadTemplate('phpwpcc_update.tpl');
         echo $template->render(
             array(
-                'services' => $this->_webParsingConfig,
+                'services' => $this->_servicesConfig,
             )
         );
     }
-
 
 }
 

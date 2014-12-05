@@ -7,7 +7,7 @@ use Guzzle\Tests\GuzzleTestCase,
     Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Request;
 
-class wpccRequest extends wpcc
+class wpccRequest
 {
     /**
      * This function send an Http Request on the given url and return the web page content
@@ -15,7 +15,7 @@ class wpccRequest extends wpcc
      * @param $url
      * @return Response
      */
-    public function sendRequest($url)
+    public static function sendRequest($url)
     {
         $client = new HttpClient($url);
         $request = $client->get($url);

@@ -1,7 +1,7 @@
 <?php
-
 require('wpcc.php');
 require('wpccRequest.php');
+require('wpccFile.php');
 
 class wpccCache extends wpcc
 {
@@ -9,20 +9,21 @@ class wpccCache extends wpcc
     public static $desktopFormat = '1024x768';
     public static $mobileFormat = '480X600';
 
+    protected $_rootDir;
     protected $_cacheDir;
     protected $_twig;
     protected $_contentCacheDir;
     protected $_screenshotCacheDir;
     protected $_errorCacheDir;
 
-    public function __construct()
+    public function __construct($root_dir)
     {
+        $this->_rootDir = $root_dir;
         $this->initCacheDir();
         Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem(wpcc::$root_dir.'views');
+        $loader = new Twig_Loader_Filesystem($root_dir.'views');
         $this->_twig = new Twig_Environment($loader, array('debug' => false));
     }
-
 
     /**
      * this method create cache directories (screenshot, content...)
@@ -30,12 +31,12 @@ class wpccCache extends wpcc
     public function initCacheDir()
     {
         $oldmask = umask(0);
-        $this->_cacheDir = self::$root_dir . self::$cacheDir . date("Ymd_H") . 'h' . '/';
+        $this->_cacheDir = $this->_rootDir . self::$cacheDir . date("Ymd_H") . 'h' . '/';
         $this->_contentCacheDir = $this->_cacheDir . 'content/';
         $this->_screenshotCacheDir = $this->_cacheDir . 'screenshot/';
         $this->_errorCacheDir = $this->_cacheDir . 'error/';
-        if (!is_dir( self::$root_dir . self::$cacheDir )) {
-            mkdir( self::$root_dir . self::$cacheDir , 0777);
+        if (!is_dir( $this->_rootDir . self::$cacheDir )) {
+            mkdir( $this->_rootDir . self::$cacheDir , 0777);
         }
         if (!is_dir($this->_cacheDir)) {
             mkdir($this->_cacheDir, 0777);
@@ -80,23 +81,22 @@ class wpccCache extends wpcc
         $this->printIntro($type);
         $nbSites = count($groupUrl, COUNT_RECURSIVE) - count($groupUrl);
         $nbSitesChecked = 0;
-        $wpccRequest = new wpccRequest();
         $moveTo = 4 + strlen($nbSites);
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $site) {
                 echo "\033[" . $moveTo . "D";
                 echo str_pad($nbSitesChecked, 3, ' ', STR_PAD_LEFT) . "/" . $nbSites;
-                $cleanUrl = $this->clean($site);
+                $cleanUrl = $this->urlToString($site);
                 $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
                 $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
                 $screenShotFilename = $this->_screenshotCacheDir . $cleanUrl;
                 try {
-                    $response = @file_get_contents($fileName);
-                    $errorResponse = @file_get_contents($errorFileName);
+                    $response = wpccFile::getContentFromFile($fileName, false);
+                    $errorResponse = wpccFile::getContentFromFile($errorFileName, false);
                     if (false === $response && false === $errorResponse) {
-                        $response = $wpccRequest->sendRequest($site);
+                        $response = wpccRequest::sendRequest($site);
                         if ('all' === $type || 'content' === $type) {
-                            $this->writeToFile($fileName, $response);
+                            wpccFile::writeToFile($fileName, $response);
                         }
                         if ('all' === $type || 'screenshot' === $type) {
                             exec("pageres " . $site . " " . self::$desktopFormat . "  --filename " .
@@ -104,7 +104,7 @@ class wpccCache extends wpcc
                     }
                 } catch (Exception $e) {
                     // Request failed, we save it on an error file
-                    $this->writeToFile($errorFileName, $e->getMessage());
+                    wpccFile::writeToFile($errorFileName, $e->getMessage());
                 }
                 $nbSitesChecked++;
             }

@@ -1,5 +1,5 @@
 <?php
-$webParsingConfig = array(
+$servicesConfig = array(
 {% for key, service in post['service'] %}
   "{{ service }}" => array(
        'acceptedConfig' => array( {% set nbFiles = post['nbfile_'~service] %}
@@ -12,14 +12,7 @@ $webParsingConfig = array(
          ),
    {% endfor %}
    ),
-     'urls' => array(
-            {% set urls = post['urls_'~service]|split("\n") %}
-            {% for keyUrl, url in urls %}
-                   "{{ url|trim()|nl2br()|split("\n")|join()  }}",
-            {% endfor %}
-            ),
-    ),
-
+),
 {% endfor %}
 
 );

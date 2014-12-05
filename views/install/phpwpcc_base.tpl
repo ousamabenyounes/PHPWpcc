@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-  
+
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     {% block phpwpcc_head %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PHPWpccg Configuration</title>
       <meta name="author" content="Ousama Ben Younes" />
 
