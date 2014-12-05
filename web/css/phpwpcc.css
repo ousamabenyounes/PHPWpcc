@@ -24,9 +24,8 @@
 }
 
 
-.phpwpcc_service{ 
-    padding-top: 10px;
-    padding-left: 30px;
+.phpwpcc_service{
+    padding: 10px 0 10px 30px;
     background-color: #599bb3;
     font-weight: bold;
     color: white;
