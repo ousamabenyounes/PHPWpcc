@@ -21,7 +21,8 @@ class wpccUi extends wpcc
         $this->_rootDir = $root_dir;
         Twig_Autoloader::register();
         $loader = new Twig_Loader_Filesystem($root_dir . 'views');
-        $this->_twig = new Twig_Environment($loader);
+        $this->_twig = new Twig_Environment($loader, array('debug' => true));
+        $this->_twig->addExtension(new Twig_Extension_Debug());
 
         $this->_servicesConfig = $webParsingConfig;
         $this->_servicesNbFilesConfig = $servicesNbFilesConfig;
@@ -83,14 +84,14 @@ class wpccUi extends wpcc
     /**
      * This function generte
      */
-    public function configureServicesGenerate() {
+    public function configureServicesGenerate()
+    {
         try {
             $template = $this->_twig->loadTemplate('php/phpwpcc_services.php.tpl');
             $phpwpcc_service_config = $template->render(array(
-                'post' =>  $_POST,
+                'post' => $_POST,
             ));
             wpccConfig::save($this->_rootDir, $phpwpcc_service_config, 'wpcc_services');
-
 
 
             die;
@@ -98,8 +99,8 @@ class wpccUi extends wpcc
 
             $template = $this->_twig->loadTemplate('phpwpcc_generate.tpl');
             echo $template->render(array(
-                    'generate_message' =>  $output,
-                ));
+                'generate_message' => $output,
+            ));
 
         } catch (Exception $e) {
             die ('ERROR: ' . $e->getMessage());
@@ -120,6 +121,20 @@ class wpccUi extends wpcc
         );
     }
 
-}
 
+    /**
+     * @param $groupUrl
+     */
+    public function attachUrlWithServices($groupUrl, $service)
+    {
+        $template = $this->_twig->loadTemplate('install/attachUrlWithServices.tpl');
+        $groupUrlContent = $template->render(array(
+            'groupUrl' => $groupUrl,
+            'service' => $service
+        ));
+        echo $groupUrlContent;
+    }
+
+
+}
 ?>

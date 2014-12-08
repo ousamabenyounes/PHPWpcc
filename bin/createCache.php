@@ -5,12 +5,14 @@ require($root_dir . 'config/wpcc_groupurl.php');
 require($root_dir . 'lib/wpccCache.php');
 
 try {
-    if (isset($argc[1]) &&
+    if (isset($argv[1]) &&
         in_array(
-            $argc[1],
+            $argv[1],
             array('all', 'screenshot', 'content')
         )
-    ) {
+    )
+    {
+        $type = $argv[1];
 
     } else {
         $type = 'content';

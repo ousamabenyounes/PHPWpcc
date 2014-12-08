@@ -1,42 +1,24 @@
 <?php
 
-class wpccFile
+class wpccDirectory
 {
 
     /**
-     * This function write a given content to a specific file
+     * This function create a new directory
      *
-     * @param string $filename
-     * @param string $content
+     * @param string $newDirectory
+     * @param int $mode
      */
-    public static function writeToFile($filename, $content)
+    public static function createDirectory($newDirectory, $mode = 0755)
     {
         try {
-            file_put_contents($filename, $content);
+            if (!is_dir($newDirectory)) {
+                mkdir($newDirectory, $mode);
+            }
         } catch (Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
     }
 
-    /**
-     * This function get the content of the file from a given url
-     *
-     * @param string $url
-     * @return string $content
-     */
-    public static function getContentFromFile($url, $debug = true)
-    {
-        try {
-            if (false === $debug)
-            {
-                $content = @file_get_contents($url);
-            } else {
-                $content = file_get_contents($url);
-            }
-            return $content;
-        } catch (Exception $e) {
-            die ('ERROR: ' . $e->getMessage());
-        }
-    }
 }
 ?>

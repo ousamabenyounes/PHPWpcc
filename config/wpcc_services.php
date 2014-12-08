@@ -3,7 +3,8 @@ $servicesConfig = array(
   "cnil" => array(
        'acceptedConfig' => array(                
       	 "v1" => array(
-	    	       "fdssfdfsd", 
+	    	       "fds", 
+	    	       "fsdsfddsf", 
 	    	   
          ),
       ),
@@ -11,8 +12,8 @@ $servicesConfig = array(
   "pub" => array(
        'acceptedConfig' => array(                
       	 "v2" => array(
-	    	       "fsdsdffds", 
-	    	       "fsdfsd", 
+	    	       "fsd", 
+	    	       "fdssdffdsfds", 
 	    	   
          ),
       ),

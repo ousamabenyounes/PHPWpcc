@@ -9,8 +9,8 @@
 }
 
 .phpwpcc_footer{
-    margin-left: 550px;
-    margin-top: 30px;
+    bottom:0;
+    height:60px;   /* Height of the footer */
 }
 .phpwpcc_footer a{
     color: white !important;

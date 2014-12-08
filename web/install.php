@@ -4,6 +4,7 @@ require $root_dir . "vendor/autoload.php";
 require($root_dir . 'lib/wpccUi.php');
 require($root_dir . 'lib/wpccFile.php');
 require($root_dir . 'config/wpcc_services.php');
+require($root_dir . 'config/wpcc_groupurl.php');
 
 try {
     $ui = new wpccUi($root_dir);
@@ -17,11 +18,15 @@ try {
         // ************ Service Configuration Form ************ //
         if ('configureServicesForm' === $nextStep
                 && 0 === sizeof($servicesConfig)) {
-
             $ui->configureProjectGenerate();
             $ui->configureServicesForm();
         }
 
+        // ************ Service Configuration Form ************ //
+        if ('configureServicesForm' === $nextStep
+            && 0 !== sizeof($servicesConfig)) {
+            $ui->attachUrlWithServices($groupUrl);
+        }
 
         // ************ Service Configuration Form ************ //
         if ('configureServicesFormStep2' === $nextStep
@@ -32,7 +37,7 @@ try {
 
         // ************ Service Configuration Generation s************ //
         if ('configureServicesFormGenerate' === $nextStep) {
-            $ui->configureServicesGenerate();
+            $ui->configureServicesGenerate($groupUrl);
 
         }
     }

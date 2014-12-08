@@ -2,18 +2,20 @@
 require('wpcc.php');
 require('wpccRequest.php');
 require('wpccFile.php');
+require("wpccPngToJpg.php");
+require("wpccDirectory.php");
 
 class wpccCache extends wpcc
 {
     public static $cacheDir = 'cache/';
-    public static $desktopFormat = '1024x768';
-    public static $mobileFormat = '480X600';
+    public static $desktopFormat = '600X800';
 
     protected $_rootDir;
     protected $_cacheDir;
     protected $_twig;
     protected $_contentCacheDir;
-    protected $_screenshotCacheDir;
+    protected $_screenshotDir;
+    protected $_thumbnailDir;
     protected $_errorCacheDir;
 
     public function __construct($root_dir)
@@ -21,7 +23,7 @@ class wpccCache extends wpcc
         $this->_rootDir = $root_dir;
         $this->initCacheDir();
         Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem($root_dir.'views');
+        $loader = new Twig_Loader_Filesystem($root_dir . 'views');
         $this->_twig = new Twig_Environment($loader, array('debug' => false));
     }
 
@@ -33,23 +35,15 @@ class wpccCache extends wpcc
         $oldmask = umask(0);
         $this->_cacheDir = $this->_rootDir . self::$cacheDir . date("Ymd_H") . 'h' . '/';
         $this->_contentCacheDir = $this->_cacheDir . 'content/';
-        $this->_screenshotCacheDir = $this->_cacheDir . 'screenshot/';
+        $this->_screenshotDir = $this->_cacheDir . 'screenshot/';
+        $this->_thumbnailDir = $this->_screenshotDir .'thumbnail/';;
         $this->_errorCacheDir = $this->_cacheDir . 'error/';
-        if (!is_dir( $this->_rootDir . self::$cacheDir )) {
-            mkdir( $this->_rootDir . self::$cacheDir , 0777);
-        }
-        if (!is_dir($this->_cacheDir)) {
-            mkdir($this->_cacheDir, 0777);
-        }
-        if (!is_dir($this->_contentCacheDir)) {
-            mkdir($this->_contentCacheDir, 0777);
-        }
-        if (!is_dir($this->_screenshotCacheDir)) {
-            mkdir($this->_screenshotCacheDir, 0777);
-        }
-        if (!is_dir($this->_errorCacheDir)) {
-            mkdir($this->_errorCacheDir, 0777);
-        }
+        wpccDirectory::createDirectory($this->_rootDir . self::$cacheDir, 0777);
+        wpccDirectory::createDirectory($this->_cacheDir, 0777);
+        wpccDirectory::createDirectory($this->_contentCacheDir, 0777);
+        wpccDirectory::createDirectory($this->_screenshotDir, 0777);
+        wpccDirectory::createDirectory($this->_thumbnailDir, 0777);
+        wpccDirectory::createDirectory($this->_errorCacheDir, 0777);
         umask($oldmask);
     }
 
@@ -89,7 +83,6 @@ class wpccCache extends wpcc
                 $cleanUrl = $this->urlToString($site);
                 $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
                 $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
-                $screenShotFilename = $this->_screenshotCacheDir . $cleanUrl;
                 try {
                     $response = wpccFile::getContentFromFile($fileName, false);
                     $errorResponse = wpccFile::getContentFromFile($errorFileName, false);
@@ -98,9 +91,7 @@ class wpccCache extends wpcc
                         if ('all' === $type || 'content' === $type) {
                             wpccFile::writeToFile($fileName, $response);
                         }
-                        if ('all' === $type || 'screenshot' === $type) {
-                            exec("pageres " . $site . " " . self::$desktopFormat . "  --filename " .
-                                $screenShotFilename . self::$desktopFormat, $output);                  }
+                        $this->makeScreenshot($type, $cleanUrl, $site);
                     }
                 } catch (Exception $e) {
                     // Request failed, we save it on an error file
@@ -110,5 +101,26 @@ class wpccCache extends wpcc
             }
         }
     }
+
+
+    /**
+     * This function make a screeshot from a given url
+     *
+     * @param $type
+     * @param $cleanUrl
+     * @param $site
+     */
+    public function makeScreenshot($type, $cleanUrl, $site)
+    {
+        if ('all' === $type || 'screenshot' === $type) {
+            $screenShotFilename = $this->_screenshotDir . $cleanUrl;
+            exec("pageres " . $site . " " . self::$desktopFormat .
+                "  --filename " . $screenShotFilename . self::$desktopFormat);
+            wpccPngToJpg::compress($this->_screenshotDir, $this->_thumbnailDir,
+                $cleanUrl . self::$desktopFormat);
+        }
+    }
+
 }
+
 ?>

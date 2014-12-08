@@ -13,7 +13,8 @@
     <link type="text/css" rel="stylesheet" href="css/phpwpcc.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/component.css" />
 
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+
     <script src="js/addRemove.js"></script>
     <script src="js/modernizr.custom.js"></script>
     <script src="js/fullscreenForm.js"></script>
