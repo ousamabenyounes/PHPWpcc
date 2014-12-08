@@ -128,3 +128,12 @@ OK (2 tests, 2 assertions)
 - phpunit  
 - guzzle  
   
+#Credit
+
+- Thanks to Gael Metai https://github.com/gmetais/YellowLabTools
+- Thanks to Arnaud Huon
+- dynatree http://wwwendt.de/tech/dynatree/doc/samples.html
+- FullScreen https://github.com/codrops/FullscreenForm
+- phpunit
+- guzzle
+

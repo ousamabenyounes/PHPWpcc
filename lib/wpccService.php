@@ -3,7 +3,7 @@ require('wpcc.php');
 require('wpccConfig.php');
 require('wpccConfigLog.php');
 
-class wpccUi extends wpcc
+class wpccService extends wpcc
 {
     protected $_rootDir;
     protected $_servicesConfig;
@@ -28,32 +28,6 @@ class wpccUi extends wpcc
         $this->_servicesNbFilesConfig = $servicesNbFilesConfig;
     }
 
-
-    /*
-     * This function load the main form to configure your wpcc instance
-    */
-    public function configureProjectForm()
-    {
-        $template = $this->_twig->loadTemplate('install/configureProjectForm.tpl');
-        echo $template->render(array());
-    }
-
-
-    /*
-     * This function load the main form to configure your wpcc instance
-     */
-    public function configureProjectGenerate()
-    {
-        $template = $this->_twig->loadTemplate('php/phpwpcc_config.php.tpl');
-        $phpTemplate = $template->render(
-            array(
-                'projectName' => $_POST["projectName"],
-                'webServiceUrl' => $_POST["webServiceUrl"],
-                'emailAdressList' => $this->textareaToArray($_POST["emailAdressList"])
-            )
-        );
-        wpccConfig::save($this->_rootDir, $phpTemplate, 'wpcc_config');
-    }
 
 
     /*
@@ -108,17 +82,63 @@ class wpccUi extends wpcc
     }
 
 
-    /*
+    /**
+     * This function print the form that allow url to services attachment
      *
+     * @param array $groupUrl
+     * @param string $service
+     * @param array $servicesConfig
      */
-    public function updateForm()
+    public function attachUrlWithServices($groupUrl, $service, $servicesConfig)
     {
-        $template = $this->_twig->loadTemplate('install/phpwpcc_update.tpl');
-        echo $template->render(
-            array(
-                'services' => $this->_servicesConfig,
-            )
-        );
+        $template = $this->_twig->loadTemplate('install/attachUrlWithServices.tpl');
+        $groupUrlContent = $template->render(array(
+            'groupUrl' => $groupUrl,
+            'service' => $service,
+            'servicesConfig' => $servicesConfig
+        ));
+        echo $groupUrlContent;
+    }
+
+
+    /**
+     * This function generate the service configuration file
+     *
+     * @param string $projectName
+     * @param array $groupUrl
+     * @param array $servicesConfig
+     * @param array $post
+     */
+    public function attachUrlWithServicesGenerate($projectName, $groupUrl, $servicesConfig, $post)
+    {
+        foreach ($groupUrl as $portail => $sites){
+
+            foreach ($sites as $webSite => $urls) {
+                foreach ($urls as $url => $urlConfig) {
+                    var_dump($url);
+
+
+                }
+            }
+        }
+        die;
+
+
+
+
+        $choosenUrlArray = explode(',', $post['choosenUrl']);
+        var_dump($choosenUrlArray);
+        die;
+
+
+
+
+        $template = $this->_twig->loadTemplate('php/phpunit/phpwpcc_main_class.php.tpl');
+        $phpwpccMainClass = $template->render(array(
+                'projectName' => $projectName
+            ));
+        wpccFile::writeToFile($this->_rootDir . 'generatedTest/' . $projectName . 'Check.php', $phpwpccMainClass);
+
     }
 
 

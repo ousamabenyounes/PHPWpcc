@@ -46,5 +46,8 @@
       {% endblock %}
   </div>
 
- </body>
+  {% block javascriptSrc %}
+  {% endblock %}
+
+  </body>
 </html>

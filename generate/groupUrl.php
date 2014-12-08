@@ -38,18 +38,7 @@ class GroupUrl {
    }
   }
  
- public function attachUrlsToService($groupUrl) {
-  try {
-      $template = $this->_twig->loadTemplate('php/phpwpcc_attach_service_urls.tpl');
-      $groupUrlContent = $template->render(array(
-         'groupUrl' =>  $groupUrl
-      ));
-      file_put_contents("config/wpcc_groupurl.php", $groupUrlContent);
 
-   } catch (Exception $e) {
-     die ('ERROR: ' . $e->getMessage());
-   }
-  }
 }
 
 

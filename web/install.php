@@ -25,7 +25,8 @@ try {
         // ************ Service Configuration Form ************ //
         if ('configureServicesForm' === $nextStep
             && 0 !== sizeof($servicesConfig)) {
-            $ui->attachUrlWithServices($groupUrl);
+            $ui = new wpccUi($root_dir, $servicesConfig);
+            $ui->updateForm($groupUrl);
         }
 
         // ************ Service Configuration Form ************ //
