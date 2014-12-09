@@ -1,12 +1,12 @@
 <?php
-$groupUrl = array(
+$groupUrl3 = array(
 {% for portail, sites in groupUrl %}
-   "{{ portail }}" => array(
+    "{{ portail }}" => array(
     {% for site in sites %}
 
         {% for siteUrl, urls in site %}
             "{{ siteUrl }}" => array(
-           {% for url in urls %}
+           {% for conf, url in urls %}
               "{{ url }}" => array(),
            {% endfor %}
             ),

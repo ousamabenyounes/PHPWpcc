@@ -105,28 +105,52 @@ class wpccService extends wpcc
      * This function generate the service configuration file
      *
      * @param string $projectName
-     * @param array $groupUrl
      * @param array $servicesConfig
-     * @param array $post
+     * @param array $choosenUrls
+     * @param string $service
      */
-    public function attachUrlWithServicesGenerate($projectName, $groupUrl, $servicesConfig, $post)
+    public function attachUrlWithServicesGenerate($projectName, $servicesConfig, $choosenUrls, $service)
     {
-        foreach ($groupUrl as $portail => $sites){
+        global $groupUrl;
 
+        foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $webSite => $urls) {
                 foreach ($urls as $url => $urlConfig) {
-                    var_dump($url);
+                    //var_dump($url);
 
+                    if (in_array($url, $choosenUrls)){
+                        //var_dump($url);
+                        if (!in_array($service, $urlConfig)) {
+                            var_dump($urlConfig);
+                            $urlConfig[] = $service;
+                            $groupUrl[$portail][$webSite][$url] = $urlConfig;
+                            var_dump($urlConfig);
 
+                        }
+                    }
                 }
             }
         }
+
+
+        $template = $this->_twig->loadTemplate('php/phpwpcc_groupurl_attach_service.php.tpl');
+
+        $groupUrlContent = $template->render(array(
+            'groupUrl' =>  $groupUrl
+        ));
+
+
+        var_dump($groupUrlContent);
+        die;
+
+        wpccConfig::save($this->_rootDir, $groupUrlContent, 'wpcc_groupurl');
+
+
         die;
 
 
 
 
-        $choosenUrlArray = explode(',', $post['choosenUrl']);
         var_dump($choosenUrlArray);
         die;
 

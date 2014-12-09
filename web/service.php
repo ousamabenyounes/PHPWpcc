@@ -12,9 +12,11 @@ try {
 
     if (0 !== sizeof($_POST))
     {
-        var_dump($phpwpcc_config["projectName"]);
         var_dump($_POST);
-        $wpccService->attachUrlWithServicesGenerate($phpwpcc_config["projectName"], $groupUrl, $servicesConfig, $_POST);
+        $choosenUrlArray = array_map('trim', explode(',', $_POST['choosenUrl']));
+
+        $wpccService->attachUrlWithServicesGenerate($phpwpcc_config["projectName"],
+             $servicesConfig, $choosenUrlArray, $_POST['service']);
 
     } else {
         $service = strip_tags($_GET["p"]);

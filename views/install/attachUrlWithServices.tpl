@@ -51,10 +51,10 @@
 
 var treeData = [
 {% for portal, sites in groupUrl%}
-    {title: "Portal: {{ portal }} ", isFolder: true, key: "{{ portail }}",
+    {title: "Portal: {{ portal }} [ {{ sites|length }} WebSites ]", isFolder: true, key: "{{ portail }}",
         children: [
         {% for siteUrl, urls in sites %}
-            {title: " WebSite: {{ siteUrl }} ", isFolder: true, key: "{{ siteUrl }}" {% if urls is empty %} } {% else %} ,
+            {title: " WebSite: {{ siteUrl }}  [ {{ urls|length }} Web Pages ]", isFolder: true, key: "{{ siteUrl }}" {% if urls is empty %} } {% else %} ,
             children: [
                 {% for url, config in urls %}
                     {title: "Page: {{ url }}", key: "{{ url }}"},

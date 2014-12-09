@@ -33,8 +33,9 @@ class GroupUrl {
       foreach ($sites as $site) {
       	  if ('En ligne' === $site['etat'] && "" !== trim($site["portail"])
               && !strstr($site['url'], 'programmes.france')
+              && strstr($site['url'], 'pluzz')
               && !strstr($site['url'], '-preprod')) {
-              $site['url'] = rtrim($site['url'], "/");
+              $site['url'] = trim(rtrim($site['url'], "/"));
              $pages = array($site['url']);
              foreach ($tokens as $token) {
                  $pages[] = trim($site["url"]) . '/' .$token;
@@ -42,6 +43,8 @@ class GroupUrl {
              $groupUrl[$site["portail"]][] = array($site["url"] => $pages);
           }
        }
+
+
 
       $template = $this->_twig->loadTemplate('php/phpwpcc_groupurl.php.tpl');
       $groupUrlContent = $template->render(array(
