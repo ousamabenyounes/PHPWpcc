@@ -10,8 +10,6 @@ class wpccService extends wpcc
     protected $_twig;
     protected $_servicesNbFilesConfig;
 
-    public static $projectName = 'phpwpcc';
-
     /**
      * @param array $servicesConfig
      * @param int $servicesNbFilesConfig
@@ -27,8 +25,6 @@ class wpccService extends wpcc
         $this->_servicesConfig = $servicesConfig;
         $this->_servicesNbFilesConfig = $servicesNbFilesConfig;
     }
-
-
 
     /*
      * This function load the service configuration form
@@ -54,6 +50,23 @@ class wpccService extends wpcc
         );
     }
 
+
+    /**
+     * This function allow you to update services configuration
+     */
+    public function updateService()
+    {
+
+        $template = $this->_twig->loadTemplate('services/phpwpcc_update.tpl');
+        echo $template->render(
+            array(
+                'groupUrl' => $groupUrl,
+                'services' => $this->_servicesConfig,
+            )
+        );
+
+
+    }
 
     /**
      * This function generte
@@ -95,7 +108,7 @@ class wpccService extends wpcc
         $groupUrlContent = $template->render(array(
             'groupUrl' => $groupUrl,
             'service' => $service,
-            'servicesConfig' => $servicesConfig
+            'services' => $servicesConfig
         ));
         echo $groupUrlContent;
     }
@@ -113,45 +126,31 @@ class wpccService extends wpcc
     {
         global $groupUrl;
 
-        var_dump($choosenUrls);
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $webSite => $urls) {
                 foreach ($urls as $url => $urlConfig) {
                     if (in_array($url, $choosenUrls)){
-                        var_dump($url);
                         if (!in_array($service, $urlConfig)) {
                             $urlConfig[] = $service;
                         }
                     } else {
-                        var_dump($urlConfig);
                         $urlConfig = array_diff($urlConfig, array($service));
-                        var_dump($urlConfig);
-
-                        die;
                     }
                     $groupUrl[$portail][$webSite][$url] = $urlConfig;
                 }
             }
         }
 
-
         $template = $this->_twig->loadTemplate('php/phpwpcc_groupurl_attach_service.php.tpl');
-
         $groupUrlContent = $template->render(array(
             'groupUrl' =>  $groupUrl
         ));
 
-
         wpccConfig::save($this->_rootDir, $groupUrlContent, 'wpcc_groupurl');
 
 
-        die;
+       /* die;
 
-
-
-
-        var_dump($choosenUrlArray);
-        die;
 
 
 
@@ -161,7 +160,7 @@ class wpccService extends wpcc
                 'projectName' => $projectName
             ));
         wpccFile::writeToFile($this->_rootDir . 'generatedTest/' . $projectName . 'Check.php', $phpwpccMainClass);
-
+*/
     }
 
 

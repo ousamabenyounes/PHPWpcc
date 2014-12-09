@@ -4,10 +4,10 @@ $groupUrl = array(
    "{{ portail }}" => array(
     {% for site in sites %}
 
-        {% for siteUrl, urls in site %}
-            "{{ siteUrl }}" => array(
-           {% for url in urls %}
-              "{{ url }}" => array(),
+        {% for website, pages in site %}
+            "{{ website }}" => array(
+           {% for page in pages %}
+              "{{ page }}" => array(),
            {% endfor %}
             ),
         {% endfor %}

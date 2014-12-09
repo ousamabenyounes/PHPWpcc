@@ -2,6 +2,7 @@
 require('wpcc.php');
 require('wpccConfig.php');
 require('wpccConfigLog.php');
+require('wpccUtils.php');
 
 class wpccUi extends wpcc
 {
@@ -49,7 +50,7 @@ class wpccUi extends wpcc
             array(
                 'projectName' => $_POST["projectName"],
                 'webServiceUrl' => $_POST["webServiceUrl"],
-                'emailAdressList' => $this->textareaToArray($_POST["emailAdressList"])
+                'emailAdressList' => wpccUtils::textareaToArray($_POST["emailAdressList"])
             )
         );
         wpccConfig::save($this->_rootDir, $phpTemplate, 'wpcc_config');

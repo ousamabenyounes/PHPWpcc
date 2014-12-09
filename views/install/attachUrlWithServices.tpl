@@ -1,16 +1,14 @@
 {% extends "install/phpwpcc_base.tpl" %}
 {% block phpwpcc_head %}
-    {{ parent() }}
+{{ parent() }}
 
-    <link rel="stylesheet" type="text/css" href="css/menu.css" />
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
 
-    <link href="css/.css" rel="stylesheet" type="text/css" id="skinSheet">
-    <link href="css/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet">
+<link href="css/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet">
 
-    <script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
-    <script src="js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="js/jquery.dynatree.js" type="text/javascript"></script>
-    <script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
+<script src="js/jquery.cookie.js" type="text/javascript"></script>
+<script src="js/jquery.dynatree.js" type="text/javascript"></script>
 
 {% endblock %}
 {% block title %}{{ parent() }} - {{ service|upper }} Service Configuration {% endblock %}
@@ -20,7 +18,7 @@
 
 
 
-<form method="post" action="service.php" id="attachUrlWithServices"/>
+<form method="post" action="service.php?p={{ service }}" id="attachUrlWithServices"/>
 
 <input type="hidden" value="{{ service }}" id="service" name="service">
 <input type="hidden" name="nextStep" value="generateAttachedUrlWithServices"/>
@@ -51,15 +49,15 @@
 
 var treeData = [
 {% for portal, sites in groupUrl%}
-    {title: "Portal: {{ portal }} [ {{ sites|length }} WebSites ]", isFolder: true, key: "{{ portail }}",
-        children: [
-        {% for siteUrl, urls in sites %}
-            {title: " WebSite: {{ siteUrl }}  [ {{ urls|length }} Web Pages ]", isFolder: true, key: "{{ siteUrl }}" {% if urls is empty %} } {% else %} ,
-            children: [
-                {% for url, config in urls %}
-                    {title: "Page: {{ url }}", key: "{{ url }}"},
-                {% endfor %}
-            ]},
+{title: "Portal: {{ portal }} [ {{ sites|length }} WebSites ]", isFolder: true, key: "{{ portail }}",
+    children: [
+{% for webSite, pages in sites %}
+{title: " WebSite: {{ webSite }}  [ {{ pages|length }} Web Pages ]", isFolder: true, key: "{{ webSite }}" {% if pages is empty %} } {% else %} ,
+children: [
+{% for page, pageServices in pages %}
+{title: "Page: {{ page }}", key: "{{ page }}" {% if service in pageServices %}, select: true {% endif %} },
+{% endfor %}
+]},
             {% endif %}
 {% endfor %}
 ]

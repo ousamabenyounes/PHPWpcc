@@ -16,14 +16,22 @@ try {
 
         $wpccService->attachUrlWithServicesGenerate($phpwpcc_config["projectName"],
              $servicesConfig, $choosenUrlArray, $_POST['service']);
+        require($root_dir . 'config/wpcc_groupurl.php');
 
+
+    }
+    if (isset($_POST['service']))
+    {
+        $service = $_POST["service"];
     } else {
         $service = strip_tags($_GET["p"]);
-        if ('' !== trim($service))
-        {
-            $wpccService->attachUrlWithServices($groupUrl, $service, $servicesConfig);
-        }
     }
+    if ('' !== trim($service))
+    {
+
+        $wpccService->attachUrlWithServices($groupUrl, $service, $servicesConfig);
+    }
+
 
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());

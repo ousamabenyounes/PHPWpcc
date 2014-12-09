@@ -2,8 +2,9 @@
 require('wpcc.php');
 require('wpccRequest.php');
 require('wpccFile.php');
-require("wpccPngToJpg.php");
-require("wpccDirectory.php");
+require('wpccPngToJpg.php');
+require('wpccDirectory.php');
+require('wpccUtils.php');
 
 class wpccCache extends wpcc
 {
@@ -80,7 +81,7 @@ class wpccCache extends wpcc
             foreach ($sites as $site) {
                 echo "\033[" . $moveTo . "D";
                 echo str_pad($nbSitesChecked, 3, ' ', STR_PAD_LEFT) . "/" . $nbSites;
-                $cleanUrl = $this->urlToString($site);
+                $cleanUrl = wpccUtils::urlToString($site);
                 $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
                 $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
                 try {

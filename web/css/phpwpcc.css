@@ -30,8 +30,7 @@
     font-weight: bold;
     color: white;
     border-radius:10px;
-    margin: 5px;
-    width: 1200px;
+    margin: 5px auto;
 }
 
 .phpwpcc_service_bis{
@@ -71,7 +70,7 @@
 
 .phpwpcc_generate {
     margin-left: 5px;
-    width: 1200px;
+    width: 100%;
     -moz-box-shadow: 0px 10px 14px -7px #276873;
     -webkit-box-shadow: 0px 10px 14px -7px #276873;
     box-shadow: 0px 10px 14px -7px #276873;
