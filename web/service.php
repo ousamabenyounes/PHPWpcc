@@ -12,7 +12,6 @@ try {
 
     if (0 !== sizeof($_POST))
     {
-        var_dump($_POST);
         $choosenUrlArray = array_map('trim', explode(',', $_POST['choosenUrl']));
 
         $wpccService->attachUrlWithServicesGenerate($phpwpcc_config["projectName"],

@@ -113,21 +113,23 @@ class wpccService extends wpcc
     {
         global $groupUrl;
 
+        var_dump($choosenUrls);
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $webSite => $urls) {
                 foreach ($urls as $url => $urlConfig) {
-                    //var_dump($url);
-
                     if (in_array($url, $choosenUrls)){
-                        //var_dump($url);
+                        var_dump($url);
                         if (!in_array($service, $urlConfig)) {
-                            var_dump($urlConfig);
                             $urlConfig[] = $service;
-                            $groupUrl[$portail][$webSite][$url] = $urlConfig;
-                            var_dump($urlConfig);
-
                         }
+                    } else {
+                        var_dump($urlConfig);
+                        $urlConfig = array_diff($urlConfig, array($service));
+                        var_dump($urlConfig);
+
+                        die;
                     }
+                    $groupUrl[$portail][$webSite][$url] = $urlConfig;
                 }
             }
         }
@@ -139,9 +141,6 @@ class wpccService extends wpcc
             'groupUrl' =>  $groupUrl
         ));
 
-
-        var_dump($groupUrlContent);
-        die;
 
         wpccConfig::save($this->_rootDir, $groupUrlContent, 'wpcc_groupurl');
 

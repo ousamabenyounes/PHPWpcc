@@ -3,7 +3,7 @@ $groupUrl = array(
    "pluzz" => array(
     
                     "http://pluzz.francetv.fr" => array(
-                         "http://pluzz.francetv.fr" => array("metanav", "cnil"),
+                         "http://pluzz.francetv.fr" => array(),
                          "http://pluzz.francetv.fr/videos" => array(),
                          "http://pluzz.francetv.fr/emissions" => array(),
                          "http://pluzz.francetv.fr/programme-tv" => array(),
