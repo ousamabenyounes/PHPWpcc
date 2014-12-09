@@ -7,7 +7,7 @@ require('wpccUtils.php');
 class wpccTests extends wpcc
 {
     protected $_rootDir;
-    protected $_servicesConfig;
+    protected $_testPath;
     protected $_twig;
     protected $_testFiles;
 
@@ -25,7 +25,7 @@ class wpccTests extends wpcc
         $this->_twig = new Twig_Environment($loader, array('debug' => true));
         $this->_twig->addExtension(new Twig_Extension_Debug());
 
-        $this->_servicesConfig = $servicesConfig;
+        $this->_testPath = $this->_rootDir . 'generatedTest/phpunitTests/';
     }
 
 
@@ -61,7 +61,7 @@ class wpccTests extends wpcc
      * @param array $services
      * @param array $groupUrl
      */
-    public function generateAllTestsByPagesMethods($projectName, $services, $groupUrl)
+    public function generateAllTestsByPagesMethodsContent($projectName, $services, $groupUrl)
     {
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $webSite => $pages) {
@@ -83,17 +83,41 @@ class wpccTests extends wpcc
 
                         }
                     }
-                    /*    foreach ($services as $service => $serviceConf) {
-                            var_dump($service);
-                            die;
-                        }
-    */
                 }
             }
         }
-        var_dump($this->_testFiles);
-        die;
+        $this->generateAllTestsByPagesMethodsFiles($projectName);
     }
+
+
+    /**
+     * This function generate all PhpUnit test files by service
+     *
+     * @param string $projectName
+     */
+    public function generateAllTestsByPagesMethodsFiles($projectName) {
+
+        foreach ($this->_testFiles as $service => $content) {
+            $testFileName = UCFirst($projectName) . 'Check' . UCFirst($service) . '.php';
+            wpccFile::writeToFile($this->_testPath . $testFileName , $content);
+        }
+
+    }
+
+
+    /**
+     * This function generate the main PhpWpcc Test Class
+     *
+     * @param string $projectName
+     */
+    public function generateMainTestsClass($projectName) {
+        $template = $this->_twig->loadTemplate('php/phpunit/phpwpcc_main_class.php.tpl');
+        $phpwpccMainClass = $template->render(array(
+            'projectName' => $projectName
+        ));
+        wpccFile::writeToFile($this->_testPath . UCFirst($projectName) . 'Check.php', $phpwpccMainClass);
+    }
+
 
     /**
      * This function generate all Phpunit Tests
@@ -104,30 +128,9 @@ class wpccTests extends wpcc
      */
     public function generateAllTests($projectName, $services, $groupUrl)
     {
+        $this->generateMainTestsClass($projectName);
         $this->generateAllTestsCheckMethods($projectName, $services);
-        $this->generateAllTestsByPagesMethods($projectName, $services, $groupUrl);
-
-
-
-
-
-       /* die;
-
- $template = $this->_twig->loadTemplate('php/phpwpcc_groupurl_attach_service.php.tpl');
-        $groupUrlContent = $template->render(array(
-            'groupUrl' =>  $groupUrl
-        ));
-
-        wpccConfig::save($this->_rootDir, $groupUrlContent, 'wpcc_groupurl');
-
-
-
-        $template = $this->_twig->loadTemplate('php/phpunit/phpwpcc_main_class.php.tpl');
-        $phpwpccMainClass = $template->render(array(
-                'projectName' => $projectName
-            ));
-        wpccFile::writeToFile($this->_rootDir . 'generatedTest/' . $projectName . 'Check.php', $phpwpccMainClass);
-*/
+        $this->generateAllTestsByPagesMethodsContent($projectName, $services, $groupUrl);
     }
 
 
