@@ -17,7 +17,7 @@ class wpccPngToJpg
             $originalFile = $path . $filename . '.png';
             $outputFile = $path . $filename . '.jpg';
             $image = imagecreatefrompng($originalFile);
-            imagejpeg($image, $outputFile, 10);
+            imagejpeg($image, $outputFile, 60);
             imagedestroy($image);
             if (true === $thumb) {
                 self::imagethumb($outputFile, $pathThumbnail . $filename . '-mini.jpg', 200);

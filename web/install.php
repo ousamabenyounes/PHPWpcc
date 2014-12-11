@@ -26,6 +26,7 @@ try {
         if ('configureServicesForm' === $nextStep
             && 0 !== sizeof($servicesConfig)) {
             $ui = new wpccUi($root_dir, $servicesConfig);
+            $ui->configureProjectGenerate();
             $ui->updateForm($groupUrl);
         }
 

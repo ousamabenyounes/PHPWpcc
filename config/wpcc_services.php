@@ -20,6 +20,11 @@ $servicesConfig = array(
                 "http://newsletters.francetv.fr/cnil/js/cnil-min-v20140703.js",
 
             ),
+
+            "minCurent" => array(
+                "http://newsletters.francetv.fr/cnil/css/cnil-min-v20140904.css",
+                "http://newsletters.francetv.fr/cnil/js/cnil-min-v20140627.js",
+            ),
         )
     ),
 

@@ -2,9 +2,6 @@
 require("{{ projectName }}Check.php");
 class {{ projectName }}Check{{ service }}NotPresentTest extends {{ projectName }}Check {
 
-
-
-
    // Check if the given webSiteContent is not containing {{ service }} configuration
    // @params String $html Given html content
    // @return Boolean

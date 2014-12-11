@@ -6,11 +6,11 @@ require($root_dir . 'lib/wpccCache.php');
 
 try {
     if (isset($argv[1]) &&
-        in_array(
-            $argv[1],
-            array('all', 'screenshot', 'content')
+            in_array(
+                $argv[1],
+                array('all', 'screenshot', 'content')
+            )
         )
-    )
     {
         $type = $argv[1];
 

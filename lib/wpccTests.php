@@ -11,6 +11,7 @@ class wpccTests extends wpcc
     protected $_twig;
     protected $_testFiles;
     protected $_template;
+    protected $_urlAdded;
 
     /**
      * @param array $servicesConfig
@@ -20,12 +21,17 @@ class wpccTests extends wpcc
     {
         $this->_rootDir = $root_dir;
         $this->_testFiles = array();
+        $this->_urlAdded['notPresent'] = array();
+        $this->_urlAdded['present'] = array();
+        foreach ($servicesConfig as $service => $conf) {
+            $this->_urlAdded['notPresent'][$service] = array();
+            $this->_urlAdded['present'][$service] = array();
+        }
         Twig_Autoloader::register();
         $loader = new Twig_Loader_Filesystem($root_dir . 'views');
         $this->_twig = new Twig_Environment($loader, array('debug' => true));
         $this->_twig->addExtension(new Twig_Extension_Debug());
-
-        $this->_testPath = $this->_rootDir . 'generatedTest/phpunitTests/';
+        $this->_testPath = $this->_rootDir . 'phpunitTests/';
     }
 
 
@@ -46,7 +52,7 @@ class wpccTests extends wpcc
                         'acceptedConfig' => $serviceConf['acceptedConfig']
                     )
             );
-            $this->_testFiles['present'][strtolower($service)] = $serviceMainClass;
+            $this->_testFiles['present'][$service] = $serviceMainClass;
 
             $templateNotPresent = $this->_twig->loadTemplate('php/phpunit/phpwpcc_test_main_not_present_class.php.tpl');
             $serviceMainClass = $templateNotPresent->render(array(
@@ -55,7 +61,7 @@ class wpccTests extends wpcc
                     'acceptedConfig' => $serviceConf['acceptedConfig']
                 )
             );
-            $this->_testFiles['notPresent'][strtolower($service)] = $serviceMainClass;
+            $this->_testFiles['notPresent'][$service] = $serviceMainClass;
         }
      }
 
@@ -70,26 +76,29 @@ class wpccTests extends wpcc
      */
     public function addToTestsFile($urlCleaned, $activedService, $service, $projectName, $page)
     {
-        if (true === $activedService) {
+        if (true === $activedService && !in_array($urlCleaned, $this->_urlAdded['present'][$service])) {
+            $this->_urlAdded['present'][$service][] = $urlCleaned;
             $containsFunctionName = 'testIf' . UCFirst($urlCleaned) . 'Contains' . UCFirst($service);
-            $checkMethod = UCFirst($projectName) . 'Check' . UCFirst($service);
+            $checkMethod = UCFirst($projectName) . 'Check' . UCFirst($service) . 'Present';
             $serviceAllTestsByPageContent = $this->_template->render(array(
                     'phpunitTestFunctionName' => $containsFunctionName,
                     'page' => $page,
                     'checkMethod' => $checkMethod
                 )
             );
-            $this->_testFiles['present'][strtolower($service)] .= $serviceAllTestsByPageContent;
-        } else {
+            $this->_testFiles['present'][$service] .= $serviceAllTestsByPageContent;
+
+        } elseif (false === $activedService && !in_array($urlCleaned, $this->_urlAdded['notPresent'][$service])) {
+            $this->_urlAdded['notPresent'][$service][] = $urlCleaned;
             $dontContainsFunctionName = 'testIf' . UCFirst($urlCleaned) . 'DoesntContain' . UCFirst($service);
-            $checkNotPresentMethod = UCFirst($projectName) . 'CheckNotPresent' . UCFirst($service);
+            $checkNotPresentMethod = UCFirst($projectName) . 'Check' . UCFirst($service) . 'NotPresent';
             $serviceAllTestsByPageContent = $this->_template->render(array(
                     'phpunitTestFunctionName' => $dontContainsFunctionName,
                     'page' => $page,
                     'checkMethod' => $checkNotPresentMethod
                 )
             );
-            $this->_testFiles['notPresent'][strtolower($service)] .= $serviceAllTestsByPageContent;
+            $this->_testFiles['notPresent'][$service] .= $serviceAllTestsByPageContent;
         }
 
     }
@@ -109,8 +118,8 @@ class wpccTests extends wpcc
             foreach ($sites as $webSite => $pages) {
                 foreach ($pages as $page => $pageConfig) {
                     $urlCleaned = wpccUtils::getDomainWithoutExtention($page);
-                    foreach ($services as $service) {
-                            $activedService = in_array($service, $pageConfig);
+                    foreach ($services as $service => $files) {
+                            $activedService = in_array(strtolower($service), $pageConfig);
                             $this->addToTestsFile($urlCleaned, $activedService, $service, $projectName, $page);
                         }
                 }
@@ -128,11 +137,11 @@ class wpccTests extends wpcc
     public function generateAllTestsByPagesMethodsFiles($projectName) {
 
         foreach ($this->_testFiles['present'] as $service => $content) {
-            $testFileName = UCFirst($projectName) . 'CheckPresent' . UCFirst($service) . '.php';
+            $testFileName = UCFirst($projectName) . 'Check' . UCFirst($service) . 'Present.php';
             wpccFile::writeToFile($this->_testPath . $testFileName , $content . '}');
         }
         foreach ($this->_testFiles['notPresent'] as $service => $content) {
-            $testFileName = UCFirst($projectName) . 'CheckNotPresent' . UCFirst($service) . '.php';
+            $testFileName = UCFirst($projectName) . 'Check' . UCFirst($service) . 'NotPresent' . '.php';
             wpccFile::writeToFile($this->_testPath . $testFileName , $content . '}');
         }
     }

@@ -76,29 +76,35 @@ class wpccCache extends wpcc
         $this->printIntro($type);
         $nbSites = count($groupUrl, COUNT_RECURSIVE) - count($groupUrl);
         $nbSitesChecked = 0;
-        $moveTo = 4 + strlen($nbSites);
+        $moveTo = 6 + strlen($nbSites);
         foreach ($groupUrl as $portail => $sites) {
-            foreach ($sites as $site) {
-                echo "\033[" . $moveTo . "D";
-                echo str_pad($nbSitesChecked, 3, ' ', STR_PAD_LEFT) . "/" . $nbSites;
-                $cleanUrl = wpccUtils::urlToString($site);
-                $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
-                $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
-                try {
-                    $response = wpccFile::getContentFromFile($fileName, false);
-                    $errorResponse = wpccFile::getContentFromFile($errorFileName, false);
-                    if (false === $response && false === $errorResponse) {
-                        $response = wpccRequest::sendRequest($site);
-                        if ('all' === $type || 'content' === $type) {
-                            wpccFile::writeToFile($fileName, $response);
+            foreach ($sites as $pages) {
+                foreach ($pages as $page => $conf)
+                {
+                    echo "\033[" . $moveTo . "D";
+                    echo str_pad($nbSitesChecked, 5, ' ', STR_PAD_LEFT) . "/" . $nbSites;
+                    $cleanUrl = wpccUtils::urlToString($page);
+                    $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
+                    $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
+                    try {
+                        $response = wpccFile::getContentFromFile($fileName, false);
+                        $errorResponse = wpccFile::getContentFromFile($errorFileName, false);
+                        if (false === $response && false === $errorResponse) {
+                            $response = wpccRequest::sendRequest($page);
+                            if ('all' === $type || 'content' === $type) {
+                                wpccFile::writeToFile($fileName, $response);
+                            }
+                            $this->makeScreenshot($type, $cleanUrl, $page);
                         }
-                        $this->makeScreenshot($type, $cleanUrl, $site);
+                    } catch (Exception $e) {
+                        // Request failed, we save it on an error file
+                        wpccFile::writeToFile($errorFileName, $e->getMessage());
                     }
-                } catch (Exception $e) {
-                    // Request failed, we save it on an error file
-                    wpccFile::writeToFile($errorFileName, $e->getMessage());
+                    $nbSitesChecked++;
                 }
-                $nbSitesChecked++;
+
+//s                foreach($site)
+
             }
         }
     }

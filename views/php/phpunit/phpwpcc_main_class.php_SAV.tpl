@@ -1,4 +1,6 @@
 <?php
+require('../lib/wpccFile.php');
+require('../lib/wpccUtils.php');
 
 use Guzzle\Tests\GuzzleTestCase,
     Guzzle\Plugin\Mock\MockPlugin,
@@ -11,11 +13,17 @@ class {{ projectName }}Check extends GuzzleTestCase
 {
     protected $_client;
 
-    protected static $_cache;
-
     protected function getHtmlContent($url) {
 
-    if (!isset(self::$_cache[$url])) {
+        $cleanUrl = wpccUtils::urlToString($url);
+        $fileName = '../cache/current/content/' . $cleanUrl . '.php';
+        $response = wpccFile::getContentFromFile($fileName, false);
+        if (false !== $response) {
+            self::$_cache[$url] = $response
+            return $response;
+        }
+
+        if (!isset(self::$_cache[$url])) {
            $client = new HttpClient($url);
            $request = $client->get('/');
            $response = $request->send();
