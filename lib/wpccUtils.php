@@ -45,5 +45,25 @@ class wpccUtils
         return (str_replace(array('http://', 'www', '-', '.', '/'), array('', '', '', '', '_'), $domainName));
     }
 
+
+    /**
+     * Print simple progress bar.
+     *
+     * @access public
+     * @param int $processed amount of items processed
+     * @param int $max maximum amount of items to process
+     * @return void
+     */
+    public static function progress( $processed, $max, $time1) {
+        if (0 !== $processed) {
+            $progress = round( $processed / ( $max / 100 ), 2);
+            $progress_points = floor($progress/2);
+            $time_x=time();
+            $timediff = $time_x - $time1;
+            $estimation = round( ( ( ( 100 / $progress *  $timediff ) - $timediff ) / 60 ), 2 );
+            echo str_pad( str_repeat( "#", $progress_points ), 52, " ", STR_PAD_RIGHT) . sprintf( "%.2f", $progress ) . str_pad( "% ( ". sprintf( "%.2f", $estimation ) . " min left )", 27, " ", STR_PAD_RIGHT). "\r" ;
+        }
+    }
+
 }
 ?>

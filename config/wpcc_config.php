@@ -1,9 +1,10 @@
 <?php
 $phpwpcc_config = array(
-                'projectName' => 'Demo',
+                'projectName' => 'FTVENMktg',
                 'webServiceUrl' => '/api',
                 'emailAdressList' => array(
-                                    "fds@fds.com",
+                                    "fsdffsd@fdsfds.com",
+                                    "ffsdfsdfdssdf@fds.com",
                                 ),
 );
 ?>

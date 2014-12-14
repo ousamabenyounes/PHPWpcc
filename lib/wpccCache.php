@@ -13,19 +13,17 @@ class wpccCache extends wpcc
 
     protected $_rootDir;
     protected $_cacheDir;
-    protected $_twig;
     protected $_contentCacheDir;
     protected $_screenshotDir;
     protected $_thumbnailDir;
     protected $_errorCacheDir;
+    protected $_time;
 
     public function __construct($root_dir)
     {
         $this->_rootDir = $root_dir;
+        $this->_time = time();
         $this->initCacheDir();
-        Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem($root_dir . 'views');
-        $this->_twig = new Twig_Environment($loader, array('debug' => false));
     }
 
     /**
@@ -62,7 +60,6 @@ class wpccCache extends wpcc
         if ('all' === $type || 'screenshot' === $type) {
             echo " - Generating All WebSites screenshots \r\n";
         }
-        echo "Progress :      ";  // 5 characters of padding at the end
     }
 
     /**
@@ -76,13 +73,11 @@ class wpccCache extends wpcc
         $this->printIntro($type);
         $nbSites = count($groupUrl, COUNT_RECURSIVE) - count($groupUrl);
         $nbSitesChecked = 0;
-        $moveTo = 6 + strlen($nbSites);
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $pages) {
                 foreach ($pages as $page => $conf)
                 {
-                    echo "\033[" . $moveTo . "D";
-                    echo str_pad($nbSitesChecked, 5, ' ', STR_PAD_LEFT) . "/" . $nbSites;
+                    wpccUtils::progress($nbSitesChecked, $nbSites, $this->_time);
                     $cleanUrl = wpccUtils::urlToString($page);
                     $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
                     $errorFileName = $this->_errorCacheDir . $cleanUrl . '.php';
