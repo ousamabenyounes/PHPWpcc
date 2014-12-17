@@ -31,7 +31,7 @@ $servicesConfig = array(
     "Metanav" => array(
         'acceptedConfig' => array(
             "minCurrent" => array(
-                "http://static.francetv.fr/js/jquery.metanav-min.js?20140822",
+                "http://static.francetv.fr/js/jquery.metanav-min.js",
 
             ),
         )
@@ -54,7 +54,7 @@ $servicesConfig = array(
     "Audience" => array(
         'acceptedConfig' => array(
             "minCurrent" => array(
-                "http://static.francetv.fr/js/audience-min.fr",
+                "http://static.francetv.fr/js/audience-min.js",
 
             ),
         )

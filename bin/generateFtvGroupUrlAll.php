@@ -1,45 +1,64 @@
 <?php
 require('localVars.php');
 require($root_dir . 'vendor/autoload.php');
+require($root_dir . 'config/wpcc_services.php');
+require($root_dir . 'config/wpcc_config.php');
 require($root_dir . 'lib/wpccFile.php');
 require($root_dir . 'lib/wpccConfig.php');
 require($root_dir . 'lib/wpccConfigLog.php');
 require($root_dir . 'lib/wpccRequest.php');
 require($root_dir . 'lib/wpccUtils.php');
 require($root_dir . 'lib/wpccTwig.php');
-require($root_dir . 'config/wpcc_services.php');
+require($root_dir . 'lib/wpccCache.php');
 
 class GroupUrl
 {
-    protected $_root;
+    protected $_rootDir;
     protected $_noCache;
     protected $_idSite;
     protected $_time;
     protected $_htmlCache;
+    protected $_cacheDir;
+    protected $_contentCacheDir;
+    protected $_errorCacheDir;
+    protected $_checkObj;
     protected static $api_url = "http://api.lereferentiel.francetv.fr/archimade/";
     protected static $json_url = "http://api.lereferentiel.francetv.fr/sites/";
     protected static $group_url_file = 'php/phpwpcc_groupurl.php.tpl';
+
+    const PAGE = 0;
+    const PAGE_NOCACHE = 1;
+    const API = 2;
+    const API_NOCACHE = 3;
+    const PROJECTNAME = 0;
+    const ACTIVATEDSERVICES = 1;
+    const SERVICECONFIGURATION = 2;
+    const STRIPSLASH = 3;
+
+
     /**
      * @param string $root_dir
      */
     public function __construct($root_dir)
     {
-        $this->_root = $root_dir;
+        $this->_rootDir = $root_dir;
         $this->_time = time();
         $this->_noCache = date("Ymd_H");
+        $this->_cacheDir = $root_dir . wpccCache::$cacheDir . wpccCache::$currentCache . '/';
+        $this->_contentCacheDir = $this->_cacheDir . 'content/';
+        $this->_errorCacheDir = $this->_cacheDir . 'error/';
     }
 
 
     /**loadTemplate
      * This function parse the html content and returns two meta informations
      *
-     * @param string $html
      * @return array|boolean $archimadeConfig config or false if site isn't connected to archimade
      */
-    protected function getIdSiteAndToken($html)
+    protected function getIdSiteAndToken()
     {
         $doc = new DOMDocument();
-        @$doc->loadHTML($html);
+        @$doc->loadHTML($this->_htmlCache);
         $metas = $doc->getElementsByTagName('meta');
         for ($i = 0; $i < $metas->length; $i++) {
             $meta = $metas->item($i);
@@ -62,54 +81,70 @@ class GroupUrl
     }
 
 
-    /**
-     * @param string $page
-     * @param string $archimadeString
-     * @return array
-     */
-    protected function getAllFtvUrlsFromPage($page, $archimadeString)
+    protected function getPageServiceConfig($page, $serviceInitConfig)
     {
-        return array(
-            $page,
-            $page . '?dt=' . $this->_noCache,
-            self::$api_url . $archimadeString,
-            self::$api_url . $archimadeString . '&dt=' . $this->_noCache,
-        );
+
+        $cleanUrl = wpccUtils::urlToString($page);
+        $fileName = $this->_contentCacheDir . $cleanUrl . '.php';
+        $response = wpccFile::getContentFromFile($fileName, false);
+        if (false !== $response) {
+            $this->_htmlCache = $response;
+        } else {
+            $this->_htmlCache = wpccRequest::sendRequest($page);
+            wpccCache::generatePageCache($page, $fileName, $cleanUrl);
+        }
+        if (isset($serviceInitConfig[self::STRIPSLASH])) {
+            $this->_htmlCache = stripslashes($this->_htmlCache);
+        }
+        return $this->getServiceInitConfiguration($serviceInitConfig);
     }
 
+
     /**
-     * This function returns a list of FTV url from a given web page
-     * => api cache / no cache + url cache / no cache
+     * Get all FTV pages configuration (with activated services)
      *
-     * @param string $page
-     * @param boolean $parsePage
-     * @param string $token (optionnal)
-     *
-     * @return array | boolean $pages
+     * @param $page
+     * @param $serviceInitConfig
+     * @return array
      */
-    protected function getFtvPages($page, $parsePage = false, $token = '')
+    protected function getFtvPages($page, $serviceInitConfig)
     {
-        try {
-            if (true === $parsePage) {
-                $this->_htmlCache = wpccRequest::sendRequest($page);
-                $archimadeConfig = $this->getIdSiteAndToken($this->_htmlCache);
-                if (false === $archimadeConfig) {
-                    return array(
-                        $page,
-                        $page . '?dt=' . $this->_noCache,
-                    );
-                }
-                $this->_idSite = $archimadeConfig['idSite'];
-                $token = $archimadeConfig['token'];
-                $archimadeString = '?id_site=' . $this->_idSite . ($token != '' ? '&token=' . $token : '');
-                return $this->getAllFtvUrlsFromPage($page, $archimadeString);
-            }
-            $archimadeString = '?idsite=' . $this->_idSite . '&token=' . $token;
-            $page = $page . '/' . $token;
-            return $this->getAllFtvUrlsFromPage($page, $archimadeString);
-        } catch (Exception $e) {
-            return false;
+        $serviceInitConf = array();
+        $serviceInitConf[self::PAGE] = $this->getPageServiceConfig(
+            $page,
+            $serviceInitConfig
+        );
+        $archimadeConfig = $this->getIdSiteAndToken();
+        $serviceInitConf[self::PAGE_NOCACHE] = $this->getPageServiceConfig(
+            $page . '?dt=' . $this->_noCache,
+            $serviceInitConfig
+        );
+        //  ************ Site not connected with archimade ************//
+        if (false === $archimadeConfig) {
+            return array(
+                $page => $serviceInitConf[self::PAGE],
+                $page . '?dt=' . $this->_noCache => $serviceInitConf[self::PAGE_NOCACHE],
+            );
         }
+        //  ************ Site connected with archimade *****************//
+        $this->_idSite = $archimadeConfig['idSite'];
+        $token = $archimadeConfig['token'];
+        $archimadeString = '?id_site=' . $this->_idSite . ($token != '' ? '&token=' . $token : '');
+        $serviceInitConfig[self::STRIPSLASH] = true;
+        $serviceInitConf[self::API] = $this->getPageServiceConfig(
+            self::$api_url . $archimadeString,
+            $serviceInitConfig
+        );
+        $serviceInitConf[self::API_NOCACHE] = $this->getPageServiceConfig(
+            self::$api_url . $archimadeString . '&dt=' . $this->_noCache,
+            $serviceInitConfig
+        );
+        return array(
+            $page => $serviceInitConf[self::PAGE],
+            $page . '?dt=' . $this->_noCache => $serviceInitConf[self::PAGE_NOCACHE],
+            self::$api_url . $archimadeString => $serviceInitConf[self::API],
+            self::$api_url . $archimadeString . '&dt=' . $this->_noCache => $serviceInitConf[self::API_NOCACHE],
+        );
     }
 
 
@@ -119,21 +154,20 @@ class GroupUrl
      * @param boolean $initConfiguration
      * @param array $servicesConfig
      *
-     * @return array $initConfiguratio
+     * @return array $activedServices
      */
-    protected function initConfiguration($initConfiguration, $servicesConfig)
+    protected function getServiceInitConfiguration($serviceInitConfig)
     {
-        if (true === $initConfiguration) {
-            foreach ($servicesConfig as $serviceName => $config) {
-                foreach ($config['acceptedConfig'] as $version => $files) {
-                    foreach ($files as $file) {
-                        echo 'file'.$file;
-                        die;
-                    }
-                }
+        $activedServices = array();
+        $servicesConfig = $serviceInitConfig[self::SERVICECONFIGURATION];
+        foreach ($servicesConfig as $serviceName => $config) {
+            $checkFct = $serviceInitConfig[self::PROJECTNAME]. 'Check' . $serviceName . 'Present';
+            if (true === $this->_checkObj->$checkFct($this->_htmlCache))
+            {
+                $activedServices[] = $serviceName;
             }
         }
-        return array();
+        return $activedServices;
     }
 
 
@@ -141,49 +175,59 @@ class GroupUrl
      * This function generate all FTV urls configuration
      * portails => websites => pages
      *
-     * @param boolean $initConfiguration
+     * @param array $serviceInitConfig
      */
-    public function generateAllUrlConfig($initConfiguration = false, $servicesConfig = array())
+    public function generateAllUrlConfig($serviceInitConfig = array())
     {
         $json = file_get_contents(self::$json_url);
         $sites = json_decode($json, true);
         $groupUrl = array();
-        $tokens = array('video', 'programme-tv'); // here add token to each FTV webSites
         $nbSites = count($sites);
         $nbSitesChecked = 0;
+
+        $projectName = $serviceInitConfig[self::PROJECTNAME];
+        $checkObjClass = $projectName . 'CheckServicesPresent';
+        require ($this->_rootDir . 'phpunitTests/lib/' . $checkObjClass . '.php');
+        $this->_checkObj = new $checkObjClass();
         foreach ($sites as $site) {
             if ('En ligne' === $site['etat'] && "" !== trim($site["portail"])
                 && !strstr($site['url'], 'programmes.france')
-                && strstr($site['url'], 'pluzz') && !strstr($site['url'], '-preprod'))
-                {
+                && !strstr($site['url'], '-preprod')
+            ) {
                 wpccUtils::progress($nbSitesChecked, $nbSites, $this->_time);
                 $site['url'] = trim(rtrim($site['url'], "/"));
-                $pages = $this->getFtvPages($site['url'], true);
-                $initServiceConfig = $this->initConfiguration($initConfiguration, $servicesConfig);
-                foreach ($tokens as $token) {
-                    $tokenPages = $this->getFtvPages($site["url"], false, $token);
+                try {
+                    $pages = $this->getFtvPages($site['url'], $serviceInitConfig);
+                } catch (Exception $e) {
+                    continue;
+                }
+                /*foreach ($tokens as $token) {
+                    $tokenPages = $this->getFtvPages($site["url"], false, array(), $token);
                     if (false !== $tokenPages && false !== $pages) {
                         $pages = array_merge($pages, $tokenPages);
                     } elseif (false === $pages) {
                         $pages = $tokenPages;
                     }
-                }
+                }*/
                 $groupUrl[$site["portail"]][] = array($site["url"] => $pages);
             }
             $nbSitesChecked++;
         }
-        $tplConf =  array('groupUrl' => $groupUrl);
-        wpccTwig::saveConfigToTpl(self::$group_url_file, $tplConf, 'wpcc_groupurl', $this->_root);
+        $tplConf = array('groupUrl' => $groupUrl);
+        wpccTwig::saveConfigToTpl(self::$group_url_file, $tplConf, 'wpcc_groupurl', $this->_rootDir);
     }
 
 
 }
 
 
-
 try {
     $groupurl = new GroupUrl($root_dir);
-    $groupurl->generateAllUrlConfig(true, $servicesConfig);
+    //$groupurl->generateAllUrlConfig();
+    $serviceInitConfig = array();
+    $serviceInitConfig[GroupUrl::PROJECTNAME] = $phpwpcc_config['projectName'];
+    $serviceInitConfig[GroupUrl::SERVICECONFIGURATION] = $servicesConfig;
+    $groupurl->generateAllUrlConfig($serviceInitConfig);
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }

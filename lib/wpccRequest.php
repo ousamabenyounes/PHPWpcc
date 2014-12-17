@@ -21,7 +21,7 @@ class wpccRequest
         $request = $client->get($url);
         $response = $request->send();
 
-        return $response;
+        return $response->getBody(true);
     }
 }
 ?>

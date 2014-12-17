@@ -55,7 +55,7 @@ var treeData = [
 {title: " WebSite: {{ webSite }}  [ {{ pages|length }} Web Pages ]", isFolder: true, key: "{{ webSite }}" {% if pages is empty %} } {% else %} ,
 children: [
 {% for page, pageServices in pages %}
-{title: "Page: {{ page }}", key: "{{ page }}" {% if service in pageServices %}, select: true {% endif %} },
+{title: "Page: {{ page }}", key: "{{ page }}" {% if service in pageServices %}, select: true {% endif %}},
 {% endfor %}
 ]},
             {% endif %}

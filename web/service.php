@@ -6,6 +6,7 @@ require($root_dir . 'config/wpcc_services.php');
 require($root_dir . 'config/wpcc_groupurl.php');
 require($root_dir . 'lib/wpccService.php');
 require($root_dir . 'lib/wpccFile.php');
+require($root_dir . 'lib/wpccTwig.php');
 
 try {
     $wpccService = new wpccService($root_dir);
@@ -28,7 +29,6 @@ try {
     }
     if ('' !== trim($service))
     {
-
         $wpccService->attachUrlWithServices($groupUrl, $service, $servicesConfig);
     }
 

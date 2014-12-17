@@ -176,18 +176,12 @@ class wpccTests extends wpcc
 
     public function generateServicesLib($projectName, $services)
     {
-        $serviceCheckLib = $this->_testPath . 'lib/' . UCFirst($projectName) . 'CheckServices.php';
+        $serviceCheckLib = $this->_testPath . 'lib/' . UCFirst($projectName) . 'CheckServicesPresent.php';
         $tplConf = array(
             'projectName' => $projectName,
-            'service' => $service,
-            'acceptedConfig' => $serviceConf['acceptedConfig']
+            'services' => $services,
         );
-
-        foreach ($services as $service => $files) {
-            wpccTwig::getTemplateContent(self::$presentClass, $tplConf, $this->_rootDir);
-            die($serviceCheckLib);
-            wpccTwig::saveFileToTpl(self::$mainClass, $tplConf, $mainTestClassFile, $this->_rootDir);
-        }
+        wpccTwig::saveFileToTpl(self::$presentServicesLib, $tplConf, $serviceCheckLib, $this->_rootDir);
     }
 
 

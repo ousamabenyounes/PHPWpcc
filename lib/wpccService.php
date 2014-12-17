@@ -41,12 +41,13 @@ class wpccService extends wpcc
      */
     public function configureServicesFormStep2()
     {
-        $template = $this->_twig->loadTemplate('install/configureServicesFormStep2.tpl');
-        echo $template->render(
+        echo wpccTwig::getTemplateContent(
+            'install/configureServicesFormStep2.tpl',
             array(
                 'services' => $this->_servicesConfig,
                 'servicesNbFilesConfig' => $this->_servicesNbFilesConfig
-            )
+            ),
+            $this->_rootDir
         );
     }
 
@@ -104,13 +105,15 @@ class wpccService extends wpcc
      */
     public function attachUrlWithServices($groupUrl, $service, $servicesConfig)
     {
-        $template = $this->_twig->loadTemplate('install/attachUrlWithServices.tpl');
-        $groupUrlContent = $template->render(array(
-            'groupUrl' => $groupUrl,
-            'service' => $service,
-            'services' => $servicesConfig
-        ));
-        echo $groupUrlContent;
+        echo wpccTwig::getTemplateContent(
+            'install/attachUrlWithServices.tpl',
+            array(
+                'groupUrl' => $groupUrl,
+                'service' => $service,
+                'services' => $servicesConfig
+            ),
+            $this->_rootDir
+        );
     }
 
 
