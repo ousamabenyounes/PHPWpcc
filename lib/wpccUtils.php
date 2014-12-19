@@ -37,12 +37,23 @@ class wpccUtils
     }
 
 
+
     /**
      * @param string $domainName
      * @return string $domainName
      */
     public static function getDomainWithoutExtention($domainName) {
-        return (str_replace(array('http://', 'www', '-', '.', '/'), array('', '', '', '', '_'), $domainName));
+        $domainName = str_replace('http://', "", $domainName);
+
+        $domainName = str_replace('.', " ", $domainName);
+        $domainName = ucwords(strtolower($domainName));
+        $domainName = str_replace('/', " ", $domainName);
+        $domainName = ucwords(strtolower($domainName));
+        $domainName = str_replace('-', " ", $domainName);
+        $domainName = ucwords(strtolower($domainName));
+
+        return (str_replace(array(' ', '/', 'www', '-', '.', '?', '=', '&', '_'),
+            array('', '', '', '', '', '', '', '', ''), $domainName));
     }
 
 

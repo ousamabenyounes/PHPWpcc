@@ -8,8 +8,8 @@ require($root_dir . 'lib/wpccTests.php');
 require($root_dir . 'lib/wpccFile.php');
 
 try {
-    $service = new wpccTests($root_dir);
-    $service->generateServicesLib($phpwpcc_config["projectName"], $servicesConfig, $groupUrl);
+    $service = new wpccTests($root_dir, $phpwpcc_config["projectName"], $groupUrl);
+    $service->generateAllTests($servicesConfig);
 
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
