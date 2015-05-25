@@ -59,6 +59,9 @@ Go to command line and launch:
    $  cd bin && ./phpwpcc.sh
 </pre>
 
+This shell script will generate PHPWpcc cache, automatically initialize your service configuration,
+launch all generated tests, and finally send you email if one test was KO.
+
 
 #Requirements
 
