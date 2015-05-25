@@ -30,8 +30,9 @@ so you'll be able to know if your website has a graphical issue.
 Install
 =================
 
-1 - Install PHPWPCC on your webserver  
-  
+1 - Installez PHPWpcc on your server by cloning this github repository  
+Then you can launch: "composer install"
+
 2 - First launch of your PHPWPCC instance  
 => Go to this url: http://YOUR_HOST_NAME/install.php  
  
