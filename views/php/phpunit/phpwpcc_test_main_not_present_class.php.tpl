@@ -1,6 +1,8 @@
 <?
-require("{{ projectName }}Check.php");
-class {{ projectName }}Check{{ service }}NotPresentTest extends {{ projectName }}Check {
+namespace Wpcc;
+
+require_once("{{ projectName }}Check.php");
+class {{ projectName }}Check{{ service }}NotPresentOn{{ portail }}Test extends {{ projectName }}Check {
 
    // Check if the given webSiteContent is not containing {{ service }} configuration
    // @params String $html Given html content
@@ -16,3 +18,6 @@ class {{ projectName }}Check{{ service }}NotPresentTest extends {{ projectName }
 {% endfor %}
     return true;
   }
+
+
+

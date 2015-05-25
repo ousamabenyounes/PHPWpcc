@@ -1,4 +1,4 @@
-{% extends "install/phpwpcc_base.tpl" %}
+{% extends "base/services.tpl" %}
 {% block content %}
       {% for service, config in services %}
      {% if loop.index is divisibleby(2)  %}

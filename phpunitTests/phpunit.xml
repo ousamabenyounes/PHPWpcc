@@ -2,7 +2,14 @@
 <phpunit bootstrap="./bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="importer-tests">
-            <directory suffix="Test.php">./</directory>
+            <filter>
+                <whitelist addUncoveredFilesFromWhitelist="true">
+                    <directory suffix="Test.php">./</directory>
+                    <exclude>
+                        <file>FTVMktg3Check.php</file>
+                    </exclude>
+                </whitelist>
+            </filter>
         </testsuite>
     </testsuites>
 </phpunit>

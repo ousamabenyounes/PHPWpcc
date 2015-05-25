@@ -1,0 +1,218 @@
+*
+{
+    #text-align: center !important;
+    #margin: auto !important;
+}
+
+.phpwpcc_serviceform {
+
+}
+
+.phpwpcc_footer{
+    bottom:0;
+    height:60px;   /* Height of the footer */
+}
+.phpwpcc_footer a{
+    color: white !important;
+}
+
+.phpwpcc_title {
+    padding-bottom: 20px;
+    margin-left: 20px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+
+.phpwpcc_service{
+    padding: 10px 0 10px 30px;
+    background-color: #599bb3;
+    font-weight: bold;
+    color: white;
+    border-radius:10px;
+    margin: 5px auto;
+}
+
+.phpwpcc_service_bis{
+    background-color: gray;
+}
+
+.phpwpcc_h2{
+    text-align: center;
+}
+
+.phpwpcc_service_cfg{
+
+}
+
+.phpwpcc_version{
+    float: left;
+    height: 80px;
+    margin-right: 20px;
+    font-size: 14px;
+} 
+
+.phpwpcc_file{
+    height: 80px;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+
+.phpwpcc_urlconfig{
+   height: 120px;
+   vertical-align: top;
+   margin-left: 200px;
+}
+
+.phpwpcc_config{
+   margin-left: 20px;
+}
+
+
+.phpwpcc_generate {
+    margin-left: 5px;
+    -moz-box-shadow: 0px 10px 14px -7px #276873;
+    -webkit-box-shadow: 0px 10px 14px -7px #276873;
+    box-shadow: 0px 10px 14px -7px #276873;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+    background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+    background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+    background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+    background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+    background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+    background-color:#599bb3 !important;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:13px 32px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #3d768a;
+}
+.full_size {
+    width: 100%;
+}
+
+.phpwpcc_generate:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+    background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+    background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+    background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+    background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+    background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+    background-color:#408c99;
+}
+
+.phpwpcc_generate:active {
+    position:relative;
+    top:1px;
+}
+
+
+.phpwpcc_refresh {
+    display: inline-block;
+}
+
+.phpwpcc_delete_img {
+    float:right;
+    cursor: pointer;
+}
+.phpwpcc_delete_img_service {
+    margin: 5px 10px 0 0 ;
+}
+
+.phpwpcc_add_img {
+    float:right;
+    height: 25px;
+}
+
+
+.phpwpcc_add_service {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    width:500px;
+}
+
+
+.phpwpcc_add_service_btn {
+    width: 200px;
+    background-color: gray;
+}
+
+.phpwpcc_add_service_btn:hover {
+    background-color: #aeaeae;
+}
+
+.phpwpcc_test_img_div {
+    vertical-align:middle;
+    float:left;
+}
+
+.phpwpcc_test_detail_div {
+    margin-top: 30px;
+    margin-left: 130px;
+}
+
+.phpwpcc_img_preview {
+    height:160px;
+    width: 100px;
+}
+.alert-box {
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+    padding:10px 36px;
+    margin:10px;
+}
+
+.alert-box span {
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.error {
+    background:#ffecec url('../images/error.png') no-repeat 10px 50%;
+    border:1px solid #f5aca6;
+}
+
+.success {
+    background:#e9ffd9 url('../images/success.png') no-repeat 10px 50%;
+    border:1px solid #a6ca8a;
+}
+
+.warning {
+    background:#fff8c4 url('../images/warning.png') no-repeat 10px 50%;
+    border:1px solid #f2c779;
+}
+
+.notice {
+    background:#e3f7fc url('../images/notice.png') no-repeat 10px 50%;
+    border:1px solid #8ed9f6;
+}
+
+
+.wpcc_dialog_span {
+    float:left;
+    margin:0 7px 20px 0;
+}
+
+
+.phpwpcc_website {
+    font-size: 14px !important;
+    width: 500;
+}
+
+.phpwpcc_websites {
+    font-size: 14px !important;
+    width: 50em;
+    height: 4em;
+}

@@ -1,9 +1,6 @@
-generate/ftv/
-composer.phar
 vendor/
 .idea/
 cache/
-config/history/
 config/
 
 # Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file

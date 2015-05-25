@@ -1,0 +1,248 @@
+{% extends "base/services.tpl" %}
+{% block phpwpcc_head %}
+{{ parent() }}
+
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<link rel="stylesheet" type="text/css" href="css/tests.css" />
+<link rel="stylesheet" loadbartype="text/css" href="css/tooltipster.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+<script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
+<script src="js/jquery.dynatree.js" type="text/javascript"></script>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.11.2.js"></script>
+<script type="text/javascript" src="js/jquery.tooltipster.min.js"></script>
+
+
+{% endblock %}
+
+{% block title %}{{ parent() }} Services - Update configurations {% endblock %}
+
+
+{% block content %}
+{% include 'menu/services.tpl' %}
+
+<div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    These item will be permanently deleted and cannot be recovered.</p>
+</div>
+
+
+<div class="phpwpcc_add_service">
+    <input type="text" id="newService" placeholder="New service" >
+    <input type="submit" value="Add a new service"  onClick="addService();" class="phpwpcc_add_service_btn">
+</div>
+
+<form method=post action="serviceUpdate.php">
+
+
+
+<ul id="loadbar">
+
+{% for service, config in services %}
+
+<h3 id="service_{{ service }}">
+    <img id="{{ service }}_remove" src="images/delete.png"  class="phpwpcc_delete_img_service" onClick="removeService('{{ service }}');">
+    {{ service }}
+    <img id="{{ service }}_add" src="images/add.png"  class="phpwpcc_add_img" onClick="addVersion('{{ service }}');">
+</h3>
+<div id="service_{{ service }}_block">
+    <input type="hidden" id="service[]" name="service[]" value="{{ service }}">
+    <div id="service_{{ service }}_config" class="phpwpcc_service_cfg">
+        <input id="nbFile_{{ service }}"  name="nbFile_{{ service }}" type="hidden" value="{{ config.acceptedConfig|length  }}">
+        {% for version, files in config.acceptedConfig %}
+        <div id="version_{{ service }}_{{loop.index}}_div">
+            <img id="{{ service }}_{{loop.index}}" src="images/delete.png"  class="phpwpcc_delete_img" onClick="removeVersion('{{ service }}', '{{ loop.index }}');">
+            <div id="version_{{ service }}_{{loop.index}}_block" class="phpwpcc_version">
+                Version: <input type="text" id="version_{{ service }}_{{ loop.index }}" name="version_{{ service }}_{{ loop.index }}" value="{{ version }}" size="20"/>
+            </div>
+            <div id="file_{{ service }}_{{loop.index}}" class="phpwpcc_file">
+                Files:
+                <textarea id="file_{{ service }}_{{ loop.index }}_text" name="file_{{ service }}_{{ loop.index }}_text" rows="2" cols="80" >{{ files|join("\r\n") }}</textarea>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+{% endfor %}
+</ul>
+
+<input type="submit" value="Update Service Configuration" class="phpwpcc_generate full_size">
+<input type="hidden" id="nextStep" name="nextStep" value="updateService" />
+
+</form>
+
+
+<br/>
+<br/>
+{% endblock %}
+
+
+
+{% block javascriptSrc %}
+<script src="js/menu.js" type="text/javascript"></script>
+<script>
+
+
+    function ucfirst(str) {
+        //  discuss at: http://phpjs.org/functions/ucfirst/
+        // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+        // bugfixed by: Onno Marsman
+        // improved by: Brett Zamir (http://brett-zamir.me)
+        //   example 1: ucfirst('kevin van zonneveld');
+        //   returns 1: 'Kevin van zonneveld'
+
+        str += '';
+        var f = str.charAt(0)
+            .toUpperCase();
+        return f + str.substr(1);
+    }
+
+    function addService()
+    {
+        newService = ucfirst($("#newService").val().trim());
+        if ('' === newService) {
+            alert('Service Field is empty');
+            return;
+        }
+        $("#newService").val("")
+        var htmlToAdd = '<h3 id="service_' + newService + '" class="ui-accordion-header ui-state-default ui-accordion-icons ui-corner-all" role="tab" aria-controls="service_' + newService + '_block" aria-selected="false" aria-expanded="false" tabindex="-1">'
+        + '     <img id="' + newService + '_remove" src="images/delete.png" class="phpwpcc_delete_img_service" onClick="removeService(\'' + newService + '\')";>'
+        + '     ' + newService
+        + '     <img id="' + newService + '_add" src="images/add.png" class="phpwpcc_add_img" onClick="addVersion(\'' + newService + '\');">'
+        + '</h3>'
+        + '<div id="service_' + newService + '_block"  class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" aria-labelledby="service_' + newService + '" role="tabpanel" aria-hidden="false" style="display: block;">'
+        + '     <input type="hidden" id="service[]"  name="service[]" value="' + newService + '">'
+        + '     <div id="service_' + newService + '_config" class="phpwpcc_service_cfg">'
+        + '         <input id="nbFile_' + newService + '"  name="nbFile_' + newService + '" type="hidden" value="1">'
+        + '         <div id="version_' + newService + '_1_div">'
+        + '             <img id="' + newService + '_1" src="images/delete.png"  class="phpwpcc_delete_img" onClick="removeVersion(\'' + newService + '\', \'1\');">'
+        + '             <div id="version_' + newService + '_1_block" class="phpwpcc_version">'
+        + '                 Version: <input type="text" id="version_' + newService  + '_1"  name="version_' + newService  + '_1" value="" size="20"/>'
+        + '             </div>'
+        + '             <div id="file_' + newService + '_1" class="phpwpcc_file">'
+        + '                 Files:'
+        + '                 <textarea id="file_' + newService + '_1_text"  name="file_' + newService + '_1_text" rows="2" cols="80" ></textarea>'
+        + '             </div>'
+        + '         </div>';
+        + '     </div>'
+        + '</div>';
+        $("#loadbar").prepend(htmlToAdd);
+        $('#service_' + newService + '_block').effect('highlight', {}, 200, function() {
+                $(this).fadeIn('fast', function(){
+            });
+        });
+
+        $( "#loadbar" ).accordion({heightStyle: "content"} );
+
+    }
+
+    function updateNbFile(nbFileId, toAdd)
+    {
+        newVal = parseInt($("#" + nbFileId).val()) + parseInt(toAdd);
+        $("#" + nbFileId).val(newVal);
+        return newVal;
+    }
+
+    function addVersion(service)
+    {
+        updateNbFile("nbFile_" + service, 1);
+        var serviceNbFile = parseInt($("#nbFile_" + service).val());
+        var htmlToAdd = '<div id="version_' + service + '_' + serviceNbFile + '_div"> '
+        + '     <img id="' + service + '_' + serviceNbFile + '" src="images/delete.png"  class="phpwpcc_delete_img" onClick="removeVersion(\'' + service + '\', \'' + serviceNbFile + '\');">'
+        + '     <div id="version_' + service + '_' + serviceNbFile + '_block" class="phpwpcc_version">'
+        + '         Version: <input type="text" id="version_' + service + '_' + serviceNbFile + '" name="version_' + service + '_' + serviceNbFile + '" size="20"/>'
+        + '     </div>'
+        + '     <div id="file_' + service + '_' + serviceNbFile + '" class="phpwpcc_file">'
+        + '         Files:'
+        + '         <textarea id="file_' + service + '_' + serviceNbFile + '_text" name="file_' + service + '_' + serviceNbFile + '_text" rows="2" cols="80" ></textarea>'
+        + '     </div>'
+        + '</div>';
+        $("#service_" + service + "_config").prepend(htmlToAdd);
+
+        $('#version_' + service + '_' + serviceNbFile + '_div').effect('highlight', {}, 200, function() {
+                $(this).fadeIn('fast', function(){
+            });
+        });
+    }
+
+    function removeVersion(service, loopIndex)
+    {
+        loopIndex = parseInt(loopIndex);
+        var divId = service + '_' + loopIndex;
+        var versionVal = $('#version_' + service + '_' + loopIndex).val();
+        if (typeof versionVal === 'undefined') {
+            versionVal = 'this version ';
+        }
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height:230,
+            width: 450,
+            modal: true,
+            title: 'Remove ' + versionVal + ' from ' + service + ' service?',
+            buttons: {
+                "Remove this version": function() {
+                    $( this ).dialog( "close" );
+                    removeItem($("#version_" + divId + '_div'));
+                    newVal = updateNbFile("nbFile_" + service, -1);
+                    if (0 === newVal) {
+                        removeItem($("#service_" + service));
+                        removeItem($("#service_" + service + '_block'));
+                    }
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+    }
+
+    function removeService(service)
+    {
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height:250,
+            width: 350,
+            modal: true,
+            title: 'Remove the ' + service + ' service',
+            buttons: {
+                "Remove this service": function() {
+                    $( this ).dialog( "close" );
+                    removeItem($("#service_" + service));
+                    removeItem($("#service_" + service + '_block'));
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+    }
+
+    function removeItem(item)
+    {
+        item.effect('highlight', {}, 200, function() {
+                $(this).fadeOut('fast', function(){
+                $(this).remove();
+            });
+        });
+    }
+
+    $(document).ready(function() {
+        $( "#loadbar" ).accordion({heightStyle: "content"} );
+    });
+
+    $('textarea').focus(function () {
+        var text = $(this).val();
+        var lines = text.split(/\r|\r\n|\n/);
+        var newHeight = lines.length + 1;
+
+        $(this).animate({ height: newHeight + "em" }, 500);
+    });
+</script>
+
+{% endblock %}

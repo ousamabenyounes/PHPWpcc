@@ -1,4 +1,4 @@
-<?php
+{% autoescape false %}<?php
 $groupUrl = array(
 {% for portail, sites in groupUrl %}
     "{{ portail }}" => array(
@@ -15,4 +15,4 @@ $groupUrl = array(
    ),
 {% endfor %}
 );
-?>
+?>{% endautoescape %}

@@ -1,54 +1,72 @@
 PHPWpcc - PHP Web Page Content Generator
 ==========================
 
-This Php Script generate PHPUNIT tests files to help you check your web page content using guzzle client.
+You have a great number of portail & websites. 
+You need to manage services that may be updated on all those websites.
+jquery, paypal, sso, ...
+
+So for exemple, I need to find these content on my website:
+sso-janrain_v1.2 or sso-janrain_v1.3
+And I also need to be sure that these old version of SSO aren't visible on my websites:
+sso-janrain-v1.1 AND sso-janrain-v1.0
+
+How do you manage to reach theses goals?
+- You open all your website, and manually check your contents? ...
+- You write tests to check if your contents are fine? 
+Great, but this may take a very long time because you'll have to write a lot of source code.
+And when your services are updated, you need to update all your tests everytime.
+
+PHPWpcc allows you to easily manage your website services delivery by writing / updating for you those line of source code.  
+You fill in your website listing (portails, webistes, pages)
+You fill in all services that you need to check on your websites
+(for exemple: jquery, paypal, sso, ...)
+Finally, just by configuring which service must be enabled in which websites, you can generate hundred of phpunit source code lines.  
+=> Note that this step can be made automaticaly via PHPWpcc install Script.
+
+PHPWPCC can also generate website screenshot (thanks to pageres),  
+so you'll be able to know if your website has a graphical issue.  
+
 
 Install
 =================
 
+1 - Install PHPWPCC on your webserver
+  
+2 - First launch of your PHPWPCC instance 
+=> Go to this url: http://YOUR_HOST_NAME/install.php 
+ 
+3 - Configure your websites => click on "portails" menu 
+Here you can List all your portails, websites, and webpages urls 
+Notice that only the webpages urls wich will be parsed by PHPWPCC.
+  
+4 - Service Configuration => click on "services" menu  
+Set up the services listing that you need to monitor
+You can fill in different versions by service
+And a service version can be defined by one or more files.
 
-    $ composer.phar install
-
-
-
-Sample
-=================
-
-In input you just have to fill in the main configuration array in <b>WebPageContentCheckerGenerator.php</b> containing services you want to check, accepted Configuration per service, and urls you want to validate:
-
+sample:
 ```php
-        $this->_webParsingConfig = array(
-             'Jquery' => array(
-                      'acceptedConfig' => array(
-                              '1.0' => array(
-                                         'http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js'
-                              ),
-                              'supinfoJs' => array(
-                                         '/js/jquery-1.7.2.min.js'
-                              )
-                      ),
-                      'urls' => array(
-                             'http://www.epitech.fr',
-                             'http://www.supinfo.fr'
-                      ),
-             ),
-             'Paypal' => array(
-                      'acceptedConfig' => array(
-                              'logo' => array(
-                                         'logo_paiement_paypal.jpg'
-                              ),
-                              'module' => array(
-                                         'modules/paypal'
-                              )
-                      ),
-                      'urls' => array(
-                             'http://www.foodistrib.com',
-                             'http://www.shop2tout.com'
-                      ),
-             ),
 
-       );
+JqueryUi Service:
+	 jquery-ui.min.css
+	 jquery-ui.min.js
+
 ```
+
+5 - Launch PHPWpcc crawler
+Go to command line and launch: 
+   
+   $  cd bin && phpwpccInit.sh
+
+
+TODO:
+faciliter la cartographie des pages web à partir du site
+chmod 777 des fichiers générés pour faciliter la suppression / maj
+ok => mail
+versionning des results
+gruntify
+insight
+
 
 This configuration checks if Jquery library is present in epitech and supinfo websites and allows two versions.One configuration using google version of jquery and in an another one the website hosts jquery directly.  
 
@@ -137,3 +155,15 @@ OK (2 tests, 2 assertions)
 - phpunit
 - guzzle
 
+
+
+#Todo
+
+- bug when saving services configuration by portail
+- use var_export to simplify
+- sensiolab insight free php checking (code style, security, web perf, best practices...!
+TODO:
+mail
+versionning des results
+gruntify
+insight

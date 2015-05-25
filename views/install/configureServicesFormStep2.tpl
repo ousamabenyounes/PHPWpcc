@@ -1,4 +1,4 @@
-{% extends "install/phpwpcc_base.tpl" %}
+{% extends "base/services.tpl" %}
 {% block title %}{{ parent() }} - Service Configuration{% endblock %}
 {% block content %}
 <form method="post" action="install.php" />
