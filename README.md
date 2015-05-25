@@ -30,19 +30,19 @@ so you'll be able to know if your website has a graphical issue.
 Install
 =================
 
-1 - Install PHPWPCC on your webserver
+1 - Install PHPWPCC on your webserver  
   
-2 - First launch of your PHPWPCC instance 
-=> Go to this url: http://YOUR_HOST_NAME/install.php 
+2 - First launch of your PHPWPCC instance  
+=> Go to this url: http://YOUR_HOST_NAME/install.php  
  
-3 - Configure your websites => click on "portails" menu 
-Here you can List all your portails, websites, and webpages urls 
-Notice that only the webpages urls wich will be parsed by PHPWPCC.
+3 - Configure your websites => click on "portails" menu  
+Here you can List all your portails, websites, and webpages urls  
+Notice that only the webpages urls wich will be parsed by PHPWPCC.  
   
 4 - Service Configuration => click on "services" menu  
-Set up the services listing that you need to monitor
-You can fill in different versions by service
-And a service version can be defined by one or more files. See this sample:
+Set up the services listing that you need to monitor  
+You can fill in different versions by service  
+And a service version can be defined by one or more files. See this sample:  
 ```php
 
 JqueryUi Service:
@@ -51,11 +51,11 @@ JqueryUi Service:
 
 ```
 
-5 - Launch PHPWpcc crawler
-Go to command line and launch: 
+5 - Launch PHPWpcc crawler  
+Go to command line and launch:  
 
 <pre>   
-   $  cd bin && phpwpccInit.sh
+   $  cd bin && ./phpwpcc.sh
 </pre>
 
 
