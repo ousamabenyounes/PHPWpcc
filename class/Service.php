@@ -97,13 +97,6 @@ class Service
             );
             Config::save($phpwpcc_service_config, 'wpcc_services');
 
-           /* $output = file_get_contents("http://ftven.jecodedoncjeteste.fr/wpccGenerate.php");
-
-            $template = $this->_twig->loadTemplate('phpwpcc_generate.tpl');
-            echo $template->render(array(
-                'generate_message' => $output,
-            ));
-            */
         } catch (Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }

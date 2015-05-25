@@ -87,15 +87,6 @@ class GroupUrl
             )
         );
         Config::save($groupUrlConfig, 'wpcc_groupurl');
-
-       /* $output = file_get_contents("http://ftven.jecodedoncjeteste.fr/wpccGenerate.php");
-
-        $template = $thiwpccs->_twig->loadTemplate('phpwpcc_generate.tpl');
-        echo $template->render(array(
-            'generate_message' => $output,
-        ));
-        */
-
     }
 
 
