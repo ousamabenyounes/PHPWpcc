@@ -1,4 +1,4 @@
-pPHPWpcc - PHP Web Page Content Generator
+PHP Web Page Content Checker
 ==========================
 
 Vous avez un grand nombre de portails / sites web sous votre responsabilité.
