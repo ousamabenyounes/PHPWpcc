@@ -1,4 +1,6 @@
 {
+    "name": "PHPWpcc",
+    "description": "A simple PHPUnit WebPage Content Checker generator ",
     "require": {
         "php": ">=5.3.3",
   	"twig/twig": "~1.0",
