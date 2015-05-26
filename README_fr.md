@@ -44,7 +44,6 @@ Ce sont ces pages internet, qui au final seront analysés par PHPWpcc
 Vous pouvez renseigner la liste des différents services que vous souhaitez piloter.  
 Pour chaque service, vous devez indiquer des versions.  
 Celles-ci seront chacunes composées par un ou plusieurs fichiers  
-Ex: jqueryUI => jquery-ui.js + jquery-ui.css.  
 
 
 Example:
