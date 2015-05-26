@@ -105,7 +105,6 @@ class Utils
 	$request = Request::createFromGlobals();
         if (self::GET === $type && isset($_GET[$varName]))
         {
-            //$varContent = @strip_tags($_GET[$varNa)
 	    $varContent = $request->query->get($varName);
         } elseif (self::POST === $type && isset($_POST[$varName])) {
 	    $varContent = $request->request->get($varName);
@@ -122,7 +121,7 @@ class Utils
     public static function execCmd($cmd, $debug = false)
     {
         if (true === $debug)
-            var_dump($cmd);
+            echo $cmd;
         exec ($cmd);
     }
 }
