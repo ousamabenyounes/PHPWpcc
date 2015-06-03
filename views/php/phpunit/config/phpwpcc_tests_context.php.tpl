@@ -1,4 +1,5 @@
 <?php
+
 ${{ service }}{{ type }} = array(
             {% for portail, content in portails %}{% if 'nbTests' in portail or 'TestsFileNames' in portail %}{% else %}
 {% set nbTestsIndex = portail ~ 'nbTests' %}
@@ -17,4 +18,3 @@ ${{ service }}{{ type }} = array(
 
 
    );
-?>

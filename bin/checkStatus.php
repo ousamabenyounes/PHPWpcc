@@ -1,17 +1,18 @@
-<?
+<?php
+
 namespace Wpcc;
 
 require('localVars.php');
-require($root_dir . 'class/Autoloader.php');
-require($root_dir . 'config/wpcc_services.php');
-require($root_dir . 'config/wpcc_groupurl.php');
+require($rootDir . 'config/wpcc_services.php');
+require($rootDir . 'config/wpcc_groupurl.php');
+require($rootDir . 'autoload.php');
 
 try {
      $tests = new Tests('', $groupUrl, $servicesConfig);
-     $mailContent = $tests->getReporting($root_dir);
+     $mailContent = $tests->getReporting($rootDir);
      if (0 !== $tests->getNbTestsFailed() )
      {
-        Mail::sendMail($mailContent, $root_dir);
+        Mail::sendMail($mailContent, $rootDir);
      } 
 
 } catch (Exception $e) {

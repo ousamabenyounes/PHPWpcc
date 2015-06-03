@@ -9,9 +9,7 @@ use Guzzle\Tests\GuzzleTestCase,
     Guzzle\Http\EntityBody;
 
 require('localVars.php');
-
-
-require($root_dir . 'class/Autoloader.php');
+require($rootDir . 'autoload.php');
 
 
 class {{ projectName }}Check extends GuzzleTestCase
@@ -71,7 +69,7 @@ class {{ projectName }}Check extends GuzzleTestCase
     */
     protected static function getThumbnailFile($page)
     {
-        global $root_dir;
+        global $rootDir;
 
         $cleanUrl = Utils::urlToString($page);
         $screenShotDir = Cache::$cacheDir . Cache::$currentCache .
@@ -81,7 +79,7 @@ class {{ projectName }}Check extends GuzzleTestCase
             Cache::$desktopFormat . PngToJpg::$picturesOutExt;
         $thumbnailFile = $thumbnailDir . $cleanUrl .
             Cache::$desktopFormat . PngToJpg::$miniExt . PngToJpg::$picturesOutExt;
-        if (file_exists($root_dir . $thumbnailFile) && file_exists($root_dir . $screenShotFile)) {
+        if (file_exists($rootDir . $thumbnailFile) && file_exists($rootDir . $screenShotFile)) {
             return (array($thumbnailFile, $screenShotFile));
         }
         return null;

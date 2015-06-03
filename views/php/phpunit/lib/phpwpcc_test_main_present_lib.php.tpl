@@ -1,4 +1,5 @@
-<?
+<?php
+
 class {{ projectName }}CheckServicesPresent {
 
 {% for service, config in services %}
@@ -22,11 +23,6 @@ class {{ projectName }}CheckServicesPresent {
   }
 
 {% endfor %}
-
-
-
 }
-
-
 
 ?>

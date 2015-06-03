@@ -1,7 +1,9 @@
-<?
+<?php
+
 namespace Wpcc;
 
 require_once("{{ projectName }}Check.php");
+
 class {{ projectName }}Check{{ service }}NotPresentOn{{ portail }}Test extends {{ projectName }}Check {
 
    // Check if the given webSiteContent is not containing {{ service }} configuration
@@ -18,6 +20,4 @@ class {{ projectName }}Check{{ service }}NotPresentOn{{ portail }}Test extends {
 {% endfor %}
     return true;
   }
-
-
 

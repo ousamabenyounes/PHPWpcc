@@ -5,16 +5,22 @@ namespace Wpcc;
 class File
 {
 
+    const WRITEABLE_MODE = 0777;
+
     /**
      * This function write a given content to a specific file
      *
-     * @param string $filename
-     * @param string $content
+     * @param string  $filename
+     * @param string  $content
+     * @param boolean $writeable
      */
-    public static function writeToFile($filename, $content)
+    public static function writeToFile($filename, $content, $writeable = false)
     {
         try {
             file_put_contents($filename, $content);
+	    if (true === $writeable) {	       
+	       chmod($filename, static::WRITEABLE_MODE);
+	    }
         } catch (Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }

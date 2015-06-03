@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Wpcc;
 
 require_once("{{ projectName }}Check.php");

@@ -1,3 +1,3 @@
 <?php
-    $root_dir = '../';
+    $rootDir = '../';
 ?>

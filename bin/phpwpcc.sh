@@ -37,6 +37,6 @@ done
 
 
 php createCache.php CACHE_MODE
-php initServiceConfiguration.php 
+php initServiceConfiguration.php
 cd ../phpunitTests && phpunit --group runThisTest
 cd ../bin && php checkStatus.php

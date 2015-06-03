@@ -1,12 +1,11 @@
 <?
 namespace Wpcc;
 
-require('class/Autoloader.php');
 require('config/wpcc_services.php');
 require('config/wpcc_groupurl.php');
 require('config/wpcc_config.php');
-
-
+require('autoload.php');
+    
 try {
     $config = new Config($servicesConfig);
     $action = Utils::getVar('action');
@@ -16,9 +15,6 @@ try {
                     $servicesConfig
          );
 
-    if ('generateTests' === $action) {
-	 $wpccTests->regenerateTests(Config::getVarFromConfig('projectName'));
-    }
     if (0 !== sizeof($_POST))
     {
         $nextStep = Utils::getVar('nextStep', Utils::POST);
@@ -28,7 +24,8 @@ try {
             $oldProjectName = $phpwpcc_config['projectName'];
             $config->configureProjectGenerate();
             require('config/wpcc_config.php');
-	    $wpccTests->regenerateTests(Config::getVarFromConfig('projectName'));
+	    $newProjectName = Config::getVarFromConfig('projectName');
+	    $wpccTests->regenerateTests($newProjectName, $oldProjectName);
         }
     }
     $config->configureProjectForm($phpwpcc_config);
@@ -37,4 +34,3 @@ try {
     die ('ERROR: ' . $e->getMessage());
 }
 
-?>

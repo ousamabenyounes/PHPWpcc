@@ -1,5 +1,5 @@
 {
-    "name": "PHPWpcc",
+    "name": "ousamabenyounes/phpwpcc",
     "description": "A simple PHPUnit WebPage Content Checker generator ",
     "require": {
         "php": ">=5.3.3",
