@@ -51,7 +51,7 @@ class Config
                 'cachePurge' => Utils::getVar('cachePurge', Utils::POST),
                 'configPurge' => Utils::getVar('configPurge', Utils::POST),
             )
-        );
+        ); 
         Config::save($phpTemplate, 'wpcc_config');
     }
 
@@ -67,8 +67,8 @@ class Config
         if (!is_dir($configDir)) {
             mkdir($configDir);
         }
-        File::writeToFile($configDir . $fileName .'.php', $content);
-        ConfigLog::save($content, $fileName, $root_dir);
+        File::writeToFile($configDir . $fileName .'.php', $content, false);
+	ConfigLog::save($content, $fileName, $root_dir);
     }
 
     /**

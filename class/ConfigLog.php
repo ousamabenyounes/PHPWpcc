@@ -21,7 +21,7 @@ class ConfigLog
             mkdir($configLogDir . $fileName);
         }
         $dateString = date("YmdHis");
-        File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.php', $content);
+        File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.php', $content, false);
         ConfigLog::purge($configLogDir, $fileName, $dateString, $root_dir);
     }
 

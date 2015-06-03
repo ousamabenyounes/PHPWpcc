@@ -38,14 +38,14 @@ class Tests
     public function __construct($projectName, $groupUrl, $services, $root_dir = '')
     {
         $this->_rootDir = $root_dir;
-        $this->_projectName = $projectName;
         $this->_groupUrl = $groupUrl;
         $this->_services = $services;
         $this->_testFiles = array();
+	$this->setProjectName($projectName);
     }
 
 
-    private function generateAllTestInit()
+    private function generateAllTestsInit()
     {
         $this->_urlAdded[self::NOT_PRESENT] = array();
         $this->_urlAdded[self::PRESENT] = array();
@@ -219,11 +219,10 @@ class Tests
 
     /**
      * This function generate all Phpunit Tests
-     *
      */
     public function generateAllTests()
     {
-        $this->generateAllTestInit();
+        $this->generateAllTestsInit();
         $this->generateMainTestsClass();
         $this->generateAllTestsCheckMethods();
         $this->generateAllTestsByPagesMethodsContent();
@@ -239,15 +238,11 @@ class Tests
      * @param string $oldProjectName
      */
     public function purgeOldTest($oldProjectName)
-    {
-
-	array_map('unlink', glob($this->_rootDir . self::TESTS_STATUS_DIR . '*'));	
-
-/*        Utils::execCmd('rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
-
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . $oldProjectName . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB . $oldProjectName . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . $oldProjectName . '*');*/
+    {	
+        Utils::execCmd('rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
+        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . ucFirst($oldProjectName) . '*');
     }
 
 
@@ -391,18 +386,27 @@ class Tests
 
 
     /**
-     *
-     * @param string $oldProjectName
+     * @param string $projectName
      */
-    public function regenerateTests($oldProjectName = null)
+    private function setProjectName($projectName)
     {
-    	if (null !== $oldProjectName) {
-           $this->purgeOldTest($oldProjectName);
-    	}
-    	$this->generateAllTests();
+	$this->_projectName = $projectName;
     }
 
+
+    /**
+     * @param string $projectName
+     * @param string $oldProjectName
+     */
+    public function regenerateTests($projectName, $oldProjectName = null)
+    {
+    	if (null === $oldProjectName) {
+	   $oldProjectName = Config::getVarFromConfig('projectName', $this->_rootDir);
+    	}
+	$this->purgeOldTest($oldProjectName);
+	$this->setProjectName($projectName);
+    	$this->generateAllTests();
+    }
 }
 
 ?>
-

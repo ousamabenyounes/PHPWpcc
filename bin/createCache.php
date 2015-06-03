@@ -2,10 +2,9 @@
 namespace Wpcc;
 
 require('localVars.php');
-require($root_dir . 'class/Autoloader.php');
-require($root_dir . 'config/wpcc_groupurl.php');
-require($root_dir . 'config/wpcc_config.php');
-
+require($rootDir . 'config/wpcc_groupurl.php');
+require($rootDir . 'config/wpcc_config.php');
+require($rootDir . 'autoload.php');
 
 try {
     if (isset($argv[1]) &&
@@ -20,10 +19,8 @@ try {
     } else {
         $type = 'content';
     }
-    $wpccCache = new Cache($root_dir);
+    $wpccCache = new Cache($rootDir);
     $wpccCache->generateCache($groupUrl, $type);
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
-
-?>

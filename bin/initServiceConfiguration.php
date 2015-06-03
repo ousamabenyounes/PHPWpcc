@@ -2,14 +2,15 @@
 namespace Wpcc;
 
 require('localVars.php');
-require($root_dir . 'class/Autoloader.php');
-require($root_dir . 'config/wpcc_services.php');
-require($root_dir . 'config/wpcc_config.php');
-require($root_dir . 'config/wpcc_groupurl.php');
+require($rootDir . 'config/wpcc_services.php');
+require($rootDir . 'config/wpcc_config.php');
+require($rootDir . 'config/wpcc_groupurl.php');
+require($rootDir . 'autoload.php');
+
 
 try {
     $serviceInit = new ServiceInit();
-    $serviceInit->serviceInitBegin($root_dir);
+    $serviceInit->serviceInitBegin($rootDir);
     
     $serviceInitConfig = array();
     $serviceInitConfig[ServiceInit::PROJECTNAME] = $phpwpcc_config['projectName'];
@@ -20,9 +21,9 @@ try {
     	       	     	   $phpwpcc_config["projectName"],
 			   $groupUrl,
 			   $servicesConfig,
-			   $root_dir
+			   $rootDir
     );
-    $wpccTests->regenerateTests(Config::getVarFromConfig('projectName', $root_dir));
+    $wpccTests->regenerateTests(Config::getVarFromConfig('projectName', $rootDir));
     
 } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());

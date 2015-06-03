@@ -1,10 +1,10 @@
 <?
 namespace Wpcc;
 
-require('class/Autoloader.php');
 require('config/wpcc_services.php');
 require('config/wpcc_groupurl.php');
 require('config/wpcc_config.php');
+require('autoload.php');
 
 try {
     $groupUrlObj = new GroupUrl($groupUrl);
@@ -20,7 +20,7 @@ try {
         if ('updateGroupUrl' === $nextStep) {
 
             $groupUrlObj->updategroupUrl($_POST);
-            require($root_dir . 'config/wpcc_groupurl.php'); // Refresh configuration before generating tests
+            require($rootDir . 'config/wpcc_groupurl.php'); // Refresh configuration before generating tests
             $groupUrlObj = new GroupUrl($groupUrl);
             $groupUrlObj->updategroupUrlForm();
 	    $wpccTests = new Tests (

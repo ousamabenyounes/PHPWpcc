@@ -126,13 +126,12 @@ class Service
     /**
      * This function generate the service configuration file
      *
-     * @param array $choosenUrls
+     * @param array  $choosenUrls
      * @param string $service
+     * @param array  $groupUrl
      */
-    public function attachUrlWithServicesGenerate($choosenUrls, $service)
+    public function attachUrlWithServicesGenerate($choosenUrls, $service, $groupUrl)
     {
-        global $groupUrl;
-
         foreach ($groupUrl as $portail => $sites) {
             foreach ($sites as $webSite => $urls) {
                 foreach ($urls as $url => $urlConfig) {

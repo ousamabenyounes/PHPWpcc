@@ -6,25 +6,27 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Autoload {
 
-    static function autoload($className) {
-        global $root_dir;
+    private $rootDir;
 
-        $filename = $root_dir . 'class/' . $className . '.php';
+    public function __construct($rootDir = '')
+    {
+	$this->rootDir = $rootDir;
+    }
+
+    public function autoload($className) {
+        $filename = $this->rootDir . 'class/' . $className . '.php';
         $filename = str_replace(__NAMESPACE__. '\\', '', $filename);	
         if (is_readable($filename)) {
             require $filename;
         }
     }
 
-    static function register($rootDir = '') {
-        require_once($rootDir . "vendor/autoload.php");
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+
+    public function register() {
+        require_once($this->rootDir . "vendor/autoload.php");
+	spl_autoload_register(function($className) {
+	    $this->autoload($className);
+    	});
     }
 
 }
-if (!isset($root_dir)) {
-    $root_dir = '';
-}
-
-Autoload::register($root_dir);
-

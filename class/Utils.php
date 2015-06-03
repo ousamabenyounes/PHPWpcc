@@ -23,6 +23,7 @@ class Utils
             $url
         ); // Replaces all spaces with hyphens.
         $cleanedString = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedString); // Removes special chars.
+
         return $cleanedString;
     }
 
@@ -61,11 +62,11 @@ class Utils
         $domainName = ucwords(strtolower($domainName));
 
         return (
-        str_replace(
+               str_replace(
             array('&', ' ', '/', 'www', '-', '.', '?', '=', '_'),
             array('', '', '', '', '', '', '', '', ''),
             $domainName
-        )
+         )
         );
     }
 
@@ -91,17 +92,17 @@ class Utils
     }
 
     /**
-     * Print simple progress bar.
+     * Get var from GET or POST.
      *
      * @access public
      * @param  string $varName
      * @param  string $type
-     * @param  string $varContent
      *
      * @return string $varContent
      */
-    public static function getVar($varName, $type = self::GET, $varContent = null)
+    public static function getVar($varName, $type = self::GET)
     {
+	$varContent = null;
 	$request = Request::createFromGlobals();
         if (self::GET === $type && isset($_GET[$varName]))
         {
@@ -109,21 +110,23 @@ class Utils
         } elseif (self::POST === $type && isset($_POST[$varName])) {
 	    $varContent = $request->request->get($varName);
         }
+
         return trim($varContent);
-	
     }
 
 
     /**
-     * @param string $cmd
-     * @param bool $debug
+     * @access public
+     * @param  string  $cmd
+     * @param  boolean $debug Print command if true
      */
     public static function execCmd($cmd, $debug = false)
     {
         if (true === $debug)
+	{
             echo $cmd;
-        exec ($cmd);
+	}
+        exec ($cmd, $output);
     }
 }
 
-?>
