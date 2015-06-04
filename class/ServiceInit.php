@@ -20,7 +20,6 @@ class ServiceInit
     const SERVICECONFIGURATION = 2;
     const STRIPSLASH = 3;
 
-
     /**
      * @param string $root_dir
      */
@@ -42,7 +41,6 @@ class ServiceInit
         if (false !== $response) {
             $this->_htmlCache = $response;
         } else {
-	die();
             $this->_htmlCache = wRequest::sendRequest($page);
             Cache::generatePageCache($page, $fileName, $cleanUrl);
         }
@@ -58,16 +56,11 @@ class ServiceInit
      *
      * @param $page
      * @param $serviceInitConfig
+     *
      * @return array
     */
     protected function getPages($page, $serviceInitConfig)
     {
-/*        $serviceInitConf = array();
-        $serviceInitConf[self::PAGE] = $this->getPageServiceConfig(
-            $page,
-            $serviceInitConfig
-        );*/
-
         return array(
                 $page => $this->getPageServiceConfig(
 				$page,
@@ -80,7 +73,6 @@ class ServiceInit
     /**
      * This function return the list of activated services on current page
      *
-     * @param boolean $initConfiguration
      * @param array $servicesConfig
      *
      * @return array $activedServices
@@ -96,6 +88,7 @@ class ServiceInit
                 $activedServices[] = $serviceName;
             }
         }
+
         return $activedServices;
     }
 
@@ -109,13 +102,8 @@ class ServiceInit
      */
     public function generateAllUrlConfig($serviceInitConfig = array(), $groupUrl)
     {
-
-        //$nbSites = count($sites);
-        //$nbSitesChecked = 0;
-
         $projectName = $serviceInitConfig[self::PROJECTNAME];
-        $checkObjClass = $projectName . 'CheckServicesPresent';
-	
+        $checkObjClass = $projectName . 'CheckServicesPresent';	
         require ($this->_rootDir . 'phpunitTests/lib/' . $checkObjClass . '.php');
         $this->_checkObj = new $checkObjClass();
         foreach ($groupUrl as $portail => $sites) 
@@ -124,24 +112,17 @@ class ServiceInit
 	 {
 	  foreach ($pages as $page => $services) 
 	  {
-
-                //Utils::progress($nbSitesChecked, $nbSites, $this->_time);
                 try {
                     $pages = $this->getPages($page, $serviceInitConfig);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     continue;
                 }
-
-                $groupUrl[$portail][$page] = array($site => $pages);            
-            	//$nbSitesChecked++;
+                $groupUrl[$portail][$page] = array($site => $pages);
 	  }
 	 }
         }
-
         $tplConf = array('groupUrl' => $groupUrl);
-
         Twig::saveConfigToTpl(self::$group_url_file, $tplConf, 'wpcc_groupurl', $this->_rootDir);
     }
-
 
 }

@@ -295,8 +295,10 @@ class Tests
             $fileName = $projectName . 'Check' . ucfirst($service) . $testType .
                 'On' . ucfirst($portail) . 'Test.php';
             Utils::execCmd('cd ' . $root_dir . self::TEST_PATH . ' && phpunit ' . $fileName, $output, $return);
+
             return json_encode(array('success' => true, 'content' => $portail .' Tests launched successfully'));
         } catch (Exception $e) {
+
             return json_encode(array('success' => false, 'content' => $e->getMessage()));
         }
     }
@@ -312,6 +314,7 @@ class Tests
                     ucfirst($portail) . $testType . '.php';
                 if (file_exists($fileName) && is_readable($fileName))   {
                     require ($fileName);
+
                     return json_encode(
                         array(
                             'success' => true,
@@ -322,11 +325,14 @@ class Tests
                         )
                     );
                 }
+
                 return json_encode(array('success' => false, 'content' => 'File ' .
                         $fileName . ' not found or not readable'));
             }
+
             return json_encode(array('success' => false, 'content' => 'no data from POST'));
         } catch (Exception $e) {
+
             return json_encode(array('success' => false, 'content' => $e->getMessage()));
         }
     }
@@ -381,6 +387,7 @@ class Tests
                  ),
 	    $root_dir
 	);
+
         return $mailReporting;
     }
 
@@ -407,6 +414,5 @@ class Tests
 	$this->setProjectName($projectName);
     	$this->generateAllTests();
     }
-}
 
-?>
+}

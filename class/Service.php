@@ -15,9 +15,9 @@ class Service
     protected $_contentCacheDir;
     protected $_errorCacheDir;
     protected $_checkObj;
-    protected static $api_url = "http://api.lereferentiel.francetv.fr/archimade/";
-    protected static $json_url = "http://api.lereferentiel.francetv.fr/sites/";
-    protected static $group_url_file = 'php/phpwpcc_groupurl.php.tpl';
+    protected static $api_url =		'http://api.lereferentiel.francetv.fr/archimade/';
+    protected static $json_url = 	'http://api.lereferentiel.francetv.fr/sites/';
+    protected static $group_url_file =  'php/phpwpcc_groupurl.php.tpl';
 
     const PAGE = 0;
     const PAGE_NOCACHE = 1;
@@ -51,8 +51,6 @@ class Service
             array()
         );
     }
-
-
 
 
     /*
@@ -96,8 +94,7 @@ class Service
                 )
             );
             Config::save($phpwpcc_service_config, 'wpcc_services');
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
     }
@@ -146,9 +143,6 @@ class Service
                 }
             }
         }
-
-
-
         $groupUrlContent = Twig::getTemplateContent(
             'php/phpwpcc_groupurl_attach_service.php.tpl',
             array(
@@ -157,9 +151,5 @@ class Service
         );
         Config::save($groupUrlContent, 'wpcc_groupurl');
     }
-
-
-
-
 
 }

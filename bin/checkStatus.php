@@ -15,6 +15,6 @@ try {
         Mail::sendMail($mailContent, $rootDir);
      } 
 
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }

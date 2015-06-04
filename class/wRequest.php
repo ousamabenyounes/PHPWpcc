@@ -1,16 +1,11 @@
 <?php
+
 namespace Wpcc;
 
-
-use Guzzle\Tests\GuzzleTestCase,
-    Guzzle\Plugin\Mock\MockPlugin,
-    Guzzle\Http\Message\Response,
+use Guzzle\Http\Message\Response,
     Guzzle\Http\Client as HttpClient,
-    Guzzle\Service\Client as ServiceClient,
-    Guzzle\Http\EntityBody;
+    
 use Guzzle\Http\Message\Request;
-
-
 
 class wRequest
 {
@@ -29,4 +24,3 @@ class wRequest
         return $response->getBody(true);
     }
 }
-?>

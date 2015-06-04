@@ -21,7 +21,7 @@ class File
 	    if (true === $writeable) {	       
 	       chmod($filename, static::WRITEABLE_MODE);
 	    }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
     }
@@ -29,7 +29,9 @@ class File
     /**
      * This function get the content of the file from a given url
      *
-     * @param string $url
+     * @param string  $url
+     * @param boolean $debug
+     *
      * @return string $content
      */
     public static function getContentFromFile($url, $debug = false)
@@ -41,10 +43,10 @@ class File
             } else {
                 $content = file_get_contents($url);
             }
+
             return $content;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
     }
 }
-?>

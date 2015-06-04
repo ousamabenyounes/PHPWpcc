@@ -25,7 +25,7 @@ try {
     );
     $wpccTests->regenerateTests(Config::getVarFromConfig('projectName', $rootDir));
     
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
 
