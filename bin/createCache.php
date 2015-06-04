@@ -21,6 +21,6 @@ try {
     }
     $wpccCache = new Cache($rootDir);
     $wpccCache->generateCache($groupUrl, $type);
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }

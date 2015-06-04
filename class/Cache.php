@@ -154,7 +154,7 @@ class Cache
                                 $page = str_replace('&amp;', '&', $page);
                                 $this->makeScreenshot($type, $cleanUrl, $page);
                         }
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         File::writeToFile($errorFileName, $e->getMessage()); // Request failed Saving error log
                     }
                     $nbSitesChecked++;

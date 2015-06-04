@@ -1,4 +1,5 @@
 <?php
+
 namespace Wpcc;
 
 use Traversable;
@@ -115,7 +116,7 @@ class Collection implements \IteratorAggregate, \ArrayAccess
      */
     public function getIterator()
     {
-        return new ArrayLogAdapter($this->_items);
+        return new \ArrayLogAdapter($this->_items);
     }
 
     public function lists($key, $value) {

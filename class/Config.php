@@ -2,12 +2,9 @@
 
 namespace Wpcc;
 
-use Symfony\Component\HttpFoundation\Request as SF2Request;
-
 class Config
 {
     protected $_servicesConfig;
-
 
     /**
      * @param array $servicesConfig
@@ -80,8 +77,10 @@ class Config
     public static function getVarFromConfig($varName, $root_dir = '') {
         require ($root_dir . 'config/wpcc_config.php');
         if (isset($phpwpcc_config[$varName])){
+
             return $phpwpcc_config[$varName];
         }
+
         return null;
     }
 
@@ -94,9 +93,12 @@ class Config
      */
     public static function getConfigArray($configFileName, $arrayName, $root_dir = '') {
         require ($root_dir . 'config/wpcc_' . $configFileName .'.php');
-        if (isset($$arrayName)){
+        if (isset($$arrayName))
+	{
+	
             return $$arrayName;
         }
+
         return null;
     }
 }

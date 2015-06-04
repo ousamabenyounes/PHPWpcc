@@ -9,7 +9,7 @@ class Directory
      * This function create a new directory
      *
      * @param string $newDirectory
-     * @param int $mode
+     * @param int    $mode
      */
     public static function createDirectory($newDirectory, $mode = 0755)
     {
@@ -17,10 +17,9 @@ class Directory
             if (!is_dir($newDirectory)) {
                 mkdir($newDirectory, $mode);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
     }
 
 }
-?>

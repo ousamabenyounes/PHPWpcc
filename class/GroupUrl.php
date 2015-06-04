@@ -54,7 +54,11 @@ class GroupUrl
         );
     }
 
-
+    /**
+     * Update all group urls 
+     *
+     * @param array $post
+     */
     public function updateGroupUrl($post)
     {
         $groupUrl = array();
@@ -71,15 +75,14 @@ class GroupUrl
                     $page = trim($page, "\n");
 		    if (strlen($page)) {  		       
                        if (isset($this->_groupUrl[$portail][$webSitekey][$page])) {
-                       	   $groupUrl[$portail][$webSitekey][$page] = $this->_groupUrl[$portail][$webSitekey][$page];
+                       	   	$groupUrl[$portail][$webSitekey][$page] = $this->_groupUrl[$portail][$webSitekey][$page];
                     	   } else {
-                           $groupUrl[$portail][$webSitekey][$page] = array();
+                             	$groupUrl[$portail][$webSitekey][$page] = array();
                     	   }
 		    }
                 }
             }
         }
-
         $groupUrlConfig = Twig::getTemplateContent(
             'php/phpwpcc_groupurl_update.php.tpl',
             array(
@@ -110,4 +113,3 @@ class GroupUrl
     }
 
 }
-?>

@@ -2,8 +2,6 @@
 
 namespace Wpcc;
 
-use Symfony\Component\HttpFoundation\Request;
-
 class Autoload {
 
     private $rootDir;
