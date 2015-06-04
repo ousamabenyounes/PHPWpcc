@@ -1,12 +1,11 @@
-<?
+<?php
 
 namespace Wpcc;
 
-require('class/Autoloader.php');
 require('config/wpcc_services.php');
 require('config/wpcc_groupurl.php');
 require('config/wpcc_config.php');
-
+require('autoload.php');
 
 try {
     $action = Utils::getVar('action');
@@ -16,8 +15,6 @@ try {
         $servicesConfig
     );
     $wpccTests->printIndex();
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
-
-?>

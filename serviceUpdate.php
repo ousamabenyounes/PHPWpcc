@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace Wpcc;
 
@@ -31,9 +31,6 @@ try {
             $service->updateServiceForm($groupUrl);   
         }
     }
-
-
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
-

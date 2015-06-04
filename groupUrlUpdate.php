@@ -1,4 +1,5 @@
-<?
+<?php
+
 namespace Wpcc;
 
 require('config/wpcc_services.php');
@@ -30,13 +31,7 @@ try {
             );
 	    $wpccTests->regenerateTests(Config::getVarFromConfig('projectName'));
         }
-
-
     }
-
-
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
-
-?>

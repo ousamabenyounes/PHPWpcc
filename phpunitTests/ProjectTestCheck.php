@@ -13,7 +13,7 @@ require('localVars.php');
 require($rootDir . 'autoload.php');
 
 
-class {{ projectName }}Check extends GuzzleTestCase
+class ProjectTestCheck extends GuzzleTestCase
 {
     protected $_client;
     protected static $_cache;

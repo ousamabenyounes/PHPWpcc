@@ -1,4 +1,5 @@
-<?
+<?php
+
 namespace Wpcc;
 
 require('config/wpcc_services.php');
@@ -30,7 +31,7 @@ try {
     }
     $config->configureProjectForm($phpwpcc_config);
 
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
 
