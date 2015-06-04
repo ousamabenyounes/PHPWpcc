@@ -1,7 +1,7 @@
 <?php
 $phpwpcc_config = array(
 		'namespace' => 'PHPWpcc',
-                'projectName' => 'TestProject',
+                'projectName' => 'ProjectTest',
                 'mailFrom' => 'benyounes.ousama@gmail.com',
                 'smtpHost' => 'smtp.gmail.com',
                 'smtpPort' => '465',

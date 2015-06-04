@@ -1,4 +1,5 @@
-<?
+<?php
+
 namespace Wpcc;
 
 require('config/wpcc_services.php');
@@ -32,7 +33,6 @@ try {
         $wpccService->attachUrlWithServices($groupUrl, $service, $servicesConfig);
     }
 
-} catch (Exception $e) {
+} catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());
 }
-
