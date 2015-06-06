@@ -23,6 +23,8 @@ class ProjectTestCheck extends GuzzleTestCase
     protected static $testsOk = array();
     protected static $testsFailed = array();
 
+    const ROOT_DIR = '../';
+
     const STATUS_TPL = 'php/phpunit/status.php.tpl';
     const SERVICE_POS = 0;
     const PAGE_POS = 1;
@@ -70,8 +72,6 @@ class ProjectTestCheck extends GuzzleTestCase
     */
     protected static function getThumbnailFile($page)
     {
-        global $rootDir;
-
         $cleanUrl = Utils::urlToString($page);
         $screenShotDir = Cache::$cacheDir . Cache::$currentCache .
             Cache::$screenshotPath ;
@@ -80,9 +80,10 @@ class ProjectTestCheck extends GuzzleTestCase
             Cache::$desktopFormat . PngToJpg::$picturesOutExt;
         $thumbnailFile = $thumbnailDir . $cleanUrl .
             Cache::$desktopFormat . PngToJpg::$miniExt . PngToJpg::$picturesOutExt;
-        if (file_exists($rootDir . $thumbnailFile) && file_exists($rootDir . $screenShotFile)) {
+        if (file_exists(static::ROOT_DIR . $thumbnailFile) && file_exists(static::ROOT_DIR . $screenShotFile)) {
             return (array($thumbnailFile, $screenShotFile));
         }
+
         return null;
     }
 
