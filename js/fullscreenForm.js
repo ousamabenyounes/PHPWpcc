@@ -183,7 +183,7 @@
 		// jump to next field without clicking the continue button (for fields/list items with the attribute "data-input-trigger")
 		this.fields.forEach( function( fld ) {
 			if( fld.hasAttribute( 'data-input-trigger' ) ) {
-				var input = fld.querySelector( 'input[type="radio"]' ) || /*fld.querySelector( '.cs-select' ) ||*/ fld.querySelector( 'select' ); // assuming only radio and select elements (TODO: exclude multiple selects)
+				var input = fld.querySelector( 'input[type="radio"]' ) || /*fld.querySelector( '.cs-select' ) ||*/ fld.querySelector( 'select' ); // assuming only radio and select elements (: exclude multiple selects)
 				if( !input ) return;
 
 				switch( input.tagName.toLowerCase() ) {
@@ -398,7 +398,7 @@
 		classie.remove( ctrl, 'fs-show' );
 	}
 
-	// TODO: this is a very basic validation function. Only checks for required fields..
+	// : this is a very basic validation function. Only checks for required fields..
 	FForm.prototype._validade = function() {
 		var fld = this.fields[ this.current ],
 			input = fld.querySelector( 'input[required]' ) || fld.querySelector( 'textarea[required]' ) || fld.querySelector( 'select[required]' ),
@@ -446,7 +446,7 @@
 		return true;
 	}
 
-	// TODO
+	// 
 	FForm.prototype._showError = function( err ) {
 		var message = '';
 		switch( err ) {
