@@ -31,7 +31,12 @@ Installation
 
 1 - Installez PHPWpcc sur votre serveur en clonant ce repository github  
 lancez ensuite la commande: "composer install"  
-  
+
+2 - Donnez ensuite les droits à PHPWpcc pour qu'il puisse générer tous vos tests et votre configuration
+
+sudo chmod -R 777  phpunitTests config cache
+sudo chown -R www-data:www-data phpunitTests config cache
+
 2 - Une fois installé et votre VHOST configuré, rendez vous sur l'url suivante:  
 => http://VOTRE_VHOST/install.php  
  
