@@ -14,5 +14,4 @@ $groupUrl = array(
 
    ),
 {% endfor %}
-);
-?>{% endautoescape %}
+);{% endautoescape %}

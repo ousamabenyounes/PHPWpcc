@@ -1,4 +1,5 @@
 <?php
+
 $servicesConfig = array(
 {% for key, service in post['service'] %}
   "{{ service }}" => array(
@@ -17,4 +18,3 @@ $servicesConfig = array(
 {% endfor %}
 
 );
-?>

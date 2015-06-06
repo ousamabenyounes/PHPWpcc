@@ -1,4 +1,5 @@
 <?php
+
 $phpwpcc_config = array(
 		'namespace' => 'PHPWpcc',
                 'projectName' => '{{ projectName }}',
@@ -16,4 +17,3 @@ $phpwpcc_config = array(
                 'cachePurge' => '{{ cachePurge }}',
                 'configPurge' => '{{ configPurge }}',
 );
-?>

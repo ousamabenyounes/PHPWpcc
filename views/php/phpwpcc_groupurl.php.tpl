@@ -18,4 +18,3 @@ $groupUrl = array(
    ),
 {% endfor %}
 );
-?>

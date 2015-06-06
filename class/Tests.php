@@ -64,6 +64,7 @@ class Tests
             foreach ($this->_groupUrl as $portail => $sites) {
                 $tplConf = array(
                     'projectName' => $this->_projectName,
+		    'lProjectName' => LCFirst($this->_projectName),
                     'service' => $service,
                     'acceptedConfig' => $serviceConf['acceptedConfig'],
                     'portail' => $portail,
