@@ -1,6 +1,7 @@
 {
     "name": "ousamabenyounes/phpwpcc",
     "description": "A simple PHPUnit WebPage Content Checker generator ",
+    "license": "Apache-2.0",
     "require": {
         "php": ">=5.3.3",
   	"twig/twig": "~1.0",
