@@ -4,8 +4,6 @@ namespace Wpcc;
 
 use Guzzle\Http\Message\Response,
     Guzzle\Http\Client as HttpClient;
-    
-use Guzzle\Http\Message\Request;
 
 class wRequest
 {

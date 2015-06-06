@@ -30,21 +30,14 @@ class File
      * This function get the content of the file from a given url
      *
      * @param string  $url
-     * @param boolean $debug
      *
      * @return string $content
      */
-    public static function getContentFromFile($url, $debug = false)
+    public static function getContentFromFile($url)
     {
         try {
-            if (false === $debug)
-            {
-                $content = @file_get_contents($url);
-            } else {
-                $content = file_get_contents($url);
-            }
+                return file_get_contents($url);
 
-            return $content;
         } catch (\Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }

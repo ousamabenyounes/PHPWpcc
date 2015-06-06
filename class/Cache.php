@@ -60,7 +60,7 @@ class Cache
               $this->_rootDir
             );
           Utils::execCmd('mv ' . $this->_cacheDir . ' '. $this->_rootDir . self::$cacheDir . $datetime);
-          sleep(1); // must wait 1 second to be sure old directory was moved
+          //sleep(1); // must wait 1 second to be sure old directory was moved
 	}
     }
 

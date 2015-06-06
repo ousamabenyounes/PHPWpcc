@@ -9,7 +9,7 @@ class {{ projectName }}Check{{ service }}NotPresentOn{{ portail }}Test extends {
    // Check if the given webSiteContent is not containing {{ service }} configuration
    // @params String $html Given html content
    // @return Boolean
-   public function {{ projectName }}Check{{ service }}NotPresent($html) {
+   public function {{ lProjectName }}Check{{ service }}NotPresent($html) {
 {% for version, files in acceptedConfig %}
     // Check {{ version }} configuration
     if ({% for key, file in files %}FALSE !== strpos($html, "{{ file }}"){% if loop.last %}) {

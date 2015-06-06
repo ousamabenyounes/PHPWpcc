@@ -8,7 +8,6 @@ class Mail
     public static function getTransporter($root_dir)
     {
 	$smtpLogin = Config::getVarFromCOnfig('smtpLogin', $root_dir);
-	$smtpPassword = Config::getVarFromCOnfig('smtpPassword', $root_dir);
 	if ('' === $smtpLogin) {
 	   $transporter = \Swift_SmtpTransport::newInstance(
                                         Config::getVarFromCOnfig('smtpHost', $root_dir),
@@ -30,8 +29,6 @@ class Mail
     public static function sendMail($mailContent, $root_dir = '')
     {
 	$mailsToArray = Config::getVarFromCOnfig('mailsTo', $root_dir);
-
-	//$mailsToString = implode(', ', Config::getVarFromCOnfig('mailsTo', $root_dir));
 	$transporter = self::getTransporter($root_dir);
         $mailer = \Swift_Mailer::newInstance($transporter);
 	$message = \Swift_Message::newInstance()
@@ -52,7 +49,7 @@ class Mail
   	   ->setBody($mailContent)
 	   ->setContentType("text/html");
 	   
-	$result = $mailer->send($message);
+	   $mailer->send($message);
     }
 
 }

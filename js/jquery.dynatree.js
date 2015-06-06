@@ -19,7 +19,7 @@
 
 /* jsHint options*/
 // Note: We currently allow eval() to parse the 'data' attribtes, when initializing from HTML.
-// TODO: pass jsHint with the options given in grunt.js only.
+// : pass jsHint with the options given in grunt.js only.
 //       The following should not be required:
 /*global alert */
 /*jshint nomen:false, smarttabs:true, eqeqeq:false, evil:true, regexp:false */
@@ -463,7 +463,7 @@ DynaTreeNode.prototype = {
 					);
 			this.span.className = cnList.join(" ");
 
-			// TODO: we should not set this in the <span> tag also, if we set it here:
+			// : we should not set this in the <span> tag also, if we set it here:
 			this.li.className = isLastSib ? cn.lastsib : "";
 
 			// Allow tweaking, binding, after node was created for the first time
@@ -818,7 +818,7 @@ DynaTreeNode.prototype = {
 	},
 
 	focus: function() {
-		// TODO: check, if we already have focus
+		// : check, if we already have focus
 //      this.tree.logDebug("dtnode.focus(): %o", this);
 		this.makeVisible();
 		try {
@@ -1401,7 +1401,7 @@ DynaTreeNode.prototype = {
 				$.cookie(opts.cookieId + "-focus", this.data.key, opts.cookie);
 			}
 		}
-		// TODO: return anything?
+		// : return anything?
 //      return false;
 	},
 
@@ -1961,8 +1961,8 @@ DynaTreeNode.prototype = {
 			}, null, true);
 			throw "Not yet implemented.";
 		}
-		// TODO: fix selection state
-		// TODO: fix active state
+		// : fix selection state
+		// : fix active state
 		if( !prevParent.isDescendantOf(targetParent)) {
 			prevParent.render();
 		}
@@ -2024,7 +2024,7 @@ DynaTreeStatus._getTreePersistData = function(cookieId, cookieOpts) {
 	return ts.toDict();
 };
 // Make available in global scope
-getDynaTreePersistData = DynaTreeStatus._getTreePersistData; // TODO: deprecated
+getDynaTreePersistData = DynaTreeStatus._getTreePersistData; // : deprecated
 
 
 DynaTreeStatus.prototype = {
@@ -2547,7 +2547,7 @@ DynaTree.prototype = {
 		// Convert a <UL>...</UL> list into children of the parent tree node.
 		var self = this;
 /*
-TODO: better?
+: better?
 		this.$lis = $("li:has(a[href])", this.element);
 		this.$tabs = this.$lis.map(function() { return $("a", this)[0]; });
  */
@@ -2850,7 +2850,7 @@ TODO: better?
 					hitMode = "over";
 				}
 				// Prevent no-ops like 'before source node'
-				// TODO: these are no-ops when moving nodes, but not in copy mode
+				// : these are no-ops when moving nodes, but not in copy mode
 				if( dnd.preventVoidMoves ){
 					if(node === otherNode){
 						hitMode = null;
@@ -3041,7 +3041,7 @@ $.widget("ui.dynatree", {
 		this.element.unbind(".dynatree");
 	},
 
-/* TODO: we could handle option changes during runtime here (maybe to re-render, ...)
+/* : we could handle option changes during runtime here (maybe to re-render, ...)
 	setData: function(key, value) {
 		this.tree.logDebug("dynatree.setData('" + key + "', '" + value + "')");
 	},
@@ -3107,7 +3107,7 @@ $.extend($.ui.dynatree, {
 		if(el.selector !== undefined){
 			el = el[0]; // el was a jQuery object: use the DOM element
 		}
-		// TODO: for some reason $el.parents("[dtnode]") does not work (jQuery 1.6.1)
+		// : for some reason $el.parents("[dtnode]") does not work (jQuery 1.6.1)
 		// maybe, because dtnode is a property, not an attribute
 		while( el ) {
 			if(el.dtnode) {
@@ -3374,7 +3374,7 @@ var _registerDnd = function() {
 //              logMsg("    draggable2: %o", draggable);
 //              logMsg("    draggable.offset.click FIXED: %s/%s", draggable.offset.click.left, draggable.offset.click.top);
 				// Trigger onDragStart event
-				// TODO: when called as connectTo..., the return value is ignored(?)
+				// : when called as connectTo..., the return value is ignored(?)
 				return sourceNode.tree._onDragEvent("start", sourceNode, null, event, ui, draggable);
 			}
 		},

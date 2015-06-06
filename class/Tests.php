@@ -297,7 +297,7 @@ class Tests
             Utils::execCmd('cd ' . $root_dir . self::TEST_PATH . ' && phpunit ' . $fileName, $output, $return);
 
             return json_encode(array('success' => true, 'content' => $portail .' Tests launched successfully'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             return json_encode(array('success' => false, 'content' => $e->getMessage()));
         }
@@ -331,7 +331,7 @@ class Tests
             }
 
             return json_encode(array('success' => false, 'content' => 'no data from POST'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             return json_encode(array('success' => false, 'content' => $e->getMessage()));
         }

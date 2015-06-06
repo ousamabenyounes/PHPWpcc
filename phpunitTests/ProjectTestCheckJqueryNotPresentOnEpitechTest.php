@@ -9,7 +9,7 @@ class ProjectTestCheckJqueryNotPresentOnEpitechTest extends ProjectTestCheck {
    // Check if the given webSiteContent is not containing Jquery configuration
    // @params String $html Given html content
    // @return Boolean
-   public function ProjectTestCheckJqueryNotPresent($html) {
+   public function projectTestCheckJqueryNotPresent($html) {
     // Check Jquery configuration
     if (FALSE !== strpos($html, "Jquery")) {
          return false;

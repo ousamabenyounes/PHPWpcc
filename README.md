@@ -33,14 +33,21 @@ Install
 1 - Installez PHPWpcc on your server by cloning this github repository  
 Then you can launch: "composer install"
 
-2 - First launch of your PHPWPCC instance  
+2 - Give permission to PHPWpcc to write your tests / configurations
+
+
+sudo chmod -R 777  phpunitTests config cache
+sudo chown -R www-data:www-data phpunitTests config cache
+
+
+3 - First launch of your PHPWPCC instance  
 => Go to this url: http://YOUR_HOST_NAME/install.php  
  
-3 - Configure your websites => click on "portails" menu  
+4 - Configure your websites => click on "portails" menu  
 Here you can List all your portails, websites, and webpages urls  
 Notice that only the webpages urls wich will be parsed by PHPWPCC.  
   
-4 - Service Configuration => click on "services" menu  
+5 - Service Configuration => click on "services" menu  
 Set up the services listing that you need to monitor  
 You can fill in different versions by service  
 And a service version can be defined by one or more files. See this sample:  
@@ -52,7 +59,7 @@ JqueryUi Service:
 
 ```
 
-5 - Launch PHPWpcc crawler  
+6 - Launch PHPWpcc crawler  
 Go to command line and launch:  
 
 <pre>   

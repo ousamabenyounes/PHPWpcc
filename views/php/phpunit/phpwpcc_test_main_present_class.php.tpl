@@ -8,7 +8,7 @@ class {{ projectName }}Check{{ service }}PresentOn{{ portail }}Test extends {{ p
    // Check if the given webSiteContent is compatible with allowed {{ service }} configuration
    // @params String $html Given html content
    // @return Boolean
-   public function {{ projectName }}Check{{ service }}Present($html) {
+   public function {{ lProjectName }}Check{{ service }}Present($html) {
 {% for version, files in acceptedConfig %}
     // Check {{ version }} configuration
     if ({% for key, file in files %} FALSE !== strpos($html, "{{ file }}" ){% if loop.last %}) {
