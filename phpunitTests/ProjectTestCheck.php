@@ -3,11 +3,7 @@
 namespace Wpcc;
 
 use Guzzle\Tests\GuzzleTestCase,
-    Guzzle\Plugin\Mock\MockPlugin,
-    Guzzle\Http\Message\Response,
-    Guzzle\Http\Client as HttpClient,
-    Guzzle\Service\Client as ServiceClient,
-    Guzzle\Http\EntityBody;
+    Guzzle\Http\Client as HttpClient;
 
 require('localVars.php');
 require($rootDir . 'autoload.php');
