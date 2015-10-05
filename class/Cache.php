@@ -14,6 +14,8 @@ class Cache
     public static $noPreviewAvailable = 'images/no-preview.jpg';
     public static $desktopFormat = '600X800';
 
+    const INFO_TWIG_FILE = 'php/phpunit/info.php.twig';
+
     protected $_rootDir;
     protected $_cacheDir;
     protected $_contentCacheDir;
@@ -60,7 +62,6 @@ class Cache
               $this->_rootDir
             );
           Utils::execCmd('mv ' . $this->_cacheDir . ' '. $this->_rootDir . self::$cacheDir . $datetime);
-          //sleep(1); // must wait 1 second to be sure old directory was moved
 	}
     }
 
@@ -81,8 +82,13 @@ class Cache
         Directory::createDirectory($this->_contentCacheDir, 0777);
         Directory::createDirectory($this->_screenshotDir, 0777);
         Directory::createDirectory($this->_thumbnailDir, 0777);
-        Directory::createDirectory($this->_errorCacheDir, 0777);
-        File::writeToFile($this->_cacheDir . 'info.php', '<?php   $datetime = "' . date("YmdHis") . '";');
+        Directory::createDirectory($this->_errorCacheDir, 0777); 	
+	Twig::saveFileToTpl(
+			static::INFO_TWIG_FILE, 
+			array('dateOfTest' =>  date("YmdHis")), 
+			$this->_cacheDir . 'info.php',
+			$this->_rootDir
+	);
         umask($oldmask);
     }
 
