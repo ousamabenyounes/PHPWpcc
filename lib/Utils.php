@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -128,5 +128,6 @@ class Utils
 	}
         exec ($cmd, $output);
     }
+
 }
 

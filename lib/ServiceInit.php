@@ -1,5 +1,6 @@
 <?php
-namespace Wpcc;
+
+namespace Phpwpcc;
 
 class ServiceInit
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 class Cache
 {
@@ -77,7 +77,11 @@ class Cache
         $this->_thumbnailDir = $this->_screenshotDir . self::$thumbnailPath;;
         $this->_errorCacheDir = $this->_cacheDir . self::$errorPath;
         $this->purge();
-        Directory::createDirectory($this->_rootDir . self::$cacheDir, 0777);
+
+/*	$fs = new Filestem();    
+	$fs->mkdir('/tmp/random/dir/'.mt_rand());*/
+        die("alor???");
+	Directory::createDirectory($this->_rootDir . self::$cacheDir, 0777);
         Directory::createDirectory($this->_cacheDir, 0777);
         Directory::createDirectory($this->_contentCacheDir, 0777);
         Directory::createDirectory($this->_screenshotDir, 0777);
