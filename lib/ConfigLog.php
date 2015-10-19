@@ -2,6 +2,8 @@
 
 namespace Phpwpcc;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class ConfigLog
 {
 
@@ -13,12 +15,13 @@ class ConfigLog
      */
     public static function save($content, $fileName, $root_dir = '')
     {
+	$fs = new Filesystem();
         $configLogDir = $root_dir . 'config/history/';
         if (!is_dir($configLogDir)) {
-            mkdir($configLogDir);
+            $fs->mkdir($configLogDir);
         }
         if (!is_dir($configLogDir . $fileName)) {
-            mkdir($configLogDir . $fileName);
+            $fs->mkdir($configLogDir . $fileName);
         }
         $dateString = date("YmdHis");
         File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.php', $content, false);

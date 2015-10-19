@@ -1,11 +1,12 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 require('config/wpcc_services.php');
 require('config/wpcc_groupurl.php');
 require('config/wpcc_config.php');
-require('autoload.php');
+
+require('vendor/autoload.php');
 
 try {
     $groupUrlObj = new GroupUrl($groupUrl);
