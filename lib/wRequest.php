@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 use Guzzle\Http\Message\Response,
     Guzzle\Http\Client as HttpClient;
