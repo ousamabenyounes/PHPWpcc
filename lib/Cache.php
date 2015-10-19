@@ -2,6 +2,8 @@
 
 namespace Phpwpcc;
 
+use Symfony\Component\Filesystem\Filesystem ;
+
 class Cache
 {
     public static $cacheDir = 'cache/';
@@ -24,14 +26,41 @@ class Cache
     protected $_errorCacheDir;
     protected $_time;
 
+    protected $fs;
+
     /**
      * @param string $root_dir
+     * @param mixed  $fs
      */
-    public function __construct($root_dir)
+    public function __construct($root_dir, $fs = null)
     {
         $this->_rootDir = $root_dir;
         $this->_time = time();
+	if ($fs === null)
+	{
+	   $fs = new Filesystem();
+	}
+	$this->setFs($fs);
         $this->initCacheDir();
+    }
+
+    /**
+     * fileSystem component setter
+     * @param mixed $fs
+     */
+    private function setFs($fs)
+    {
+	$this->fs = $fs;
+    }
+
+    /**
+     *
+     * @param string $directory
+     * @param int    $mode
+     */
+    private function mkdir($directory, $mode = 0777)
+    {
+	$this->fs->mkdir($directory, $mode);
     }
 
     /**
@@ -44,7 +73,7 @@ class Cache
 
 
     public function purge() {
-    	if (file_exists($this->_cacheDir . 'info.php')) {
+	if (file_exists($this->_cacheDir . 'info.php')) {
            require ($this->_cacheDir . 'info.php'); // Get datetime for the previous cache directory
            $purgeConfig = Config::getConfigArray('purge', 'purgeConfig', $this->_rootDir);
            $cachePurge = (int) Config::getVarFromConfig('cachePurge', $this->_rootDir);
@@ -63,6 +92,7 @@ class Cache
             );
           Utils::execCmd('mv ' . $this->_cacheDir . ' '. $this->_rootDir . self::$cacheDir . $datetime);
 	}
+
     }
 
     /**
@@ -78,15 +108,12 @@ class Cache
         $this->_errorCacheDir = $this->_cacheDir . self::$errorPath;
         $this->purge();
 
-/*	$fs = new Filestem();    
-	$fs->mkdir('/tmp/random/dir/'.mt_rand());*/
-        die("alor???");
-	Directory::createDirectory($this->_rootDir . self::$cacheDir, 0777);
-        Directory::createDirectory($this->_cacheDir, 0777);
-        Directory::createDirectory($this->_contentCacheDir, 0777);
-        Directory::createDirectory($this->_screenshotDir, 0777);
-        Directory::createDirectory($this->_thumbnailDir, 0777);
-        Directory::createDirectory($this->_errorCacheDir, 0777); 	
+	$this->mkdir($this->_rootDir . self::$cacheDir);
+        $this->mkdir($this->_cacheDir);
+        $this->mkdir($this->_contentCacheDir);
+        $this->mkdir($this->_screenshotDir);
+        $this->mkdir($this->_thumbnailDir);
+        $this->mkdir($this->_errorCacheDir);
 	Twig::saveFileToTpl(
 			static::INFO_TWIG_FILE, 
 			array('dateOfTest' =>  date("YmdHis")), 
