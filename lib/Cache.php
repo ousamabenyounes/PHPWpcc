@@ -2,7 +2,7 @@
 
 namespace Phpwpcc;
 
-use Symfony\Component\Filesystem\Filesystem ;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Cache
 {
