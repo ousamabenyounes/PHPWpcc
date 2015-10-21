@@ -2,6 +2,8 @@
 
 namespace Phpwpcc;
 
+use Phpwpcc\Tests\JQuery;
+
 class Tests 
 {
     protected $_rootDir;
@@ -16,18 +18,23 @@ class Tests
     const TESTS_FAILED = 'testsFailed';
     const NOT_PRESENT = 'NotPresent';
     const PRESENT = 'Present';
-    const TEST_PATH_CONFIG = 'config/';
-    const TEST_PATH_LIB = 'lib/';
+    const TEST_PATH_CONFIG_LIB = 'lib/Tests/';
+    const TEST_PATH_LIB = 'lib/Tests/';
     const TEST_PATH = 'phpunitTests/';
     const TESTS_STATUS_DIR = 'phpunitTests/status/current/';
+
+    // Twig Templates filenames
     const PRESENT_SERVICES_LIB = 'php/phpunit/lib/phpwpcc_test_main_present_lib.php.tpl';
     const TEST_CONTENT_TPL = 'php/phpunit/phpwpcc_test_content_class.php.tpl';
     const NOT_PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_not_present_class.php.tpl';
     const PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_present_class.php.tpl';
     const MAIN_CLASS = 'php/phpunit/phpwpcc_main_class.php.tpl';
-    const CONFIG_TESTS_CLASS = 'php/phpunit/config/phpwpcc_tests_context.php.tpl';
+    const TPL_TESTS_CONFIG_CLASS = 'php/phpunit/lib/phpwpcc_tests_context.php.tpl';
+    const TPL_TESTS_INDEX = 'tests/index.tpl';
+
     const TEST_URL = 0;
-    const TEST_STACK = 1;
+    const TEST_STACK = 1;    
+    const TESTS_NAMESPACE = 'Phpwpcc\\Tests\\';
 
     /**
      * @param string $root_dir
@@ -63,8 +70,8 @@ class Tests
         foreach ($this->_services as $service => $serviceConf) {
             foreach ($this->_groupUrl as $portail => $sites) {
                 $tplConf = array(
-                    'projectName' => $this->_projectName,
-		    'lProjectName' => LCFirst($this->_projectName),
+                    'projectName' => $this->getProjectName(),
+		    'lProjectName' => LCFirst($this->getProjectName()),
                     'service' => $service,
                     'acceptedConfig' => $serviceConf['acceptedConfig'],
                     'portail' => $portail,
@@ -192,31 +199,33 @@ class Tests
     {
         $tplConf = array('projectName' => $this->_projectName);
         $mainTestClassFile = $this->_rootDir . self::TEST_PATH . ucfirst($this->_projectName) . 'Check.php';
-        Twig::saveFileToTpl(self::MAIN_CLASS, $tplConf, $mainTestClassFile);
+        Twig::saveFileToTpl(self::MAIN_CLASS, $tplConf, $mainTestClassFile, $this->_rootDir);
     }
 
     /**
      * This function generate the main PhpWpcc Test Class
      *
      */
-    public function generateConfigTestsFile($type)
+    public function generateConfigTestsFile()
     {
-        foreach ($this->_testFiles[$type] as $service => $portails){
-            $tplConf = array(
-                'portails' => $portails,
-                'service' => $service,
-                'type' => ucfirst($type),
-                'projectName' => $this->_projectName
-            );
-            $configTestsFile = $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . ucfirst($this->_projectName) .
-                'Check' . ucfirst($service) . ucfirst($type) . 'Config.php';
-
-            Twig::saveFileToTpl(self::CONFIG_TESTS_CLASS, $tplConf, $configTestsFile);
-        }
+	$serviceConf = array();
+	foreach ($this->_testFiles as $type => $testFile) {
+	  foreach ($testFile as $service => $portails) {
+	    $serviceConf[$service][$type] = $portails;
+	  }
+	}
+	foreach ($serviceConf as $service => $mainConfig) {
+	  $tplConf = array(
+			'projectName' => $this->getProjectName(),
+			'service' => $service
+		     );
+	  foreach ($mainConfig as $type => $config) {
+	  	$tplConf['portails' . $type] = $config;
+	  }
+	  $configTestsClassFile = $this->_rootDir . self::TEST_PATH_CONFIG_LIB . ucfirst($service) . '.php';
+	  Twig::saveFileToTpl(self::TPL_TESTS_CONFIG_CLASS, $tplConf, $configTestsClassFile);
+	}
     }
-
-
-
 
     /**
      * This function generate all Phpunit Tests
@@ -227,8 +236,7 @@ class Tests
         $this->generateMainTestsClass();
         $this->generateAllTestsCheckMethods();
         $this->generateAllTestsByPagesMethodsContent();
-        $this->generateConfigTestsFile(self::PRESENT);
-        $this->generateConfigTestsFile(self::NOT_PRESENT);
+        $this->generateConfigTestsFile();
         $this->generateServicesLib();
     }
 
@@ -241,8 +249,8 @@ class Tests
     public function purgeOldTest($oldProjectName)
     {	
         Utils::execCmd('rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . ucFirst($oldProjectName) . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB . ucFirst($oldProjectName) . '*');
+        //Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB  . '*');
         Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . ucFirst($oldProjectName) . '*');
     }
 
@@ -260,19 +268,15 @@ class Tests
 
     public function printIndex()
     {
-        $service = Utils::getVar('service');
+	$service = Utils::getVar('service');
         if (null !== $service && strlen($service)) {
-
-	    require($this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . $this->_projectName . 'Check' .
-                ucfirst($service) . self::PRESENT . 'Config.php');
-	    require($this->_rootDir . self::TEST_PATH  . self::TEST_PATH_CONFIG . $this->_projectName . 'Check' .
-                UCFIRST($service) . self::NOT_PRESENT . 'Config.php');
-            echo Twig::getTemplateContent(
-                'tests/index.tpl',
+	   $className = self::TESTS_NAMESPACE. ucfirst($service);	   
+           echo Twig::getTemplateContent(
+                self::TPL_TESTS_INDEX,
                 array (
                     'services' => $this->_services,
-                    'servicePresent' => ${ucfirst($service) . self::PRESENT},
-                    'serviceNotPresent' => ${ucfirst($service) . self::NOT_PRESENT},
+                    'servicesPresent' => $className::getServicesPresentConfig(),
+                    'servicesNotPresent' => $className::getServicesNotPresentConfig(),
                     'service' => $service,
                     'firstPortail' => key($this->_groupUrl),
                     'noPreview' => Cache::$noPreviewAvailable
@@ -399,6 +403,14 @@ class Tests
     private function setProjectName($projectName)
     {
 	$this->_projectName = $projectName;
+    }
+
+    /**
+     * @return string $projectName
+     */
+    private function getProjectName()
+    {
+	return $this->_projectName;
     }
 
 
