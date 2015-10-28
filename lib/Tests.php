@@ -19,7 +19,7 @@ class Tests
     const NOT_PRESENT = 'NotPresent';
     const PRESENT = 'Present';
     const TEST_PATH_CONFIG_LIB = 'lib/Tests/';
-    const TEST_PATH_LIB = 'lib/Tests/';
+    const TEST_PATH_LIB = 'config/';
     const TEST_PATH = 'phpunitTests/';
     const TESTS_STATUS_DIR = 'phpunitTests/status/current/';
 
@@ -249,7 +249,7 @@ class Tests
     public function purgeOldTest($oldProjectName)
     {	
         Utils::execCmd('rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
-        //Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG_LIB . ucFirst($oldProjectName) . '*');
         Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB  . '*');
         Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . ucFirst($oldProjectName) . '*');
     }
@@ -317,9 +317,8 @@ class Tests
             if (null !== $portail && null !== $service && null !== $testType) {
                 $fileName = '../' . self::TESTS_STATUS_DIR . ucfirst($service) .
                     ucfirst($portail) . $testType . '.php';
-                if (file_exists($fileName) && is_readable($fileName))   {
-                    require ($fileName);
-
+                if (file_exists($fileName) && is_readable($fileName))   {                    
+		    require ($fileName);
                     return json_encode(
                         array(
                             'success' => true,

@@ -22,7 +22,7 @@ try {
         if ('updateGroupUrl' === $nextStep) {
 
             $groupUrlObj->updategroupUrl($_POST);
-            require($rootDir . 'config/wpcc_groupurl.php'); // Refresh configuration before generating tests
+            require('config/wpcc_groupurl.php'); // Refresh configuration before generating tests
             $groupUrlObj = new GroupUrl($groupUrl);
             $groupUrlObj->updategroupUrlForm();
 	    $wpccTests = new Tests (
