@@ -103,9 +103,10 @@ class ServiceInit
      */
     public function generateAllUrlConfig($serviceInitConfig = array(), $groupUrl)
     {
+    
         $projectName = $serviceInitConfig[self::PROJECTNAME];
-        $checkObjClass = $projectName . 'CheckServicesPresent';	
-        require ($this->_rootDir . 'phpunitTests/lib/' . $checkObjClass . '.php');
+        $checkObjClass = $projectName . 'CheckServicesPresent';
+	require ($this->_rootDir . 'phpunitTests/config/' . $checkObjClass . '.php');
         $this->_checkObj = new $checkObjClass();
         foreach ($groupUrl as $portail => $sites) 
 	{
