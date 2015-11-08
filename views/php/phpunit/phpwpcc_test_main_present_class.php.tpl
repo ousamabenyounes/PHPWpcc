@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 require_once("{{ projectName }}Check.php");
 class {{ projectName }}Check{{ service }}PresentOn{{ portail }}Test extends {{ projectName }}Check {
