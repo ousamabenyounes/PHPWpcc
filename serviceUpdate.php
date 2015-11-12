@@ -1,11 +1,12 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 require('config/wpcc_services.php');
 require('config/wpcc_groupurl.php');
 require('config/wpcc_config.php');
-require('autoload.php');
+
+require_once('vendor/autoload.php');
 
 try {
     $service = new Service();

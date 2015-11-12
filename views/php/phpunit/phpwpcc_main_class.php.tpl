@@ -1,12 +1,12 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 use Guzzle\Tests\GuzzleTestCase,
     Guzzle\Http\Client as HttpClient;
 
 require('localVars.php');
-require($rootDir . 'autoload.php');
+require($rootDir . 'vendor/autoload.php');
 
 
 class {{ projectName }}Check extends GuzzleTestCase

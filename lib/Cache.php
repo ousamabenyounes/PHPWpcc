@@ -1,6 +1,8 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
+
+use Symfony\Component\Filesystem\Filesystem;
 
 class Cache
 {
@@ -14,6 +16,9 @@ class Cache
     public static $noPreviewAvailable = 'images/no-preview.jpg';
     public static $desktopFormat = '600X800';
 
+    const INFO_TWIG_FILE = 'php/phpunit/datetime.txt.twig';
+    const DATETIME_FILE = 'datetime.txt';
+
     protected $_rootDir;
     protected $_cacheDir;
     protected $_contentCacheDir;
@@ -22,14 +27,41 @@ class Cache
     protected $_errorCacheDir;
     protected $_time;
 
+    protected $fs;
+
     /**
      * @param string $root_dir
+     * @param mixed  $fs
      */
-    public function __construct($root_dir)
+    public function __construct($root_dir, $fs = null)
     {
         $this->_rootDir = $root_dir;
         $this->_time = time();
+	if ($fs === null)
+	{
+	   $fs = new Filesystem();
+	}
+	$this->setFs($fs);
         $this->initCacheDir();
+    }
+
+    /**
+     * fileSystem component setter
+     * @param mixed $fs
+     */
+    private function setFs($fs)
+    {
+	$this->fs = $fs;
+    }
+
+    /**
+     *
+     * @param string $directory
+     * @param int    $mode
+     */
+    private function mkdir($directory, $mode = 0777)
+    {
+	$this->fs->mkdir($directory, $mode);
     }
 
     /**
@@ -42,8 +74,8 @@ class Cache
 
 
     public function purge() {
-    	if (file_exists($this->_cacheDir . 'info.php')) {
-           require ($this->_cacheDir . 'info.php'); // Get datetime for the previous cache directory
+	if (file_exists($this->_cacheDir . self::DATETIME_FILE)) {	
+	   $datetime = File::getContentFromFile($this->_cacheDir . self::DATETIME_FILE);	
            $purgeConfig = Config::getConfigArray('purge', 'purgeConfig', $this->_rootDir);
            $cachePurge = (int) Config::getVarFromConfig('cachePurge', $this->_rootDir);
            while ($cachePurge <= sizeof($purgeConfig['wpcc_cache'])) {
@@ -60,8 +92,8 @@ class Cache
               $this->_rootDir
             );
           Utils::execCmd('mv ' . $this->_cacheDir . ' '. $this->_rootDir . self::$cacheDir . $datetime);
-          //sleep(1); // must wait 1 second to be sure old directory was moved
 	}
+
     }
 
     /**
@@ -69,21 +101,25 @@ class Cache
      */
     public function initCacheDir()
     {
-        $oldmask = umask(0);
-        $this->_cacheDir = $this->_rootDir . self::$cacheDir . self::$currentCache ;
+        $this->_cacheDir = $this->_rootDir . self::$cacheDir . self::$currentCache;
         $this->_contentCacheDir = $this->_cacheDir . self::$contentPath;
         $this->_screenshotDir = $this->_cacheDir . self::$screenshotPath;
         $this->_thumbnailDir = $this->_screenshotDir . self::$thumbnailPath;;
         $this->_errorCacheDir = $this->_cacheDir . self::$errorPath;
         $this->purge();
-        Directory::createDirectory($this->_rootDir . self::$cacheDir, 0777);
-        Directory::createDirectory($this->_cacheDir, 0777);
-        Directory::createDirectory($this->_contentCacheDir, 0777);
-        Directory::createDirectory($this->_screenshotDir, 0777);
-        Directory::createDirectory($this->_thumbnailDir, 0777);
-        Directory::createDirectory($this->_errorCacheDir, 0777);
-        File::writeToFile($this->_cacheDir . 'info.php', '<?php   $datetime = "' . date("YmdHis") . '";');
-        umask($oldmask);
+
+	$this->mkdir($this->_rootDir . self::$cacheDir);
+        $this->mkdir($this->_cacheDir);
+        $this->mkdir($this->_contentCacheDir);
+        $this->mkdir($this->_screenshotDir);
+        $this->mkdir($this->_thumbnailDir);
+        $this->mkdir($this->_errorCacheDir);
+	Twig::saveFileToTpl(
+			static::INFO_TWIG_FILE, 
+			array('dateOfTest' =>  date("YmdHis")), 
+			$this->_cacheDir . 'datetime.txt',
+			$this->_rootDir
+	);     
     }
 
     /**

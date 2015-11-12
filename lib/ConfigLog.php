@@ -1,6 +1,8 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
+
+use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigLog
 {
@@ -13,12 +15,13 @@ class ConfigLog
      */
     public static function save($content, $fileName, $root_dir = '')
     {
+	$fs = new Filesystem();
         $configLogDir = $root_dir . 'config/history/';
         if (!is_dir($configLogDir)) {
-            mkdir($configLogDir);
+            $fs->mkdir($configLogDir);
         }
         if (!is_dir($configLogDir . $fileName)) {
-            mkdir($configLogDir . $fileName);
+            $fs->mkdir($configLogDir . $fileName);
         }
         $dateString = date("YmdHis");
         File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.php', $content, false);
@@ -36,7 +39,7 @@ class ConfigLog
         require ($root_dir . 'config/wpcc_purge.php');
         while ($configPurge <= sizeof($purgeConfig[$fileName])) {
             $configBackupFilename = array_shift($purgeConfig[$fileName]);
-            Utils::execCmd('rm ' . $configLogDir . $fileName . '/' . $configBackupFilename . '.php');
+            Utils::execCmd('yes | rm ' . $configLogDir . $fileName . '/' . $configBackupFilename . '.php');	 
         }
         $purgeConfig[$fileName][] = $dateString;
         Twig::saveFileToTpl(

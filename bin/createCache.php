@@ -1,10 +1,10 @@
 <?php
-namespace Wpcc;
+namespace Phpwpcc;
 
 require('localVars.php');
 require($rootDir . 'config/wpcc_groupurl.php');
 require($rootDir . 'config/wpcc_config.php');
-require($rootDir . 'autoload.php');
+require($rootDir . 'vendor/autoload.php');
 
 try {
     if (isset($argv[1]) &&

@@ -2,4 +2,3 @@
 {% autoescape false %}
 $purgeConfig = {{ purgeConfig }};
 {% endautoescape %}
-?>

@@ -66,9 +66,9 @@ JqueryUi Service:
    $  cd bin && ./phpwpcc.sh
 </pre>
 
-Ce script se charge de générer la cache de vos pages HTML, lie automatiquement les services aux pages concernées,
-lance les tests phpunit générés, et enfin, envoi un email si un des tests est KO.
- 
+Ce script se charge de générer la cache de vos pages HTML, lie automatiquement les services aux pages concernées (en analysant le contenu en ligne),
+lance les tests phpunit générés, et enfin, envoi un email si un des tests est KO. 
+
 #Requirements
 
 - composer 

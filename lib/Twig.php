@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 use Twig_Autoloader;
 use Twig_Loader_Filesystem;

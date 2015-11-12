@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,8 +21,8 @@ class Utils
             array(' ', 'http://', 'www.'),
             array('-', '', ''),
             $url
-        ); // Replaces all spaces with hyphens.
-        $cleanedString = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedString); // Removes special chars.
+        );
+        $cleanedString = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedString);
 
         return $cleanedString;
     }
@@ -128,5 +128,6 @@ class Utils
 	}
         exec ($cmd, $output);
     }
+
 }
 
