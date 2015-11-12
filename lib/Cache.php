@@ -3,6 +3,8 @@
 namespace Phpwpcc;
 
 use Symfony\Component\Filesystem\Filesystem;
+use \Phpwpcc\Request;
+
 
 class Cache
 {
@@ -151,7 +153,7 @@ class Cache
      */
     public static function generatePageCache($page, $fileName, $type = 'all')
     {
-        $response = wRequest::sendRequest($page);
+        $response = Request::sendRequest($page);
         if ('all' === $type || 'content' === $type) {
             File::writeToFile($fileName, $response);
         }

@@ -2,6 +2,8 @@
 
 namespace Phpwpcc;
 
+use \Phpwpcc\Request;
+
 class ServiceInit
 {
     protected $_rootDir;
@@ -34,6 +36,7 @@ class ServiceInit
     }
 
 
+
     protected function getPageServiceConfig($page, $serviceInitConfig)
     {
         $cleanUrl = Utils::urlToString($page);
@@ -42,7 +45,7 @@ class ServiceInit
         if (false !== $response) {
             $this->_htmlCache = $response;
         } else {
-            $this->_htmlCache = wRequest::sendRequest($page);
+            $this->_htmlCache = Request::sendRequest($page);
             Cache::generatePageCache($page, $fileName, $cleanUrl);
         }
         if (isset($serviceInitConfig[self::STRIPSLASH])) {
@@ -88,7 +91,6 @@ class ServiceInit
                 $activedServices[] = $serviceName;
             }
         }
-
         return $activedServices;
     }
 
@@ -104,7 +106,7 @@ class ServiceInit
     {    
         $projectName = $serviceInitConfig[self::PROJECTNAME];
         $checkObjClass =  \Phpwpcc\Tests::TESTS_NAMESPACE . $projectName . 'CheckServicesPresent';	
-        $this->_checkObj = new $checkObjClass();
+        $this->_checkObj = new $checkObjClass();	
         foreach ($groupUrl as $portail => $sites) 
 	{
 	 foreach ($sites as $site => $pages) 
@@ -112,7 +114,7 @@ class ServiceInit
 	  foreach ($pages as $page => $services) 
 	  {
                 try {
-                    $pages = $this->getPages($page, $serviceInitConfig);
+                    $pages = $this->getPages($page, $serviceInitConfig);		    
                 } catch (\Exception $e) {
                     continue;
                 }

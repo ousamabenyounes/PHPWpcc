@@ -5,7 +5,7 @@ namespace Phpwpcc;
 use Guzzle\Http\Message\Response,
     Guzzle\Http\Client as HttpClient;
 
-class wRequest
+class Request
 {
     /**
      * This function send an Http Request on the given url and return the web page content
