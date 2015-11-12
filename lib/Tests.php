@@ -2,7 +2,6 @@
 
 namespace Phpwpcc;
 
-use Phpwpcc\Tests\JQuery;
 
 class Tests 
 {
