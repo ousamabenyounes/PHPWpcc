@@ -3,7 +3,13 @@
 namespace Phpwpcc;
 
 use Guzzle\Tests\GuzzleTestCase,
-    Guzzle\Http\Client as HttpClient;
+    Guzzle\Http\Client as HttpClient,
+    \Phpwpcc\File,
+    \Phpwpcc\Cache,
+    \Phpwpcc\Utils,
+    \Phpwpcc\PngToJpg,
+    \Phpwpcc\Twig,
+    \Phpwpcc\Tests;
 
 require('localVars.php');
 require($rootDir . 'vendor/autoload.php');
