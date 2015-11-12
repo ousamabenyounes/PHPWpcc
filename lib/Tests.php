@@ -18,8 +18,7 @@ class Tests
     const TESTS_FAILED = 'testsFailed';
     const NOT_PRESENT = 'NotPresent';
     const PRESENT = 'Present';
-    const TEST_PATH_CONFIG_LIB = 'lib/Tests/';
-    const TEST_PATH_LIB = 'config/';
+    const TEST_PATH_CONFIG_LIB = 'lib/Tests/';    
     const TEST_PATH = 'phpunitTests/';
     const TESTS_STATUS_DIR = 'phpunitTests/status/current/';
 
@@ -248,16 +247,16 @@ class Tests
      */
     public function purgeOldTest($oldProjectName)
     {	
-        Utils::execCmd('rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG_LIB . ucFirst($oldProjectName) . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB  . '*');
-        Utils::execCmd('rm ' . $this->_rootDir . self::TEST_PATH . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('yes | rm ' . $this->_rootDir . self::TESTS_STATUS_DIR . '*');
+        Utils::execCmd('yes | rm ' . $this->_rootDir . self::TEST_PATH . self::TEST_PATH_CONFIG_LIB . ucFirst($oldProjectName) . '*');
+        Utils::execCmd('yes | rm ' . $this->_rootDir . self::TEST_PATH_CONFIG_LIB  . '*');
+        Utils::execCmd('yes | rm ' . $this->_rootDir . self::TEST_PATH . ucFirst($oldProjectName) . '*');
     }
 
 
     public function generateServicesLib()
     {
-        $serviceCheckLib = $this->_rootDir . self::TEST_PATH . self::TEST_PATH_LIB . ucfirst($this->_projectName) . 'CheckServicesPresent.php';
+	$serviceCheckLib = $this->_rootDir . self::TEST_PATH_CONFIG_LIB .  ucfirst($this->_projectName) . 'CheckServicesPresent.php';
         $tplConf = array(
             'projectName' => $this->_projectName,
             'services' => $this->_services,

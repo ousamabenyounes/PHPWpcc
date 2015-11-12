@@ -83,8 +83,7 @@ class ServiceInit
         $activedServices = array();
         $servicesConfig = $serviceInitConfig[self::SERVICECONFIGURATION];
         foreach ($servicesConfig as $serviceName => $config) {
-            $checkFct = $serviceInitConfig[self::PROJECTNAME]. 'Check' . $serviceName . 'Present';
-            if (true === $this->_checkObj->$checkFct($this->_htmlCache))
+            if (true === $this->_checkObj->$serviceName($this->_htmlCache))
             {
                 $activedServices[] = $serviceName;
             }
@@ -102,11 +101,9 @@ class ServiceInit
      * @param array $groupUrl
      */
     public function generateAllUrlConfig($serviceInitConfig = array(), $groupUrl)
-    {
-    
+    {    
         $projectName = $serviceInitConfig[self::PROJECTNAME];
-        $checkObjClass = $projectName . 'CheckServicesPresent';
-	require ($this->_rootDir . 'phpunitTests/config/' . $checkObjClass . '.php');
+        $checkObjClass =  \Phpwpcc\Tests::TESTS_NAMESPACE . $projectName . 'CheckServicesPresent';	
         $this->_checkObj = new $checkObjClass();
         foreach ($groupUrl as $portail => $sites) 
 	{
