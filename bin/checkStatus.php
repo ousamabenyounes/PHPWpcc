@@ -1,11 +1,11 @@
 <?php
 
-namespace Wpcc;
+namespace Phpwpcc;
 
 require('localVars.php');
 require($rootDir . 'config/wpcc_services.php');
 require($rootDir . 'config/wpcc_groupurl.php');
-require($rootDir . 'autoload.php');
+require($rootDir . 'vendor/autoload.php');
 
 try {
      $tests = new Tests('', $groupUrl, $servicesConfig);
@@ -13,7 +13,7 @@ try {
      if (0 !== $tests->getNbTestsFailed() )
      {
         Mail::sendMail($mailContent, $rootDir);
-     } 
+     }
 
 } catch (\Exception $e) {
     die ('ERROR: ' . $e->getMessage());

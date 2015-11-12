@@ -39,7 +39,7 @@ class ConfigLog
         require ($root_dir . 'config/wpcc_purge.php');
         while ($configPurge <= sizeof($purgeConfig[$fileName])) {
             $configBackupFilename = array_shift($purgeConfig[$fileName]);
-            Utils::execCmd('rm ' . $configLogDir . $fileName . '/' . $configBackupFilename . '.php');
+            Utils::execCmd('yes | rm ' . $configLogDir . $fileName . '/' . $configBackupFilename . '.php');	 
         }
         $purgeConfig[$fileName][] = $dateString;
         Twig::saveFileToTpl(
