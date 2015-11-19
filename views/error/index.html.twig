@@ -1,0 +1,21 @@
+{% extends "base/services.html.twig" %}
+{% block phpwpcc_head %}
+{{ parent() }}
+{% endblock %}
+
+{% block title %}{{ parent() }} Error - Something went wrong {% endblock %}
+
+{% block content %}
+{% include 'menu/services.html.twig' %}
+
+<div class="phpwpcc_error_main">
+  A Highly Qualified team of monkeys is working hard to fix your issues. You can check your project logs
+</div>
+
+
+{% endblock %}
+
+
+{% block javascriptSrc %}
+<script src="js/menu.js" type="text/javascript"></script>
+{% endblock %}
