@@ -95,7 +95,8 @@ class Service
             );
             Config::save($phpwpcc_service_config, 'wpcc_services');
         } catch (\Exception $e) {
-            die ('ERROR: ' . $e->getMessage());
+            $error = new Error($e);
+            $error->sendRedirection();
         }
     }
 

@@ -22,7 +22,8 @@ class File
 	       chmod($filename, static::WRITEABLE_MODE);
 	    }
         } catch (\Exception $e) {
-            die ('ERROR: ' . $e->getMessage());
+            $error = new Error($e);
+            $error->sendRedirection();
         }
     }
 
@@ -39,7 +40,8 @@ class File
                 return file_get_contents($url);
 
         } catch (\Exception $e) {
-            die ('ERROR: ' . $e->getMessage());
+            $error = new Error($e);
+            $error->sendRedirection();
         }
     }
 }
