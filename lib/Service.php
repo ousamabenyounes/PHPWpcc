@@ -17,7 +17,7 @@ class Service
     protected $_checkObj;
     protected static $api_url =		'http://api.lereferentiel.francetv.fr/archimade/';
     protected static $json_url = 	'http://api.lereferentiel.francetv.fr/sites/';
-    protected static $group_url_file =  'php/phpwpcc_groupurl.php.tpl';
+    protected static $group_url_file =  'php/phpwpcc_groupurl.php.twig';
 
     const PAGE = 0;
     const PAGE_NOCACHE = 1;
@@ -47,7 +47,7 @@ class Service
     public function configureServicesForm()
     {
         echo Twig::getTemplateContent(
-            'install/configureServicesForm.tpl',
+            'install/configureServicesForm.twig',
             array()
         );
     }
@@ -59,7 +59,7 @@ class Service
     public function configureServicesFormStep2()
     {
         echo Twig::getTemplateContent(
-            'install/configureServicesFormStep2.tpl',
+            'install/configureServicesFormStep2.twig',
             array(
                 'services' => $this->_servicesConfig,
                 'servicesNbFilesConfig' => $this->_servicesNbFilesConfig
@@ -73,7 +73,7 @@ class Service
     public function updateServiceForm($groupUrl)
     {
         echo Twig::getTemplateContent(
-            'services/update.tpl',
+            'services/update.twig',
             array(
                 'groupUrl' => $groupUrl,
                 'services' => $this->_servicesConfig,
@@ -88,7 +88,7 @@ class Service
     {
         try {
             $phpwpcc_service_config = Twig::getTemplateContent(
-                'php/phpwpcc_services.php.tpl',
+                'php/phpwpcc_services.php.twig',
                 array(
                     'post' => $_POST,
                 )
@@ -110,7 +110,7 @@ class Service
     public function attachUrlWithServices($groupUrl, $service, $servicesConfig)
     {
         echo Twig::getTemplateContent(
-            'services/attachWithUrl.tpl',
+            'services/attachWithUrl.twig',
             array(
                 'groupUrl' => $groupUrl,
                 'service' => $service,
@@ -144,7 +144,7 @@ class Service
             }
         }
         $groupUrlContent = Twig::getTemplateContent(
-            'php/phpwpcc_groupurl_attach_service.php.tpl',
+            'php/phpwpcc_groupurl_attach_service.php.twig',
             array(
                 'groupUrl' => $groupUrl,
             )

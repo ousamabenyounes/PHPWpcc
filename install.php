@@ -15,7 +15,6 @@ try {
                     $groupUrl,
                     $servicesConfig
          );
-
     if (0 !== sizeof($_POST))
     {
         $nextStep = Utils::getVar('nextStep', Utils::POST);
@@ -30,8 +29,9 @@ try {
         }
     }
     $config->configureProjectForm($phpwpcc_config);
+    throw new \Exception("ok");
 
 } catch (\Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
+    $error = new Error($e);
+    $error->sendRedirection();
 }
-

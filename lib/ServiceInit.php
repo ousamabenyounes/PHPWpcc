@@ -14,7 +14,7 @@ class ServiceInit
     protected $_contentCacheDir;
     protected $_errorCacheDir;
     protected $_checkObj;
-    protected static $group_url_file = 'php/phpwpcc_groupurl.php.tpl';
+    protected static $group_url_file = 'php/phpwpcc_groupurl.php.twig';
 
     const PAGE = 0;
     const PAGE_NOCACHE = 1;

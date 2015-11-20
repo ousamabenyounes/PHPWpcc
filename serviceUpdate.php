@@ -33,5 +33,6 @@ try {
         }
     }
 } catch (\Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
+  $error = new Error($e);
+  $error->sendRedirection();
 }
