@@ -1,4 +1,4 @@
-{% extends "base/services.tpl" %}
+{% extends "base/services.html.twig" %}
 {% block phpwpcc_head %}
 {{ parent() }}
 
@@ -17,7 +17,7 @@
 {% endblock %}
 {% block content %}
 
-{% include 'menu/services.tpl' %}
+{% include 'menu/services.html.twig' %}
 
 <div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
