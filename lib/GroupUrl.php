@@ -21,7 +21,7 @@ class GroupUrl
     public function configureServicesForm()
     {
         echo Twig::getTemplateContent(
-            'install/configureServicesForm.tpl',
+            'install/configureServicesForm.twig',
             array()
         );
     }
@@ -33,7 +33,7 @@ class GroupUrl
     public function configureServicesFormStep2()
     {
         echo Twig::getTemplateContent(
-            'install/configureServicesFormStep2.tpl',
+            'install/configureServicesFormStep2.twig',
             array(
                 'services' => $this->_groupUrl,
                 'servicesNbFilesConfig' => $this->_servicesNbFilesConfig
@@ -47,7 +47,7 @@ class GroupUrl
     public function updateGroupUrlForm()
     {
         echo Twig::getTemplateContent(
-            'groupurl/update.tpl',
+            'groupurl/update.twig',
             array(
                 'groupurl' => $this->_groupUrl,
             )
@@ -84,7 +84,7 @@ class GroupUrl
             }
         }
         $groupUrlConfig = Twig::getTemplateContent(
-            'php/phpwpcc_groupurl_update.php.tpl',
+            'php/phpwpcc_groupurl_update.php.twig',
             array(
                 'groupUrl' => var_export($groupUrl, true),
             )
@@ -103,7 +103,7 @@ class GroupUrl
     public function attachUrlWithServices($groupUrl, $service, $groupUrl)
     {
         echo Twig::getTemplateContent(
-            'services/attachWithUrl.tpl',
+            'services/attachWithUrl.twig',
             array(
                 'groupUrl' => $groupUrl,
                 'service' => $service,

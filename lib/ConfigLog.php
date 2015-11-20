@@ -43,7 +43,7 @@ class ConfigLog
         }
         $purgeConfig[$fileName][] = $dateString;
         Twig::saveFileToTpl(
-            'purge/update.php.tpl',
+            'purge/update.php.twig',
             array(
                 'purgeConfig' => var_export($purgeConfig, true)
             ),
