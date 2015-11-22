@@ -3,6 +3,8 @@
 namespace Phpwpcc;
 
 use Symfony\Component\Filesystem\Filesystem;
+use \Phpwpcc\Request;
+
 
 class Cache
 {
@@ -84,7 +86,7 @@ class Cache
            }
            $purgeConfig['wpcc_cache'][] = $datetime;
            Twig::saveFileToTpl(
-              'purge/update.php.tpl',
+              'purge/update.php.twig',
               array(
                 'purgeConfig' => var_export($purgeConfig, true)
               ),
@@ -151,7 +153,7 @@ class Cache
      */
     public static function generatePageCache($page, $fileName, $type = 'all')
     {
-        $response = wRequest::sendRequest($page);
+        $response = Request::sendRequest($page);
         if ('all' === $type || 'content' === $type) {
             File::writeToFile($fileName, $response);
         }

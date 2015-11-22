@@ -1,4 +1,4 @@
-{% extends "base/services.tpl" %}
+{% extends "base/services.html.twig" %}
 {% block phpwpcc_head %}
 {{ parent() }}
 
@@ -15,7 +15,7 @@
 {% block title %}{{ parent() }} Services - {{ service|upper }}  Configuration {% endblock %}
 {% block content %}
 
-{% include 'menu/services.tpl' %}
+{% include 'menu/services.html.twig' %}
 
 
 

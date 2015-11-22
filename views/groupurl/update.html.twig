@@ -1,24 +1,18 @@
-{% extends "base/services.tpl" %}
+{% extends "base/services.html.twig" %}
 {% block phpwpcc_head %}
 {{ parent() }}
-
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
 <link rel="stylesheet" type="text/css" href="css/tests.css" />
 <link rel="stylesheet" loadbartype="text/css" href="css/tooltipster.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
-
-
 <script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/jquery-ui-1.11.2.js"></script>
-
 {% endblock %}
 {% block title %}{{ parent() }} Urls - Update Portails / Websites Configuration
 {% endblock %}
 {% block content %}
-
-{% include 'menu/services.tpl' %}
-
+{% include 'menu/services.html.twig' %}
 <div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
     These item will be permanently deleted and cannot be recovered.</p>
@@ -27,14 +21,9 @@
     <input type="text" id="newPortail" placeholder="New portail" >
     <input type="submit" value="Add a new portail"  onClick="addPortail();" class="phpwpcc_add_service_btn">
 </div>
-
 <form method=post action="groupUrlUpdate.php">
-
-
 <ul id="loadbar">
-
 {% for portail, websiteConf in groupurl %}
-
 <h3 id="portail_{{ portail }}">
     <img id="{{ portail }}_remove" src="images/delete.png"  class="phpwpcc_delete_img_service" onClick="removePortail('{{ portail }}');">
     Portail {{ portail }}
@@ -58,45 +47,21 @@
     {% endfor %}
     </div>
 </div>
-
-
-
-
-
 {% endfor %}
 </ul>
-
 <input type="submit" value="Update Portails / Websites Configuration" class="phpwpcc_generate full_size">
 <input type="hidden" id="nextStep" name="nextStep" value="updateGroupUrl" />
-
-</form>
-
-
-<br/>
-<br/>
+</form><br/><br/>
 {% endblock %}
-
-
-
 {% block javascriptSrc %}
 <script src="js/menu.js" type="text/javascript"></script>
 <script>
-
-
     function ucfirst(str) {
-        //  discuss at: http://phpjs.org/functions/ucfirst/
-        // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-        // bugfixed by: Onno Marsman
-        // improved by: Brett Zamir (http://brett-zamir.me)
-        //   example 1: ucfirst('kevin van zonneveld');
-        //   returns 1: 'Kevin van zonneveld'
-
         str += '';
         var f = str.charAt(0)
             .toUpperCase();
         return f + str.substr(1);
     }
-
     function addPortail()
     {
         newPortail = ucfirst($("#newPortail").val().trim());
@@ -125,25 +90,19 @@
         + '         </div>';
         + '     </div>'
         + '</div>';
-
-
         $("#loadbar").prepend(htmlToAdd);
         $('#portail_' + newPortail + '_block').effect('highlight', {}, 200, function() {
                 $(this).fadeIn('fast', function(){
             });
         });
-
         $( "#loadbar" ).accordion({heightStyle: "content"} );
-
     }
-
     function updateNbWebSite(nbFileId, toAdd)
     {
         newVal = parseInt($("#" + nbFileId).val()) + parseInt(toAdd);
         $("#" + nbFileId).val(newVal);
         return newVal;
     }
-
     function addUrl(portail)
     {
         updateNbWebSite("nbWebsites_" + portail, 1);
@@ -157,15 +116,12 @@
         + '         Pages <textarea id="pages_' + portail + '_' + nbWebsites + '_text" name="pages_' + portail + '_' + nbWebsites + '_text" class="phpwpcc_websites"></textarea>'
         + '     </div>'
         + '</div>';
-
         $("#portail_" + portail + "_config").prepend(htmlToAdd);
-
         $('#website_' + portail + '_' + nbWebsites + '_div').effect('highlight', {}, 200, function() {
                 $(this).fadeIn('fast', function(){
             });
         });
     }
-
     function removeWebsite(portail, loopIndex)
     {
         loopIndex = parseInt(loopIndex);
@@ -196,7 +152,6 @@
             }
         });
     }
-
     function removePortail(portail)
     {
         $( "#dialog-confirm" ).dialog({
@@ -217,7 +172,6 @@
             }
         });
     }
-
     function removeItem(item)
     {
         item.effect('highlight', {}, 200, function() {
@@ -226,18 +180,14 @@
             });
         });
     }
-
     $(document).ready(function() {
         $( "#loadbar" ).accordion({heightStyle: "content"} );
     });
-
     $('textarea').focus(function () {
         var text = $(this).val();
         var lines = text.split(/\r|\r\n|\n/);
         var newHeight = lines.length + 1;
-
         $(this).animate({ height: newHeight + "em" }, 500);
     });
 </script>
-
 {% endblock %}

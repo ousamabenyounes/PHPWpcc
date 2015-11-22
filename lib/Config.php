@@ -20,7 +20,7 @@ class Config
     public function configureProjectForm($phpwpcc_config)
     {
         echo Twig::getTemplateContent(
-            'install/configureProjectForm.tpl',
+            'install/configureProjectForm.twig',
             array (
                 'config' => $phpwpcc_config
             )
@@ -35,7 +35,7 @@ class Config
     {
         $mailsTo = Utils::getVar('mailsTo', Utils::POST);
         $phpTemplate = Twig::getTemplateContent(
-            'php/config.php.tpl',
+            'php/config.php.twig',
             array(
                 'projectName' => Utils::getVar('projectName', Utils::POST),
 		'mailFrom' =>  Utils::getVar('mailFrom', Utils::POST), 

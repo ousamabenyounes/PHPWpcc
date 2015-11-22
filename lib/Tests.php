@@ -2,7 +2,6 @@
 
 namespace Phpwpcc;
 
-use Phpwpcc\Tests\JQuery;
 
 class Tests 
 {
@@ -23,13 +22,13 @@ class Tests
     const TESTS_STATUS_DIR = 'phpunitTests/status/current/';
 
     // Twig Templates filenames
-    const PRESENT_SERVICES_LIB = 'php/phpunit/lib/phpwpcc_test_main_present_lib.php.tpl';
-    const TEST_CONTENT_TPL = 'php/phpunit/phpwpcc_test_content_class.php.tpl';
-    const NOT_PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_not_present_class.php.tpl';
-    const PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_present_class.php.tpl';
-    const MAIN_CLASS = 'php/phpunit/phpwpcc_main_class.php.tpl';
-    const TPL_TESTS_CONFIG_CLASS = 'php/phpunit/lib/phpwpcc_tests_context.php.tpl';
-    const TPL_TESTS_INDEX = 'tests/index.tpl';
+    const PRESENT_SERVICES_LIB = 'php/phpunit/lib/phpwpcc_test_main_present_lib.php.twig';
+    const TEST_CONTENT_TPL = 'php/phpunit/phpwpcc_test_content_class.php.twig';
+    const NOT_PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_not_present_class.php.twig';
+    const PRESENT_CLASS = 'php/phpunit/phpwpcc_test_main_present_class.php.twig';
+    const MAIN_CLASS = 'php/phpunit/phpwpcc_main_class.php.twig';
+    const TPL_TESTS_CONFIG_CLASS = 'php/phpunit/lib/phpwpcc_tests_context.php.twig';
+    const TPL_TESTS_INDEX = 'tests/index.twig';
 
     const TEST_URL = 0;
     const TEST_STACK = 1;    
@@ -283,7 +282,7 @@ class Tests
             );
         } else {
             echo Twig::getTemplateContent(
-                'tests/results.tpl',
+                'tests/results.twig',
                 array (
                     'services' => $this->_services,
                 )
@@ -382,7 +381,7 @@ class Tests
 
          $nbTestsTotal = sizeof($this->_reporting[self::TESTS_OK]) + sizeof($this->_reporting[self::TESTS_FAILED]);
          $mailReporting = Twig::getTemplateContent(
-            'mail/rapport.tpl',
+            'mail/rapport.twig',
             array('nbTestsTotal' => $nbTestsTotal,
                   'nbTestsFailed' => sizeof($this->_reporting[self::TESTS_FAILED]),
                   'nbTestsOk' =>  sizeof($this->_reporting[self::TESTS_OK]),

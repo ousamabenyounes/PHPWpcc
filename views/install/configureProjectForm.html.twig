@@ -1,9 +1,9 @@
-{% extends "base/services.tpl" %}
+{% extends "base/services.html.twig" %}
 {% block title %}{{ parent() }} - Project Configuration
 {% endblock %}
 {% block content %}
 
-{% include 'menu/services.tpl' %}
+{% include 'menu/services.html.twig' %}
 
   <form id="myform" class="fs-form fs-form-full" autocomplete="off" action="install.php" method="post">
     <input type="hidden" value="configureServicesForm" name="nextStep"/>
