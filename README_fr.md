@@ -1,3 +1,5 @@
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/ceb71b84-98c4-4e89-a017-50576b8f3672/big.png)](https://insight.sensiolabs.com/projects/ceb71b84-98c4-4e89-a017-50576b8f3672)
+
 PHP Web Page Content Checker
 ==========================
 
