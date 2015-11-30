@@ -321,8 +321,8 @@ class Tests
                         array(
                             'success' => true,
                             'content' => array(
-                                self::TESTS_OK => self::getTestArray('testsOk');,
-                                self::TESTS_FAILED => self::getTestArray('testsFailed');
+                                self::TESTS_OK => self::getTestArray('testsOk'),
+                                self::TESTS_FAILED => self::getTestArray('testsFailed')
                             )
                         )
                     );
