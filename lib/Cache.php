@@ -78,7 +78,7 @@ class Cache
     public function purge() {
 	if (file_exists($this->_cacheDir . self::DATETIME_FILE)) {	
 	   $datetime = File::getContentFromFile($this->_cacheDir . self::DATETIME_FILE);	
-           $purgeConfig = Config::getConfigArray('purge', 'purgeConfig', $this->_rootDir);
+           $purgeConfig = Config::getConfigArray('purge', $this->_rootDir);
            $cachePurge = (int) Config::getVarFromConfig('cachePurge', $this->_rootDir);
            while ($cachePurge <= sizeof($purgeConfig['wpcc_cache'])) {
            	  $oldCacheDir = array_shift($purgeConfig['wpcc_cache']);

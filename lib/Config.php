@@ -3,6 +3,7 @@
 namespace Phpwpcc;
 
 use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
 
 class Config
 {
@@ -79,12 +80,10 @@ class Config
      * @return string | null
      */
     public static function getVarFromConfig($varName, $root_dir = '') {
-        require ($root_dir . 'config/wpcc_config.php');
-        if (isset($phpwpcc_config[$varName])){
-
-            return $phpwpcc_config[$varName];
+        $configArray = self::getConfigArray('config');
+        if (isset($configArray[$varName])) {
+            return $configArray[$varName];
         }
-
         return null;
     }
 
@@ -95,14 +94,12 @@ class Config
      *
      * @return array | null
      */
-    public static function getConfigArray($configFileName, $arrayName, $root_dir = '') {
-        require ($root_dir . 'config/wpcc_' . $configFileName .'.php');
-        if (isset($$arrayName))
-	{
-	
-            return $$arrayName;
-        }
+    public static function getConfigArray($configFileName, $root_dir = '')
+    {
+        $yaml = new Parser();
+        $filename = $root_dir . 'config/wpcc_' . $configFileName .'.yml';
+        $configArray = $yaml->parse(file_get_contents($filename));
 
-        return null;
+        return $configArray;
     }
 }

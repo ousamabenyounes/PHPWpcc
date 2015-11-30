@@ -15,7 +15,7 @@ class ConfigLog
      */
     public static function save($content, $fileName, $root_dir = '')
     {
-	$fs = new Filesystem();
+    	$fs = new Filesystem();
         $configLogDir = $root_dir . 'config/history/';
         if (!is_dir($configLogDir)) {
             $fs->mkdir($configLogDir);
@@ -24,7 +24,7 @@ class ConfigLog
             $fs->mkdir($configLogDir . $fileName);
         }
         $dateString = date("YmdHis");
-        File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.php', $content, false);
+        File::writeToFile($configLogDir . $fileName . '/' . $dateString . '.yml', $content, false);
         ConfigLog::purge($configLogDir, $fileName, $dateString, $root_dir);
     }
 
@@ -36,7 +36,7 @@ class ConfigLog
      */
     public static function purge($configLogDir, $fileName, $dateString, $root_dir = '') {
         $configPurge = (int) Config::getVarFromConfig('configPurge', $root_dir);
-        require ($root_dir . 'config/wpcc_purge.php');
+        $purgeConfig = Config::getConfigArray('purge', $root_dir);
         while ($configPurge <= sizeof($purgeConfig[$fileName])) {
             $configBackupFilename = array_shift($purgeConfig[$fileName]);
             Utils::execCmd('yes | rm ' . $configLogDir . $fileName . '/' . $configBackupFilename . '.php');	 
