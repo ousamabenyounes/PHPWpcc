@@ -2,6 +2,7 @@
 
 namespace Phpwpcc;
 
+use Symfony\Component\Yaml\Parser;
 
 class Tests 
 {
@@ -345,13 +346,27 @@ class Tests
      */
     public function checkFile($fileName, $root_dir = '')
     {
-	$fileName = $root_dir . self::TESTS_STATUS_DIR . $fileName . '.php';
-        if (is_file($fileName))
-	{
-           require ($fileName);
-	   $this->_reporting[self::TESTS_OK] = array_merge($this->_reporting[self::TESTS_OK], $testsOk);
-	   $this->_reporting[self::TESTS_FAILED] = array_merge($this->_reporting[self::TESTS_FAILED], $testsFailed);	   
-        } 
+            $testsOk = self::getTestArray('testsOk');
+            $testsFailed = self::getTestArray('testsFailed');
+            $this->_reporting[self::TESTS_OK] = array_merge($this->_reporting[self::TESTS_OK], $testsOk);
+            $this->_reporting[self::TESTS_FAILED] = array_merge($this->_reporting[self::TESTS_FAILED], $testsFailed);
+    }
+
+    /**
+     * @param $testType
+     * @param string $root_dir
+     * @return array | null
+     */
+    public static function getTestArray($testType, $root_dir = '')
+    {
+        $yaml = new Parser();
+        $filename = $root_dir . self::TESTS_STATUS_DIR  . 'test.yml';
+        $configArray = $yaml->parse(file_get_contents($filename));
+        if (isset($configArray[$testType])) {
+            return $configArray[$testType];
+        };
+
+        return null;
     }
 
 
