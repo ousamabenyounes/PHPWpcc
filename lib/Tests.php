@@ -316,14 +316,13 @@ class Tests
             if (null !== $portail && null !== $service && null !== $testType) {
                 $fileName = '../' . self::TESTS_STATUS_DIR . ucfirst($service) .
                     ucfirst($portail) . $testType . '.php';
-                if (file_exists($fileName) && is_readable($fileName))   {                    
-		    require ($fileName);
+                if (file_exists($fileName) && is_readable($fileName))   {
                     return json_encode(
                         array(
                             'success' => true,
                             'content' => array(
-                                self::TESTS_OK => $testsOk,
-                                self::TESTS_FAILED => $testsFailed
+                                self::TESTS_OK => self::getTestArray('testsOk');,
+                                self::TESTS_FAILED => self::getTestArray('testsFailed');
                             )
                         )
                     );
@@ -344,10 +343,10 @@ class Tests
     /*
      * @param String $fileName
      */
-    public function checkFile($fileName, $root_dir = '')
+    public function checkFile($root_dir = '')
     {
-            $testsOk = self::getTestArray('testsOk');
-            $testsFailed = self::getTestArray('testsFailed');
+            $testsOk = self::getTestArray('testsOk', $root_dir);
+            $testsFailed = self::getTestArray('testsFailed', $root_dir);
             $this->_reporting[self::TESTS_OK] = array_merge($this->_reporting[self::TESTS_OK], $testsOk);
             $this->_reporting[self::TESTS_FAILED] = array_merge($this->_reporting[self::TESTS_FAILED], $testsFailed);
     }
