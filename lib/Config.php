@@ -80,7 +80,7 @@ class Config
      * @return string | null
      */
     public static function getVarFromConfig($varName, $root_dir = '') {
-        $configArray = self::getConfigArray('config');
+        $configArray = self::getConfigArray('config', $root_dir);
         if (isset($configArray[$varName])) {
             return $configArray[$varName];
         }
