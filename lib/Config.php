@@ -2,11 +2,14 @@
 
 namespace Phpwpcc;
 
+use Symfony\Component\Yaml\Dumper;
+
 class Config
 {
     protected $_servicesConfig;
 
     /**
+     * Config constructor.
      * @param array $servicesConfig
      */
     public function __construct($servicesConfig = array())
@@ -14,8 +17,9 @@ class Config
         $this->_servicesConfig = $servicesConfig;
     }
 
-    /*
+    /**
      * This function load the main form to configure your wpcc instance
+     * @param array $phpwpcc_config
      */
     public function configureProjectForm($phpwpcc_config)
     {
@@ -34,29 +38,29 @@ class Config
     public function configureProjectGenerate()
     {
         $mailsTo = Utils::getVar('mailsTo', Utils::POST);
-        $phpTemplate = Twig::getTemplateContent(
-            'php/config.php.twig',
+        $dumper = new Dumper();
+        $yamlContent = $dumper->dump(
             array(
                 'projectName' => Utils::getVar('projectName', Utils::POST),
-		'mailFrom' =>  Utils::getVar('mailFrom', Utils::POST), 
-        	'smtpHost' =>  Utils::getVar('smtpHost', Utils::POST),
-        	'smtpPort' =>  Utils::getVar('smtpPort', Utils::POST),
-        	'smtpLogin' =>  Utils::getVar('smtpLogin', Utils::POST),
-        	'smtpPassword' =>  Utils::getVar('smtpPassword', Utils::POST),
+                'mailFrom' =>  Utils::getVar('mailFrom', Utils::POST),
+                'smtpHost' =>  Utils::getVar('smtpHost', Utils::POST),
+                'smtpPort' =>  Utils::getVar('smtpPort', Utils::POST),
+                'smtpLogin' =>  Utils::getVar('smtpLogin', Utils::POST),
+                'smtpPassword' =>  Utils::getVar('smtpPassword', Utils::POST),
                 'webServiceUrl' => Utils::getVar('webServiceUrl', Utils::POST),
                 'mailsTo' => Utils::textareaToArray($mailsTo),
                 'cachePurge' => Utils::getVar('cachePurge', Utils::POST),
                 'configPurge' => Utils::getVar('configPurge', Utils::POST),
-            )
-        ); 
-        Config::save($phpTemplate, 'wpcc_config');
+            ), 2
+        );
+        Config::save($yamlContent, 'wpcc_config');
     }
 
+
     /**
-     *
      * @param string $content
-     * @param array $fileName
-     * @param array $root_dir
+     * @param string $fileName
+     * @param string $root_dir
      */
     public static function save($content, $fileName, $root_dir = '')
     {
@@ -64,8 +68,8 @@ class Config
         if (!is_dir($configDir)) {
             mkdir($configDir);
         }
-        File::writeToFile($configDir . $fileName .'.php', $content, false);
-	ConfigLog::save($content, $fileName, $root_dir);
+        File::writeToFile($configDir . $fileName .'.yml', $content, false);
+	    ConfigLog::save($content, $fileName, $root_dir);
     }
 
     /**
